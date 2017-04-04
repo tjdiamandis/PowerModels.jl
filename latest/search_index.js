@@ -101,7 +101,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Formulations",
     "title": "Power Models",
     "category": "section",
-    "text": "Each of these forms can be used as the type parameter for a PowerModel:ACPPowerModel = GenericPowerModel{StandardACPForm}\nAPIACPPowerModel = GenericPowerModel{APIACPForm}\n\nDCPPowerModel = GenericPowerModel{StandardDCPForm}\n\nSOCWRPowerModel = GenericPowerModel{SOCWRForm}\nQCWRPowerModel = GenericPowerModel{QCWRForm}"
+    "text": "Each of these forms can be used as the type parameter for a PowerModel:ACPPowerModel = GenericPowerModel{StandardACPForm}\nAPIACPPowerModel = GenericPowerModel{APIACPForm}\n\nDCPPowerModel = GenericPowerModel{StandardDCPForm}\n\nSOCWRPowerModel = GenericPowerModel{SOCWRForm}\nQCWRPowerModel = GenericPowerModel{QCWRForm}For details on GenericPowerModel, see the section on Power Model."
 },
 
 {
@@ -129,9 +129,9 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#OPF-Specifications-1",
+    "location": "specifications.html#Optimal-Power-Flow-(OPF)-1",
     "page": "Problem Specifications",
-    "title": "OPF Specifications",
+    "title": "Optimal Power Flow (OPF)",
     "category": "section",
     "text": ""
 },
@@ -161,9 +161,9 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#OTS-Specifications-1",
+    "location": "specifications.html#Optimal-Transmission-Switching-(OTS)-1",
     "page": "Problem Specifications",
-    "title": "OTS Specifications",
+    "title": "Optimal Transmission Switching (OTS)",
     "category": "section",
     "text": ""
 },
@@ -201,9 +201,9 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#Power-Flow-(PF)-Specifications-1",
+    "location": "specifications.html#Power-Flow-(PF)-1",
     "page": "Problem Specifications",
-    "title": "Power Flow (PF) Specifications",
+    "title": "Power Flow (PF)",
     "category": "section",
     "text": ""
 },
@@ -233,9 +233,9 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#TNEP-Specifications-1",
+    "location": "specifications.html#Transmission-Network-Expansion-Planning-(TNEP)-1",
     "page": "Problem Specifications",
-    "title": "TNEP Specifications",
+    "title": "Transmission Network Expansion Planning (TNEP)",
     "category": "section",
     "text": ""
 },
@@ -262,6 +262,46 @@ var documenterSearchIndex = {"docs": [
     "title": "Constraints",
     "category": "section",
     "text": "constraint_theta_ref(pm)\nconstraint_voltage(pm)\nconstraint_voltage_ne(pm)\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt_ne(pm, bus)\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\n\n    constraint_phase_angle_difference(pm, branch)\n\n    constraint_thermal_limit_from(pm, branch)\n    constraint_thermal_limit_to(pm, branch)\nend \n\nfor (i,branch) in pm.ref[:ne_branch]\n    constraint_ohms_yt_from_ne(pm, branch)\n    constraint_ohms_yt_to_ne(pm, branch) \n\n    constraint_phase_angle_difference_ne(pm, branch)\n\n    constraint_thermal_limit_from_ne(pm, branch)\n    constraint_thermal_limit_to_ne(pm, branch)\nend"
+},
+
+{
+    "location": "model.html#",
+    "page": "PowerModel",
+    "title": "PowerModel",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "model.html#PowerModels.GenericPowerModel",
+    "page": "PowerModel",
+    "title": "PowerModels.GenericPowerModel",
+    "category": "Type",
+    "text": "type GenericPowerModel{T<:AbstractPowerFormulation}\n    model::JuMP.Model\n    data::Dict{String,Any} \n    setting::Dict{String,Any}\n    solution::Dict{String,Any}\n    ref::Dict{Symbol,Any} # reference data\nend\n\nwhere\n\ndata is the original data, usually from reading in a .json or .m (patpower) file,\nsetting usually looks something like Dict(\"output\" => Dict(\"line_flows\" => true)), and\nref is a place to store commonly used pre-computed data from of the data dictionary,   primarily for converting data-types, filtering out deactivated components, and storing   system-wide values that need to be computed globally. See build_ref(data) for further details.\n\nMethods on GenericPowerModel for defining variables and adding constraints should\n\nwork with the ref dict, rather than the original data dict,\nadd them to model::JuMP.Model, and\nfollow the conventions for variable and constraint names.\n\n\n\n"
+},
+
+{
+    "location": "model.html#PowerModels.build_ref",
+    "page": "PowerModel",
+    "title": "PowerModels.build_ref",
+    "category": "Function",
+    "text": "Returns a dict that stores commonly used pre-computed data from of the data dictionary, primarily for converting data-types, filtering out deactivated components, and storing system-wide values that need to be computed globally.\n\nSome of the common keys include:\n\n:off_angmin and :off_angmax (see calc_theta_delta_bounds(data)),\n:bus – the set {(i, bus) in ref[:bus] : bus[\"bus_type\"] != 4},\n:gen – the set {(i, gen) in ref[:gen] : gen[\"gen_status\"] == 1 && gen[\"gen_bus\"] in keys(ref[:bus])},\n:branch – the set of branches that are active in the network (based on the component status values),\n:arcs_from – the set [(i,b[\"f_bus\"],b[\"t_bus\"]) for (i,b) in ref[:branch]],\n:arcs_to – the set [(i,b[\"t_bus\"],b[\"f_bus\"]) for (i,b) in ref[:branch]],\n:arcs – the set of arcs from both arcs_from and arcs_to,\n:bus_arcs – the mapping Dict(i => [(l,i,j) for (l,i,j) in ref[:arcs]]),\n:buspairs – (see buspair_parameters(ref[:arcs_from], ref[:branch], ref[:bus])), and\n:bus_gens – the mapping Dict(i => [gen[\"gen_bus\"] for (i,gen) in ref[:gen]]).\n\nIf :ne_branch exists, then the following keys are also available with similar semantics:\n\n:ne_branch, :ne_arcs_from, :ne_arcs_to, :ne_arcs, :ne_bus_arcs, :ne_buspairs.\n\n\n\n"
+},
+
+{
+    "location": "model.html#PowerModels.buspair_parameters",
+    "page": "PowerModel",
+    "title": "PowerModels.buspair_parameters",
+    "category": "Function",
+    "text": "compute bus pair level structures\n\n\n\n"
+},
+
+{
+    "location": "model.html#Power-Model-1",
+    "page": "PowerModel",
+    "title": "Power Model",
+    "category": "section",
+    "text": "CurrentModule = PowerModelsAll methods for constructing powermodels should be defined on the following type:GenericPowerModelwhich utilizes the following (internal) functions:build_ref\nbuspair_parameters"
 },
 
 {
@@ -325,7 +365,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_active_generation",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: pg[j] for j in gen\n\n\n\n"
 },
 
 {
@@ -333,7 +373,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_active_line_flow",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: p[l,i,j] for (l,i,j) in arcs\n\n\n\n"
 },
 
 {
@@ -341,7 +381,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_active_line_flow_ne",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: -ne_branch[l][\"rate_a\"] <= p_ne[l,i,j] <= ne_branch[l][\"rate_a\"] for (l,i,j) in ne_arcs\n\n\n\n"
 },
 
 {
@@ -373,7 +413,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_line_indicator",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: 0 <= line_z[l] <= 1 for l in branches\n\n\n\n"
 },
 
 {
@@ -381,7 +421,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_line_ne",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: 0 <= line_ne[l] <= 1 for l in branches\n\n\n\n"
 },
 
 {
@@ -389,7 +429,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_phase_angle",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: t[i] for i in buses\n\n\n\n"
 },
 
 {
@@ -397,7 +437,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_reactive_generation",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: qq[j] for j in gen\n\n\n\n"
 },
 
 {
@@ -405,7 +445,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_reactive_line_flow",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: q[l,i,j] for (l,i,j) in arcs\n\n\n\n"
 },
 
 {
@@ -413,7 +453,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_reactive_line_flow_ne",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: -ne_branch[l][\"rate_a\"] <= q_ne[l,i,j] <= ne_branch[l][\"rate_a\"] for (l,i,j) in ne_arcs\n\n\n\n"
 },
 
 {
@@ -421,7 +461,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: v[i] for i in buses\n\n\n\n"
 },
 
 {
@@ -429,7 +469,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude_sqr",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: w[i] >= 0 for i in buses\n\n\n\n"
 },
 
 {
@@ -437,7 +477,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude_sqr_from_on_off",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: 0 <= w_from[l] <= buses[branches[l][\"f_bus\"]][\"vmax\"]^2 for l in branches\n\n\n\n"
 },
 
 {
@@ -445,7 +485,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude_sqr_to_on_off",
     "category": "Method",
-    "text": "\n\n"
+    "text": "variable: 0 <= w_to[l] <= buses[branches[l][\"t_bus\"]][\"vmax\"]^2 for l in branches\n\n\n\n"
 },
 
 {
@@ -485,7 +525,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_active_gen_setpoint",
     "category": "Function",
-    "text": "\n\n\n\n"
+    "text": "\n\npg[i] == pg\n\n\n\n"
 },
 
 {
@@ -493,7 +533,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_reactive_gen_setpoint",
     "category": "Function",
-    "text": "\n\n\n\ndo nothing, this model does not have reactive variables\n\n\n\n"
+    "text": "\n\nqq[i] == qq\n\n\n\ndo nothing, this model does not have reactive variables\n\n\n\n"
 },
 
 {
@@ -517,7 +557,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_theta_ref",
     "category": "Function",
-    "text": "\n\n\n\n\n\nDo nothing, no way to represent this in these variables\n\n\n\n\n\nDo nothing, no way to represent this in these variables\n\n\n\n"
+    "text": "\n\nt[ref_bus] == 0\n\n\n\n\n\nDo nothing, no way to represent this in these variables\n\n\n\nt[ref_bus] == 0\n\n\n\nDo nothing, no way to represent this in these variables\n\n\n\n"
 },
 
 {
@@ -525,7 +565,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_magnitude_setpoint",
     "category": "Function",
-    "text": "\n\n\n\ndo nothing, this model does not have voltage variables\n\n\n\n"
+    "text": "\n\nvm - epsilon <= v[i] <= vm + epsilon\n\n\n\ndo nothing, this model does not have voltage variables\n\n\n\n"
 },
 
 {
@@ -541,7 +581,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_kcl_shunt",
     "category": "Function",
-    "text": "\n\n\n\n\n\n\n\n\n\n\n\n"
+    "text": "\n\nsum(p[a] for a in bus_arcs) == sum(pg[g] for g in bus_gens) - pd - gs*v^2\nsum(q[a] for a in bus_arcs) == sum(qg[g] for g in bus_gens) - qd + bs*v^2\n\n\n\n\n\nsum(p[a] for a in bus_arcs) == sum(pg[g] for g in bus_gens) - pd - gs*1.0^2\n\n\n\n\n\n\n\n"
 },
 
 {
@@ -549,7 +589,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_kcl_shunt_ne",
     "category": "Function",
-    "text": "\n\n\n\n\n\n\n\n\n\n"
+    "text": "\n\nsum(p[a] for a in bus_arcs) + sum(p_ne[a] for a in bus_arcs_ne) == sum(pg[g] for g in bus_gens) - pd - gs*v^2\nsum(q[a] for a in bus_arcs) + sum(q_ne[a] for a in bus_arcs_ne) == sum(qg[g] for g in bus_gens) - qd + bs*v^2\n\n\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_ne[a] for a in bus_arcs_ne) == sum(pg[g] for g in bus_gens) - pd - gs*1.0^2\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_ne[a] for a in bus_arcs_ne) == sum(pg[g] for g in bus_gens) - pd - gs*w[i]\nsum(q[a] for a in bus_arcs) + sum(q_ne[a] for a in bus_arcs_ne) == sum(qg[g] for g in bus_gens) - qd + bs*w[i]\n\n\n\n"
 },
 
 {
@@ -573,7 +613,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_from",
     "category": "Function",
-    "text": "\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n"
+    "text": "\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] == g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus]))\nq[f_idx] == -(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus]))\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] == -b*(t[f_bus] - t[t_bus])\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] == g/tm*w[f_bus] + (-g*tr+b*ti)/tm*(wr[f_bus,t_bus]) + (-b*tr-g*ti)/tm*(wi[f_bus,t_bus])\nq[f_idx] == -(b+c/2)/tm*w[f_bus] - (-b*tr-g*ti)/tm*(wr[f_bus,t_bus]) + (-g*tr+b*ti)/tm*(wi[f_bus,t_bus])\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n"
 },
 
 {
@@ -581,7 +621,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_to",
     "category": "Function",
-    "text": "\n\nDo nothing, this model is symmetric\n\n\n\n\n\n\n\n"
+    "text": "\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[t_idx] == g*v[t_bus]^2 + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[t_bus]-t[f_bus])) + (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus]))\nq[t_idx] == -(b+c/2)*v[t_bus]^2 - (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus]))\n\n\n\nDo nothing, this model is symmetric\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[t_idx] == g*w[t_bus] + (-g*tr-b*ti)/tm*(wr[f_bus,t_bus]) + (-b*tr+g*ti)/tm*(-wi[f_bus,t_bus])\nq[t_idx] == -(b+c/2)*w[t_bus] - (-b*tr+g*ti)/tm*(wr[f_bus,t_bus]) + (-g*tr-b*ti)/tm*(-wi[f_bus,t_bus])\n\n\n\n\n\n"
 },
 
 {
@@ -589,7 +629,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_y_from",
     "category": "Function",
-    "text": "\n\nCreates Ohms constraints for AC models (y post fix indicates that Y values are in rectangular form)\n\n\n\n"
+    "text": "\n\nCreates Ohms constraints for AC models (y post fix indicates that Y values are in rectangular form)\n\np[f_idx] == g*(v[f_bus]/tr)^2 + -g*v[f_bus]/tr*v[t_bus]*cos(t[f_bus]-t[t_bus]-as) + -b*v[f_bus]/tr*v[t_bus]*sin(t[f_bus]-t[t_bus]-as)\nq[f_idx] == -(b+c/2)*(v[f_bus]/tr)^2 + b*v[f_bus]/tr*v[t_bus]*cos(t[f_bus]-t[t_bus]-as) + -g*v[f_bus]/tr*v[t_bus]*sin(t[f_bus]-t[t_bus]-as)\n\n\n\n"
 },
 
 {
@@ -597,7 +637,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_y_to",
     "category": "Function",
-    "text": "\n\n\n\n"
+    "text": "\n\nCreates Ohms constraints for AC models (y post fix indicates that Y values are in rectangular form)\n\np[t_idx] == g*v[t_bus]^2 + -g*v[t_bus]*v[f_bus]/tr*cos(t[t_bus]-t[f_bus]+as) + -b*v[t_bus]*v[f_bus]/tr*sin(t[t_bus]-t[f_bus]+as)\nq_to == -(b+c/2)*v[t_bus]^2 + b*v[t_bus]*v[f_bus]/tr*cos(t[f_bus]-t[t_bus]+as) + -g*v[t_bus]*v[f_bus]/tr*sin(t[t_bus]-t[f_bus]+as)\n\n\n\n"
 },
 
 {
@@ -613,7 +653,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_from_on_off",
     "category": "Function",
-    "text": "\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n"
+    "text": "\n\np[f_idx] == z*(g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\nq[f_idx] == z*(-(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\n\n\n\n-b*(t[f_bus] - t[t_bus] + t_min*(1-line_z[i])) <= p[f_idx] <= -b*(t[f_bus] - t[t_bus] + t_max*(1-line_z[i]))\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n-b*(t[f_bus] - t[t_bus] + t_min*(1-line_z[i])) <= p[f_idx] <= -b*(t[f_bus] - t[t_bus] + t_max*(1-line_z[i]))\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==        g/tm*w_from[i] + (-g*tr+b*ti)/tm*(wr[i]) + (-b*tr-g*ti)/tm*(wi[i])\nq[f_idx] == -(b+c/2)/tm*w_from[i] - (-b*tr-g*ti)/tm*(wr[i]) + (-g*tr+b*ti)/tm*(wi[i])\n\n\n\n"
 },
 
 {
@@ -621,7 +661,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_to_on_off",
     "category": "Function",
-    "text": "\n\n\n\nDo nothing, this model is symetric\n\n\n\n\n\n\n\n"
+    "text": "\n\np[t_idx] == z*(g*v[t_bus]^2 + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[t_bus]-t[f_bus])) + (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\nq[t_idx] == z*(-(b+c/2)*v[t_bus]^2 - (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\n\n\n\nDo nothing, this model is symmetric\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] + p[t_idx] >= r*( (-b*(t[f_bus] - t[t_bus]))^2 - (-b*(t_m))^2*(1-line_z[i]) )\n\nwhere r = g/(g^2 + b^2) and t_m = max(|t_min|, |t_max|)\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[t_idx] ==        g*w_to[i] + (-g*tr-b*ti)/tm*(wr[i]) + (-b*tr+g*ti)/tm*(-wi[i])\nq[t_idx] == -(b+c/2)*w_to[i] - (-b*tr+g*ti)/tm*(wr[i]) + (-g*tr-b*ti)/tm*(-wi[i])\n\n\n\n"
 },
 
 {
@@ -629,7 +669,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_from_ne",
     "category": "Function",
-    "text": "\n\n\n\n\n\n\n\n"
+    "text": "\n\np_ne[f_idx] == z*(g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\nq_ne[f_idx] == z*(-(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n-b*(t[f_bus] - t[t_bus] + t_min*(1-line_ne[i])) <= p_ne[f_idx] <= -b*(t[f_bus] - t[t_bus] + t_max*(1-line_ne[i]))\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] == g/tm*w_from_ne[i] + (-g*tr+b*ti)/tm*(wr_ne[i]) + (-b*tr-g*ti)/tm*(wi_ne[i])\nq[f_idx] == -(b+c/2)/tm*w_from_ne[i] - (-b*tr-g*ti)/tm*(wr_ne[i]) + (-g*tr+b*ti)/tm*(wi_ne[i])\n\n\n\n"
 },
 
 {
@@ -637,7 +677,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_to_ne",
     "category": "Function",
-    "text": "\n\n\n\nDo nothing, this model is symmetric\n\n\n\n\n\n\n\n"
+    "text": "\n\np_ne[t_idx] == z*(g*v[t_bus]^2 + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[t_bus]-t[f_bus])) + (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\nq_ne[t_idx] == z*(-(b+c/2)*v[t_bus]^2 - (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\n\n\n\nDo nothing, this model is symmetric\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np_ne[f_idx] + p_ne[t_idx] >= r*( (-b*(t[f_bus] - t[t_bus]))^2 - (-b*(t_m))^2*(1-line_ne[i]) )\n\nwhere r = g/(g^2 + b^2) and t_m = max(|t_min|, |t_max|)\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[t_idx] == g*w_to_ne[i] + (-g*tr-b*ti)/tm*(wr_ne[i]) + (-b*tr+g*ti)/tm*(-wi_ne[i])\nq[t_idx] == -(b+c/2)*w_to_ne[i] - (-b*tr+g*ti)/tm*(wr_ne[i]) + (-g*tr-b*ti)/tm*(-wi_ne[i])\n\n\n\n"
 },
 
 {
@@ -653,7 +693,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_power_magnitude_sqr",
     "category": "Function",
-    "text": "\n\n\n\n"
+    "text": "\n\np[f_idx]^2 + q[f_idx]^2 <= w[f_bus]/tm*cm[f_bus,t_bus]\n\n\n\n"
 },
 
 {
@@ -661,7 +701,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_power_magnitude_link",
     "category": "Function",
-    "text": "\n\n\n\n"
+    "text": "\n\ncm[f_bus,t_bus] == (g^2 + b^2)*(w[f_bus]/tm + w[t_bus] - 2*(tr*wr[f_bus,t_bus] + ti*wi[f_bus,t_bus])/tm) - c*q[f_idx] - ((c/2)/tm)^2*w[f_bus]\n\n\n\n"
 },
 
 {
@@ -677,7 +717,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_from",
     "category": "Function",
-    "text": "\n\n\n\n\n\n\n\n"
+    "text": "\n\np[f_idx]^2 + q[f_idx]^2 <= rate_a^2\n\n\n\nnorm([p[f_idx]; q[f_idx]]) <= rate_a\n\n\n\n-rate_a <= p[f_idx] <= rate_a\n\n\n\n"
 },
 
 {
@@ -685,7 +725,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_to",
     "category": "Function",
-    "text": "\n\n\n\n\n\nDo nothing, this model is symmetric\n\n\n\n"
+    "text": "\n\np[t_idx]^2 + q[t_idx]^2 <= rate_a^2\n\n\n\nnorm([p[t_idx]; q[t_idx]]) <= rate_a\n\n\n\nDo nothing, this model is symmetric\n\n\n\n"
 },
 
 {
@@ -693,7 +733,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_from_on_off",
     "category": "Function",
-    "text": "\n\n\n\nGeneric on/off thermal limit constraint\n\n\n\n"
+    "text": "\n\np[f_idx]^2 + q[f_idx]^2 <= (rate_a * line_z[i])^2\n\n\n\nGeneric on/off thermal limit constraint\n\n-rate_a*line_z[i] <= p[f_idx] <=  rate_a*line_z[i]\n\n\n\n"
 },
 
 {
@@ -701,7 +741,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_to_on_off",
     "category": "Function",
-    "text": "\n\n\n\nnothing to do, from handles both sides\n\n\n\n\n\n"
+    "text": "\n\np[t_idx]^2 + q[t_idx]^2 <= (rate_a * line_z[i])^2\n\n\n\nnothing to do, from handles both sides\n\n\n\n-rate_a*line_z[i] <= p[t_idx] <= rate_a*line_z[i]\n\n\n\n"
 },
 
 {
@@ -709,7 +749,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_from_ne",
     "category": "Function",
-    "text": "\n\n\n\n\n\n"
+    "text": "\n\np_ne[f_idx]^2 + q_ne[f_idx]^2 <= (rate_a * line_ne[i])^2\n\n\n\nGeneric on/off thermal limit constraint\n\n-rate_a*line_ne[i] <= p_ne[f_idx] <=  rate_a*line_ne[i]\n\n\n\n"
 },
 
 {
@@ -717,7 +757,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_to_ne",
     "category": "Function",
-    "text": "\n\n\n\nnothing to do, from handles both sides\n\n\n\n\n\n"
+    "text": "\n\np_ne[t_idx]^2 + q_ne[t_idx]^2 <= (rate_a * line_ne[i])^2\n\n\n\nnothing to do, from handles both sides\n\n\n\n-rate_a*line_ne[i] <= p_ne[t_idx] <=  rate_a*line_ne[i]\n\n\n\n"
 },
 
 {
@@ -733,7 +773,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_phase_angle_difference",
     "category": "Function",
-    "text": "\n\n\n\n\n\n\n\n\n\n\n\n"
+    "text": "\n\nt[f_bus] - t[t_bus] <= angmax\nt[f_bus] - t[t_bus] >= angmin\n\n\n\nangmin <= t[f_bus] - t[t_bus] <= angmax\n\n\n\n\n\n\n\n\n\n"
 },
 
 {
@@ -741,7 +781,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_phase_angle_difference_on_off",
     "category": "Function",
-    "text": "\n\n\n\n\n\n\n\n"
+    "text": "\n\nangmin <= line_z[i]*(t[f_bus] - t[t_bus]) <= angmax\n\n\n\nangmin*line_z[i] + t_min*(1-line_z[i]) <= t[f_bus] - t[t_bus] <= angmax*line_z[i] + t_max*(1-line_z[i])\n\n\n\nangmin*wr[i] <= wi[i] <= angmax*wr[i]\n\n\n\n"
 },
 
 {
@@ -749,7 +789,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_phase_angle_difference_ne",
     "category": "Function",
-    "text": "\n\n\n\n\n\n\n\n"
+    "text": "\n\nangmin <= line_ne[i]*(t[f_bus] - t[t_bus]) <= angmax\n\n\n\nangmin*line_ne[i] + t_min*(1-line_ne[i]) <= t[f_bus] - t[t_bus] <= angmax*line_ne[i] + t_max*(1-line_ne[i])\n\n\n\nangmin*wr_ne[i] <= wi_ne[i] <= angmax*wr_ne[i]\n\n\n\n"
 },
 
 {
@@ -765,7 +805,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_loss_lb",
     "category": "Function",
-    "text": "\n\n\n\n"
+    "text": "\n\np[f_idx] + p[t_idx] >= 0\nq[f_idx] + q[t_idx] >= -c/2*(v[f_bus]^2/tr^2 + v[t_bus]^2)\n\n\n\n"
 },
 
 {
@@ -821,7 +861,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Relaxation Schemes",
     "title": "PowerModels.relaxation_complex_product",
     "category": "Method",
-    "text": "\n\n"
+    "text": "constraint: c^2 + d^2 <= a*b\n\n\n\n"
 },
 
 {
@@ -829,7 +869,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Relaxation Schemes",
     "title": "PowerModels.relaxation_complex_product_on_off",
     "category": "Method",
-    "text": "\n\n"
+    "text": "c^2 + d^2 <= a*b*getupperbound(z)\nc^2 + d^2 <= getupperbound(a)*b*getupperbound(z)\nc^2 + d^2 <= a*getupperbound(b)*z\n\n\n\n"
 },
 
 {
@@ -845,7 +885,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Relaxation Schemes",
     "title": "PowerModels.relaxation_equality_on_off",
     "category": "Method",
-    "text": "\n\n"
+    "text": "x - getupperbound(x)*(1-z) <= y <= x - getlowerbound(x)*(1-z)\n\n\n\n"
 },
 
 {
@@ -853,7 +893,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Relaxation Schemes",
     "title": "PowerModels.relaxation_product",
     "category": "Method",
-    "text": "general relaxation of binlinear term (McCormick)\n\n\n\n"
+    "text": "general relaxation of binlinear term (McCormick)\n\nz >= getlowerbound(x)*y + getlowerbound(y)*x - getlowerbound(x)*getlowerbound(y)\nz >= getupperbound(x)*y + getupperbound(y)*x - getupperbound(x)*getupperbound(y)\nz <= getlowerbound(x)*y + getupperbound(y)*x - getlowerbound(x)*getupperbound(y)\nz <= getupperbound(x)*y + getlowerbound(y)*x - getupperbound(x)*getlowerbound(y)\n\n\n\n"
 },
 
 {
@@ -869,7 +909,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Relaxation Schemes",
     "title": "PowerModels.relaxation_sqr",
     "category": "Method",
-    "text": "general relaxation of a square term\n\n\n\n"
+    "text": "general relaxation of a square term\n\nx^2 <= y <= (getupperbound(x)+getlowerbound(x))*x - getupperbound(x)*getlowerbound(x)\n\n\n\n"
 },
 
 {
