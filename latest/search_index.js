@@ -1141,7 +1141,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Data Formats",
     "title": "Noteworthy Differences from Matpower Data Files",
     "category": "section",
-    "text": "The PowerModels network data dictionary differs from the Matpower format in the following ways,All PowerModels components have an index parameter, which can be used to uniquely identify that network element.\nAll network parameters are in per-unit and angles are in radians.\nAll non-transformer branches are given nominal transformer values (i.e. a tap of 1.0 and a shift of 0).\nAll branches have a transformer field indicating if they are a transformer or not.\nWhen present, the gencost data is incorporated into the gen data, the column names remain the same.\nOnly quadratic active power generation cost functions are supported at this time.\nSpecial treatment is given to the optional ne_branch matrix to support the TNEP problem."
+    "text": "The PowerModels network data dictionary differs from the Matpower format in the following ways,All PowerModels components have an index parameter, which can be used to uniquely identify that network element.\nAll network parameters are in per-unit and angles are in radians.\nAll non-transformer branches are given nominal transformer values (i.e. a tap of 1.0 and a shift of 0).\nAll branches have a transformer field indicating if they are a transformer or not.\nOnly quadratic active power generation cost functions are supported, at this time.\nWhen present, the gencost data is incorporated into the gen data, the column names remain the same.\nWhen present, the bus_names data is incorporated into the bus data under the property \"bus_name\".\nSpecial treatment is given to the optional ne_branch matrix to support the TNEP problem."
 },
 
 {
