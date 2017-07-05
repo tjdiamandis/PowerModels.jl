@@ -593,6 +593,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "variables.html#PowerModels.variable_voltage_magnitude_from_on_off-Tuple{PowerModels.GenericPowerModel}",
+    "page": "Variables",
+    "title": "PowerModels.variable_voltage_magnitude_from_on_off",
+    "category": "Method",
+    "text": "variable: 0 <= v_from[l] <= buses[branches[l][\"f_bus\"]][\"vmax\"] for l in branches\n\n\n\n"
+},
+
+{
     "location": "variables.html#PowerModels.variable_voltage_magnitude_sqr-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude_sqr",
@@ -614,6 +622,14 @@ var documenterSearchIndex = {"docs": [
     "title": "PowerModels.variable_voltage_magnitude_sqr_to_on_off",
     "category": "Method",
     "text": "variable: 0 <= w_to[l] <= buses[branches[l][\"t_bus\"]][\"vmax\"]^2 for l in branches\n\n\n\n"
+},
+
+{
+    "location": "variables.html#PowerModels.variable_voltage_magnitude_to_on_off-Tuple{PowerModels.GenericPowerModel}",
+    "page": "Variables",
+    "title": "PowerModels.variable_voltage_magnitude_to_on_off",
+    "category": "Method",
+    "text": "variable: 0 <= v_to[l] <= buses[branches[l][\"t_bus\"]][\"vmax\"] for l in branches\n\n\n\n"
 },
 
 {
@@ -1005,7 +1021,15 @@ var documenterSearchIndex = {"docs": [
     "page": "Relaxation Schemes",
     "title": "PowerModels.relaxation_cos",
     "category": "Method",
-    "text": "general relaxation of a cosine term\n\n\n\n"
+    "text": "general relaxation of a cosine term, in -pi/2 to pi/2\n\n\n\n"
+},
+
+{
+    "location": "relaxations.html#PowerModels.relaxation_cos_on_off-Tuple{Any,Any,Any,Any,Any}",
+    "page": "Relaxation Schemes",
+    "title": "PowerModels.relaxation_cos_on_off",
+    "category": "Method",
+    "text": "general relaxation of a cosine term, in -pi/2 to pi/2\n\n\n\n"
 },
 
 {
@@ -1025,11 +1049,27 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "relaxations.html#PowerModels.relaxation_product_on_off-Tuple{Any,Any,Any,Any,Any}",
+    "page": "Relaxation Schemes",
+    "title": "PowerModels.relaxation_product_on_off",
+    "category": "Method",
+    "text": "On/Off variant of binlinear term (McCormick) NOTE: assumes all variables (x,y,z) go to zero with ind\n\n\n\n"
+},
+
+{
     "location": "relaxations.html#PowerModels.relaxation_sin-Tuple{Any,Any,Any}",
     "page": "Relaxation Schemes",
     "title": "PowerModels.relaxation_sin",
     "category": "Method",
-    "text": "general relaxation of a sin term\n\n\n\n"
+    "text": "general relaxation of a sine term, in -pi/2 to pi/2\n\n\n\n"
+},
+
+{
+    "location": "relaxations.html#PowerModels.relaxation_sin_on_off-Tuple{Any,Any,Any,Any,Any}",
+    "page": "Relaxation Schemes",
+    "title": "PowerModels.relaxation_sin_on_off",
+    "category": "Method",
+    "text": "general relaxation of a sine term, in -pi/2 to pi/2\n\n\n\n"
 },
 
 {
