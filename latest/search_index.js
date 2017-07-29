@@ -73,6 +73,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "quickguide.html#Inspecting-AC-and-DC-branch-flow-results-1",
+    "page": "Getting Started",
+    "title": "Inspecting AC and DC branch flow results",
+    "category": "section",
+    "text": "The flow AC and DC branch results are not written to the result by default. To inspect the flow results, pass a settings Dictresult = run_opf(\"nesta_case3_dc.m\", ACPPowerModel, IpoptSolver(), setting = Dict(\"output\" => Dict(\"line_flows\" => true)))\nresult[\"solution\"][\"dcline\"][\"1\"]\nresult[\"solution\"][\"branch\"][\"2\"]The losses of a AC or DC branch can be derived:loss_ac =  Dict(name => data[\"p_to\"]+data[\"p_from\"] for (name, data) in result[\"solution\"][\"branch\"])\nloss_dc =  Dict(name => data[\"p_to\"]+data[\"p_from\"] for (name, data) in result[\"solution\"][\"dcline\"])"
+},
+
+{
     "location": "quickguide.html#Inspecting-the-Formulation-1",
     "page": "Getting Started",
     "title": "Inspecting the Formulation",
@@ -117,7 +125,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Data Format",
     "title": "Working with Matpower Data Files",
     "category": "section",
-    "text": "The data exchange via JSON files is ideal for building algorithms, however it is hard to for humans to read and process.  To that end PowerModels also has extensive support for parsing Matpower network files in the .m format.In addition to parsing the standard Matpower parameters, PowerModels also supports extending the standard Matpower format in a number of ways as illustrated by the following examples.  In these examples JSON document fragments are used to indicate the structure of the PowerModel dictionary."
+    "text": "The data exchange via JSON files is ideal for building algorithms, however it is hard to for humans to read and process.  To that end PowerModels also has extensive support for parsing Matpower network files in the .m format.In addition to parsing the standard Matpower parameters, PowerModels also supports extending the standard Matpower format in a number of ways as illustrated by the following examples.  In these examples JSON document fragments are used to indicate the structure of the PowerModel dictionary.Note that for DC lines, the flow results are returned using the same convention as for the AC lines, i.e. positive values for p_from/q_fromand p_to/q_to indicating power flow from the 'to' node or 'from' node into the line. This means that w.r.t matpower the sign is identical for p_from, but opposite for q_from/p_to/q_to."
 },
 
 {
@@ -277,7 +285,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
-    "text": "variable_voltage(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_line_flow(pm)"
+    "text": "variable_voltage(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_line_flow(pm)\nvariable_dcline_flow(pm)"
 },
 
 {
@@ -285,7 +293,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage(pm)\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\nend\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\n\n    constraint_phase_angle_difference(pm, branch)\n\n    constraint_thermal_limit_from(pm, branch)\n    constraint_thermal_limit_to(pm, branch)\nend"
+    "text": "constraint_theta_ref(pm)\nconstraint_voltage(pm)\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\nend\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\n\n    constraint_phase_angle_difference(pm, branch)\n\n    constraint_thermal_limit_from(pm, branch)\n    constraint_thermal_limit_to(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_dcline(pm, dcline)\nend"
 },
 
 {
@@ -309,7 +317,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
-    "text": "variable_line_indicator(pm)\nvariable_voltage_on_off(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_line_flow(pm)"
+    "text": "variable_line_indicator(pm)\nvariable_voltage_on_off(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_line_flow(pm)\nvariable_dcline_flow(pm)"
 },
 
 {
@@ -325,7 +333,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage_on_off(pm)\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\nend\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from_on_off(pm, branch)\n    constraint_ohms_yt_to_on_off(pm, branch)\n\n    constraint_phase_angle_difference_on_off(pm, branch)\n\n    constraint_thermal_limit_from_on_off(pm, branch)\n    constraint_thermal_limit_to_on_off(pm, branch)\nend"
+    "text": "constraint_theta_ref(pm)\nconstraint_voltage_on_off(pm)\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\nend\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from_on_off(pm, branch)\n    constraint_ohms_yt_to_on_off(pm, branch)\n\n    constraint_phase_angle_difference_on_off(pm, branch)\n\n    constraint_thermal_limit_from_on_off(pm, branch)\n    constraint_thermal_limit_to_on_off(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_dcline(pm, dcline)\nend"
 },
 
 {
@@ -349,7 +357,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
-    "text": "variable_voltage(pm, bounded = false)\nvariable_active_generation(pm, bounded = false)\nvariable_reactive_generation(pm, bounded = false)\nvariable_line_flow(pm, bounded = false)"
+    "text": "variable_voltage(pm, bounded = false)\nvariable_active_generation(pm, bounded = false)\nvariable_reactive_generation(pm, bounded = false)\nvariable_line_flow(pm, bounded = false)\nvariable_dcline_flow(pm, bounded = false)"
 },
 
 {
@@ -357,7 +365,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage_magnitude_setpoint(pm, pm.ref[:bus][pm.ref[:ref_bus]])\nconstraint_voltage(pm)\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\n\n    # PV Bus Constraints\n    if length(pm.ref[:bus_gens][i]) > 0 && i != pm.ref[:ref_bus]\n        # this assumes inactive generators are filtered out of bus_gens\n        @assert bus[\"bus_type\"] == 2\n\n        # soft equality needed becouse v in file is not precice enough to ensure feasiblity\n        constraint_voltage_magnitude_setpoint(pm, bus; epsilon = 0.00001)\n        for j in pm.ref[:bus_gens][i]\n            constraint_active_gen_setpoint(pm, pm.ref[:gen][j])\n        end\n    end\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\nend"
+    "text": "constraint_theta_ref(pm)\nconstraint_voltage_magnitude_setpoint(pm, pm.ref[:bus][pm.ref[:ref_bus]])\nconstraint_voltage(pm)\n\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\n\n    # PV Bus Constraints\n    if length(pm.ref[:bus_gens][i]) > 0 && i != pm.ref[:ref_bus]\n        # this assumes inactive generators are filtered out of bus_gens\n        @assert bus[\"bus_type\"] == 2\n\n        # soft equality needed becouse v in file is not precice enough to ensure feasiblity\n        constraint_voltage_magnitude_setpoint(pm, bus; epsilon = 0.00001)\n        for j in pm.ref[:bus_gens][i]\n            constraint_active_gen_setpoint(pm, pm.ref[:gen][j])\n        end\n    end\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_active_dc_line_setpoint(pm, dcline)\n    constraint_dcline_voltage(pm, dcline; epsilon = 0.00001)\nend"
 },
 
 {
@@ -381,7 +389,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
-    "text": "variable_line_ne(pm) \nvariable_voltage(pm)\nvariable_voltage_ne(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_line_flow(pm)\nvariable_line_flow_ne(pm)"
+    "text": "variable_line_ne(pm)\nvariable_voltage(pm)\nvariable_voltage_ne(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_line_flow(pm)\nvariable_dcline_flow(pm)\nvariable_line_flow_ne(pm)"
 },
 
 {
@@ -389,7 +397,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage(pm)\nconstraint_voltage_ne(pm)\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt_ne(pm, bus)\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\n\n    constraint_phase_angle_difference(pm, branch)\n\n    constraint_thermal_limit_from(pm, branch)\n    constraint_thermal_limit_to(pm, branch)\nend \n\nfor (i,branch) in pm.ref[:ne_branch]\n    constraint_ohms_yt_from_ne(pm, branch)\n    constraint_ohms_yt_to_ne(pm, branch) \n\n    constraint_phase_angle_difference_ne(pm, branch)\n\n    constraint_thermal_limit_from_ne(pm, branch)\n    constraint_thermal_limit_to_ne(pm, branch)\nend"
+    "text": "constraint_theta_ref(pm)\nconstraint_voltage(pm)\nconstraint_voltage_ne(pm)\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt_ne(pm, bus)\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\n\n    constraint_phase_angle_difference(pm, branch)\n\n    constraint_thermal_limit_from(pm, branch)\n    constraint_thermal_limit_to(pm, branch)\nend\n\nfor (i,branch) in pm.ref[:ne_branch]\n    constraint_ohms_yt_from_ne(pm, branch)\n    constraint_ohms_yt_to_ne(pm, branch)\n\n    constraint_phase_angle_difference_ne(pm, branch)\n\n    constraint_thermal_limit_from_ne(pm, branch)\n    constraint_thermal_limit_to_ne(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_dcline(pm, dcline)\nend"
 },
 
 {
@@ -405,7 +413,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PowerModel",
     "title": "PowerModels.GenericPowerModel",
     "category": "Type",
-    "text": "type GenericPowerModel{T<:AbstractPowerFormulation}\n    model::JuMP.Model\n    data::Dict{String,Any} \n    setting::Dict{String,Any}\n    solution::Dict{String,Any}\n    ref::Dict{Symbol,Any} # reference data\nend\n\nwhere\n\ndata is the original data, usually from reading in a .json or .m (patpower) file,\nsetting usually looks something like Dict(\"output\" => Dict(\"line_flows\" => true)), and\nref is a place to store commonly used pre-computed data from of the data dictionary,   primarily for converting data-types, filtering out deactivated components, and storing   system-wide values that need to be computed globally. See build_ref(data) for further details.\n\nMethods on GenericPowerModel for defining variables and adding constraints should\n\nwork with the ref dict, rather than the original data dict,\nadd them to model::JuMP.Model, and\nfollow the conventions for variable and constraint names.\n\n\n\n"
+    "text": "type GenericPowerModel{T<:AbstractPowerFormulation}\n    model::JuMP.Model\n    data::Dict{String,Any}\n    setting::Dict{String,Any}\n    solution::Dict{String,Any}\n    ref::Dict{Symbol,Any} # reference data\nend\n\nwhere\n\ndata is the original data, usually from reading in a .json or .m (patpower) file,\nsetting usually looks something like Dict(\"output\" => Dict(\"line_flows\" => true)), and\nref is a place to store commonly used pre-computed data from of the data dictionary,   primarily for converting data-types, filtering out deactivated components, and storing   system-wide values that need to be computed globally. See build_ref(data) for further details.\n\nMethods on GenericPowerModel for defining variables and adding constraints should\n\nwork with the ref dict, rather than the original data dict,\nadd them to model::JuMP.Model, and\nfollow the conventions for variable and constraint names.\n\n\n\n"
 },
 
 {
@@ -413,7 +421,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PowerModel",
     "title": "PowerModels.build_ref",
     "category": "Function",
-    "text": "Returns a dict that stores commonly used pre-computed data from of the data dictionary, primarily for converting data-types, filtering out deactivated components, and storing system-wide values that need to be computed globally.\n\nSome of the common keys include:\n\n:off_angmin and :off_angmax (see calc_theta_delta_bounds(data)),\n:bus – the set {(i, bus) in ref[:bus] : bus[\"bus_type\"] != 4},\n:gen – the set {(i, gen) in ref[:gen] : gen[\"gen_status\"] == 1 && gen[\"gen_bus\"] in keys(ref[:bus])},\n:branch – the set of branches that are active in the network (based on the component status values),\n:arcs_from – the set [(i,b[\"f_bus\"],b[\"t_bus\"]) for (i,b) in ref[:branch]],\n:arcs_to – the set [(i,b[\"t_bus\"],b[\"f_bus\"]) for (i,b) in ref[:branch]],\n:arcs – the set of arcs from both arcs_from and arcs_to,\n:bus_arcs – the mapping Dict(i => [(l,i,j) for (l,i,j) in ref[:arcs]]),\n:buspairs – (see buspair_parameters(ref[:arcs_from], ref[:branch], ref[:bus])), and\n:bus_gens – the mapping Dict(i => [gen[\"gen_bus\"] for (i,gen) in ref[:gen]]).\n\nIf :ne_branch exists, then the following keys are also available with similar semantics:\n\n:ne_branch, :ne_arcs_from, :ne_arcs_to, :ne_arcs, :ne_bus_arcs, :ne_buspairs.\n\n\n\n"
+    "text": "Returns a dict that stores commonly used pre-computed data from of the data dictionary, primarily for converting data-types, filtering out deactivated components, and storing system-wide values that need to be computed globally.\n\nSome of the common keys include:\n\n:off_angmin and :off_angmax (see calc_theta_delta_bounds(data)),\n:bus – the set {(i, bus) in ref[:bus] : bus[\"bus_type\"] != 4},\n:gen – the set {(i, gen) in ref[:gen] : gen[\"gen_status\"] == 1 && gen[\"gen_bus\"] in keys(ref[:bus])},\n:branch – the set of branches that are active in the network (based on the component status values),\n:arcs_from – the set [(i,b[\"f_bus\"],b[\"t_bus\"]) for (i,b) in ref[:branch]],\n:arcs_to – the set [(i,b[\"t_bus\"],b[\"f_bus\"]) for (i,b) in ref[:branch]],\n:arcs – the set of arcs from both arcs_from and arcs_to,\n:bus_arcs – the mapping Dict(i => [(l,i,j) for (l,i,j) in ref[:arcs]]),\n:buspairs – (see buspair_parameters(ref[:arcs_from], ref[:branch], ref[:bus])),\n:bus_gens – the mapping Dict(i => [gen[\"gen_bus\"] for (i,gen) in ref[:gen]]).\n:arcs_from_dc – the set [(i,b[\"f_bus\"],b[\"t_bus\"]) for (i,b) in ref[:dcline]],\n:arcs_to_dc – the set [(i,b[\"t_bus\"],b[\"f_bus\"]) for (i,b) in ref[:dcline]],\n:arcs_dc – the set of arcs from both arcs_from_dc and arcs_to_dc,\n:bus_arcs_dc – the mapping Dict(i => [(l,i,j) for (l,i,j) in ref[:arcs_dc]]), and\n:buspairs_dc – (see buspair_parameters(ref[:arcs_from_dc], ref[:dcline], ref[:bus])),\n\nIf :ne_branch exists, then the following keys are also available with similar semantics:\n\n:ne_branch, :ne_arcs_from, :ne_arcs_to, :ne_arcs, :ne_bus_arcs, :ne_buspairs.\n\n\n\n"
 },
 
 {
@@ -489,6 +497,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "variables.html#PowerModels.variable_active_dcline_flow-Tuple{PowerModels.GenericPowerModel}",
+    "page": "Variables",
+    "title": "PowerModels.variable_active_dcline_flow",
+    "category": "Method",
+    "text": "variable: p_dc[l,i,j] for (l,i,j) in arcs_dc\n\n\n\n"
+},
+
+{
     "location": "variables.html#PowerModels.variable_active_generation-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_active_generation",
@@ -558,6 +574,14 @@ var documenterSearchIndex = {"docs": [
     "title": "PowerModels.variable_phase_angle",
     "category": "Method",
     "text": "variable: t[i] for i in buses\n\n\n\n"
+},
+
+{
+    "location": "variables.html#PowerModels.variable_reactive_dcline_flow-Tuple{PowerModels.GenericPowerModel}",
+    "page": "Variables",
+    "title": "PowerModels.variable_reactive_dcline_flow",
+    "category": "Method",
+    "text": "variable: q_dc[l,i,j] for (l,i,j) in arcs_dc\n\n\n\n"
 },
 
 {
@@ -725,7 +749,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_kcl_shunt",
     "category": "Function",
-    "text": "\n\nsum(p[a] for a in bus_arcs) == sum(pg[g] for g in bus_gens) - pd - gs*v^2\nsum(q[a] for a in bus_arcs) == sum(qg[g] for g in bus_gens) - qd + bs*v^2\n\n\n\n\n\nsum(p[a] for a in bus_arcs) == sum(pg[g] for g in bus_gens) - pd - gs*1.0^2\n\n\n\n\n\n\n\n"
+    "text": "\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - pd - gs*v^2\nsum(q[a] for a in bus_arcs) + sum(q_dc[a_dc] for a_dc in bus_arcs_dc) == sum(qg[g] for g in bus_gens) - qd + bs*v^2\n\n\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc)== sum(pg[g] for g in bus_gens) - pd - gs*1.0^2\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - pd - gs*w[i]\nsum(q[a] for a in bus_arcs) + sum(q_dc[a_dc] for a_dc in bus_arcs_dc) == sum(qg[g] for g in bus_gens) - qd + bs*w[i]\n\n\n\n\n\n"
 },
 
 {
@@ -733,7 +757,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_kcl_shunt_ne",
     "category": "Function",
-    "text": "\n\nsum(p[a] for a in bus_arcs) + sum(p_ne[a] for a in bus_arcs_ne) == sum(pg[g] for g in bus_gens) - pd - gs*v^2\nsum(q[a] for a in bus_arcs) + sum(q_ne[a] for a in bus_arcs_ne) == sum(qg[g] for g in bus_gens) - qd + bs*v^2\n\n\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_ne[a] for a in bus_arcs_ne) == sum(pg[g] for g in bus_gens) - pd - gs*1.0^2\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_ne[a] for a in bus_arcs_ne) == sum(pg[g] for g in bus_gens) - pd - gs*w[i]\nsum(q[a] for a in bus_arcs) + sum(q_ne[a] for a in bus_arcs_ne) == sum(qg[g] for g in bus_gens) - qd + bs*w[i]\n\n\n\n"
+    "text": "\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) + sum(p_ne[a] for a in bus_arcs_ne) == sum(pg[g] for g in bus_gens) - pd - gs*v^2\nsum(q[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) + sum(q_ne[a] for a in bus_arcs_ne) == sum(qg[g] for g in bus_gens) - qd + bs*v^2\n\n\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_ne[a] for a in bus_arcs_ne) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - pd - gs*1.0^2\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_ne[a] for a in bus_arcs_ne) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - pd - gs*w[i]\nsum(q[a] for a in bus_arcs) + sum(q_ne[a] for a in bus_arcs_ne) + sum(q_dc[a_dc] for a_dc in bus_arcs_dc) == sum(qg[g] for g in bus_gens) - qd + bs*w[i]\n\n\n\n"
 },
 
 {
@@ -958,6 +982,30 @@ var documenterSearchIndex = {"docs": [
     "title": "Loss Constraints",
     "category": "section",
     "text": "constraint_loss_lb"
+},
+
+{
+    "location": "constraints.html#DC-Line-Constraints-1",
+    "page": "Constraints",
+    "title": "DC Line Constraints",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "constraints.html#PowerModels.constraint_dcline",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_dcline",
+    "category": "Function",
+    "text": "\n\nCreates Line Flow constraint for DC Lines (Matpower Formulation)\n\np_fr + p_to == loss0 + p_fr * loss1\n\n\n\n"
+},
+
+{
+    "location": "constraints.html#Network-Flow-Constraints-1",
+    "page": "Constraints",
+    "title": "Network Flow Constraints",
+    "category": "section",
+    "text": "constraint_dcline"
 },
 
 {
