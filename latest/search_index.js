@@ -77,7 +77,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Inspecting AC and DC branch flow results",
     "category": "section",
-    "text": "The flow AC and DC branch results are not written to the result by default. To inspect the flow results, pass a settings Dictresult = run_opf(\"nesta_case3_dc.m\", ACPPowerModel, IpoptSolver(), setting = Dict(\"output\" => Dict(\"line_flows\" => true)))\nresult[\"solution\"][\"dcline\"][\"1\"]\nresult[\"solution\"][\"branch\"][\"2\"]The losses of a AC or DC branch can be derived:loss_ac =  Dict(name => data[\"p_to\"]+data[\"p_from\"] for (name, data) in result[\"solution\"][\"branch\"])\nloss_dc =  Dict(name => data[\"p_to\"]+data[\"p_from\"] for (name, data) in result[\"solution\"][\"dcline\"])"
+    "text": "The flow AC and DC branch results are not written to the result by default. To inspect the flow results, pass a settings Dictresult = run_opf(\"case3_dc.m\", ACPPowerModel, IpoptSolver(), setting = Dict(\"output\" => Dict(\"line_flows\" => true)))\nresult[\"solution\"][\"dcline\"][\"1\"]\nresult[\"solution\"][\"branch\"][\"2\"]The losses of a AC or DC branch can be derived:loss_ac =  Dict(name => data[\"p_to\"]+data[\"p_from\"] for (name, data) in result[\"solution\"][\"branch\"])\nloss_dc =  Dict(name => data[\"p_to\"]+data[\"p_from\"] for (name, data) in result[\"solution\"][\"dcline\"])"
 },
 
 {
@@ -117,7 +117,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Data Format",
     "title": "Noteworthy Differences from Matpower Data Files",
     "category": "section",
-    "text": "The PowerModels network data dictionary differs from the Matpower format in the following ways,All PowerModels components have an index parameter, which can be used to uniquely identify that network element.\nAll network parameters are in per-unit and angles are in radians.\nAll non-transformer branches are given nominal transformer values (i.e. a tap of 1.0 and a shift of 0).\nAll branches have a transformer field indicating if they are a transformer or not.\nOnly quadratic active power generation cost functions are supported, at this time.\nWhen present, the gencost data is incorporated into the gen data, the column names remain the same.\nWhen present, the bus_names data is incorporated into the bus data under the property \"bus_name\".\nSpecial treatment is given to the optional ne_branch matrix to support the TNEP problem."
+    "text": "The PowerModels network data dictionary differs from the Matpower format in the following ways,All PowerModels components have an index parameter, which can be used to uniquely identify that network element.\nAll network parameters are in per-unit and angles are in radians.\nAll non-transformer branches are given nominal transformer values (i.e. a tap of 1.0 and a shift of 0).\nAll branches have a transformer field indicating if they are a transformer or not.\nOnly quadratic active power generation cost functions are supported, at this time.\nWhen present, the gencost data is incorporated into the gen data, the column names remain the same.\nWhen present, the dclinecost data is incorporated into the dcline data, the column names remain the same.\nWhen present, the bus_names data is incorporated into the bus data under the property \"bus_name\".\nSpecial treatment is given to the optional ne_branch matrix to support the TNEP problem."
 },
 
 {
@@ -1213,7 +1213,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PowerModels.standardize_cost_order",
     "category": "Function",
-    "text": "ensures all costs functions are quadratic and reverses their order\n\n\n\n"
+    "text": "ensures all polynomial costs functions have at least three terms\n\n\n\n"
 },
 
 {
