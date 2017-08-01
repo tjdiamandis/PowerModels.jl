@@ -449,6 +449,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "objective.html#PowerModels.check_cost_models-Tuple{PowerModels.GenericPowerModel}",
+    "page": "Objective",
+    "title": "PowerModels.check_cost_models",
+    "category": "Method",
+    "text": "Checks that all cost models are polynomials, quadratic or less\n\n\n\n"
+},
+
+{
     "location": "objective.html#PowerModels.objective_min_fuel_cost-Tuple{PowerModels.GenericPowerModel{T<:PowerModels.AbstractConicPowerFormulation}}",
     "page": "Objective",
     "title": "PowerModels.objective_min_fuel_cost",
