@@ -773,7 +773,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_magnitude_setpoint",
     "category": "Function",
-    "text": "\n\nvm - epsilon <= v[i] <= vm + epsilon\n\n\n\ndo nothing, this model does not have voltage variables\n\n\n\n"
+    "text": "\n\nvm - epsilon <= v[i] <= vm + epsilon\n\n\n\nvm - epsilon <= v[i] <= vm + epsilon\n\n\n\ndo nothing, this model does not have voltage variables\n\n\n\n"
 },
 
 {
@@ -1141,7 +1141,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Relaxation Schemes",
     "title": "PowerModels.relaxation_product_on_off",
     "category": "Method",
-    "text": "On/Off variant of binlinear term (McCormick) NOTE: assumes all variables (x,y,z) go to zero with ind\n\n\n\n"
+    "text": "On/Off variant of binlinear term (McCormick) requires that all variables (x,y,z) go to zero with ind\n\n\n\n"
 },
 
 {
