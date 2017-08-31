@@ -373,7 +373,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage_magnitude_setpoint(pm, pm.ref[:bus][pm.ref[:ref_bus]])\nconstraint_voltage(pm)\n\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\n\n    # PV Bus Constraints\n    if length(pm.ref[:bus_gens][i]) > 0 && i != pm.ref[:ref_bus]\n        # this assumes inactive generators are filtered out of bus_gens\n        @assert bus[\"bus_type\"] == 2\n\n        # soft equality needed becouse v in file is not precice enough to ensure feasiblity\n        constraint_voltage_magnitude_setpoint(pm, bus; epsilon = 0.00001)\n        for j in pm.ref[:bus_gens][i]\n            constraint_active_gen_setpoint(pm, pm.ref[:gen][j])\n        end\n    end\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_active_dcline_setpoint(pm, dcline)\n    constraint_voltage_dcline_setpoint(pm, dcline; epsilon = 0.00001)\nend"
+    "text": "constraint_theta_ref(pm)\nconstraint_voltage_magnitude_setpoint(pm, pm.ref[:bus][pm.ref[:ref_bus]])\nconstraint_voltage(pm)\n\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\n\n    # PV Bus Constraints\n    if length(pm.ref[:bus_gens][i]) > 0 && i != pm.ref[:ref_bus]\n        # this assumes inactive generators are filtered out of bus_gens\n        @assert bus[\"bus_type\"] == 2\n\n        constraint_voltage_magnitude_setpoint(pm, bus)\n        for j in pm.ref[:bus_gens][i]\n            constraint_active_gen_setpoint(pm, pm.ref[:gen][j])\n        end\n    end\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_active_dcline_setpoint(pm, dcline)\nend"
 },
 
 {
@@ -781,7 +781,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_magnitude_setpoint",
     "category": "Function",
-    "text": "\n\nvm - epsilon <= v[i] <= vm + epsilon\n\n\n\nvm - epsilon <= v[i] <= vm + epsilon\n\n\n\ndo nothing, this model does not have voltage variables\n\n\n\n"
+    "text": "\n\nv[i] == vm\n\n\n\nv[i] == vm\n\n\n\ndo nothing, this model does not have voltage variables\n\n\n\n"
 },
 
 {
