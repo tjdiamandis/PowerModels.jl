@@ -293,7 +293,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
-    "text": "variable_voltage(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_line_flow(pm)\nvariable_dcline_flow(pm)"
+    "text": "variable_voltage(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_branch_flow(pm)\nvariable_dcline_flow(pm)"
 },
 
 {
@@ -325,7 +325,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
-    "text": "variable_line_indicator(pm)\nvariable_voltage_on_off(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_line_flow(pm)\nvariable_dcline_flow(pm)"
+    "text": "variable_branch_indicator(pm)\nvariable_voltage_on_off(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_branch_flow(pm)\nvariable_dcline_flow(pm)"
 },
 
 {
@@ -365,7 +365,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
-    "text": "variable_voltage(pm, bounded = false)\nvariable_active_generation(pm, bounded = false)\nvariable_reactive_generation(pm, bounded = false)\nvariable_line_flow(pm, bounded = false)\nvariable_dcline_flow(pm, bounded = false)"
+    "text": "variable_voltage(pm, bounded = false)\nvariable_active_generation(pm, bounded = false)\nvariable_reactive_generation(pm, bounded = false)\nvariable_branch_flow(pm, bounded = false)\nvariable_dcline_flow(pm, bounded = false)"
 },
 
 {
@@ -397,7 +397,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
-    "text": "variable_line_ne(pm)\nvariable_voltage(pm)\nvariable_voltage_ne(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_line_flow(pm)\nvariable_dcline_flow(pm)\nvariable_line_flow_ne(pm)"
+    "text": "variable_branch_ne(pm)\nvariable_voltage(pm)\nvariable_voltage_ne(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_branch_flow(pm)\nvariable_dcline_flow(pm)\nvariable_branch_flow_ne(pm)"
 },
 
 {
@@ -421,7 +421,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PowerModel",
     "title": "PowerModels.GenericPowerModel",
     "category": "Type",
-    "text": "type GenericPowerModel{T<:AbstractPowerFormulation}\n    model::JuMP.Model\n    data::Dict{String,Any}\n    setting::Dict{String,Any}\n    solution::Dict{String,Any}\n    var::Dict{Symbol,Any} # model variable lookup\n    ref::Dict{Symbol,Any} # reference data\n    ext::Dict{Symbol,Any} # user extentions\nend\n\nwhere\n\ndata is the original data, usually from reading in a .json or .m (patpower) file,\nsetting usually looks something like Dict(\"output\" => Dict(\"line_flows\" => true)), and\nref is a place to store commonly used pre-computed data from of the data dictionary,   primarily for converting data-types, filtering out deactivated components, and storing   system-wide values that need to be computed globally. See build_ref(data) for further details.\n\nMethods on GenericPowerModel for defining variables and adding constraints should\n\nwork with the ref dict, rather than the original data dict,\nadd them to model::JuMP.Model, and\nfollow the conventions for variable and constraint names.\n\n\n\n"
+    "text": "type GenericPowerModel{T<:AbstractPowerFormulation}\n    model::JuMP.Model\n    data::Dict{String,Any}\n    setting::Dict{String,Any}\n    solution::Dict{String,Any}\n    var::Dict{Symbol,Any} # model variable lookup\n    ref::Dict{Symbol,Any} # reference data\n    ext::Dict{Symbol,Any} # user extentions\nend\n\nwhere\n\ndata is the original data, usually from reading in a .json or .m (patpower) file,\nsetting usually looks something like Dict(\"output\" => Dict(\"branch_flows\" => true)), and\nref is a place to store commonly used pre-computed data from of the data dictionary,   primarily for converting data-types, filtering out deactivated components, and storing   system-wide values that need to be computed globally. See build_ref(data) for further details.\n\nMethods on GenericPowerModel for defining variables and adding constraints should\n\nwork with the ref dict, rather than the original data dict,\nadd them to model::JuMP.Model, and\nfollow the conventions for variable and constraint names.\n\n\n\n"
 },
 
 {
@@ -485,7 +485,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Objective",
     "title": "PowerModels.objective_tnep_cost",
     "category": "Function",
-    "text": "Cost of building lines\n\n\n\n"
+    "text": "Cost of building branchs\n\n\n\n"
 },
 
 {
@@ -513,6 +513,22 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "variables.html#PowerModels.variable_active_branch_flow",
+    "page": "Variables",
+    "title": "PowerModels.variable_active_branch_flow",
+    "category": "Function",
+    "text": "variable: p[l,i,j] for (l,i,j) in arcs\n\n\n\n"
+},
+
+{
+    "location": "variables.html#PowerModels.variable_active_branch_flow_ne",
+    "page": "Variables",
+    "title": "PowerModels.variable_active_branch_flow_ne",
+    "category": "Function",
+    "text": "variable: -ne_branch[l][\"rate_a\"] <= p_ne[l,i,j] <= ne_branch[l][\"rate_a\"] for (l,i,j) in ne_arcs\n\n\n\n"
+},
+
+{
     "location": "variables.html#PowerModels.variable_active_dcline_flow",
     "page": "Variables",
     "title": "PowerModels.variable_active_dcline_flow",
@@ -529,19 +545,35 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "variables.html#PowerModels.variable_active_line_flow",
+    "location": "variables.html#PowerModels.variable_branch_flow",
     "page": "Variables",
-    "title": "PowerModels.variable_active_line_flow",
+    "title": "PowerModels.variable_branch_flow",
     "category": "Function",
-    "text": "variable: p[l,i,j] for (l,i,j) in arcs\n\n\n\n"
+    "text": "\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_active_line_flow_ne",
+    "location": "variables.html#PowerModels.variable_branch_flow_ne",
     "page": "Variables",
-    "title": "PowerModels.variable_active_line_flow_ne",
+    "title": "PowerModels.variable_branch_flow_ne",
     "category": "Function",
-    "text": "variable: -ne_branch[l][\"rate_a\"] <= p_ne[l,i,j] <= ne_branch[l][\"rate_a\"] for (l,i,j) in ne_arcs\n\n\n\n"
+    "text": "generates variables for both active and reactive branch_flow_ne\n\n\n\n"
+},
+
+{
+    "location": "variables.html#PowerModels.variable_branch_indicator",
+    "page": "Variables",
+    "title": "PowerModels.variable_branch_indicator",
+    "category": "Function",
+    "text": "variable: 0 <= branch_z[l] <= 1 for l in branches\n\n\n\n"
+},
+
+{
+    "location": "variables.html#PowerModels.variable_branch_ne",
+    "page": "Variables",
+    "title": "PowerModels.variable_branch_ne",
+    "category": "Function",
+    "text": "variable: 0 <= branch_ne[l] <= 1 for l in branches\n\n\n\n"
 },
 
 {
@@ -553,35 +585,19 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "variables.html#PowerModels.variable_line_flow",
+    "location": "variables.html#PowerModels.variable_reactive_branch_flow",
     "page": "Variables",
-    "title": "PowerModels.variable_line_flow",
+    "title": "PowerModels.variable_reactive_branch_flow",
     "category": "Function",
-    "text": "\n\n"
+    "text": "variable: q[l,i,j] for (l,i,j) in arcs\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_line_flow_ne",
+    "location": "variables.html#PowerModels.variable_reactive_branch_flow_ne",
     "page": "Variables",
-    "title": "PowerModels.variable_line_flow_ne",
+    "title": "PowerModels.variable_reactive_branch_flow_ne",
     "category": "Function",
-    "text": "generates variables for both active and reactive line_flow_ne\n\n\n\n"
-},
-
-{
-    "location": "variables.html#PowerModels.variable_line_indicator",
-    "page": "Variables",
-    "title": "PowerModels.variable_line_indicator",
-    "category": "Function",
-    "text": "variable: 0 <= line_z[l] <= 1 for l in branches\n\n\n\n"
-},
-
-{
-    "location": "variables.html#PowerModels.variable_line_ne",
-    "page": "Variables",
-    "title": "PowerModels.variable_line_ne",
-    "category": "Function",
-    "text": "variable: 0 <= line_ne[l] <= 1 for l in branches\n\n\n\n"
+    "text": "variable: -ne_branch[l][\"rate_a\"] <= q_ne[l,i,j] <= ne_branch[l][\"rate_a\"] for (l,i,j) in ne_arcs\n\n\n\n"
 },
 
 {
@@ -598,22 +614,6 @@ var documenterSearchIndex = {"docs": [
     "title": "PowerModels.variable_reactive_generation",
     "category": "Function",
     "text": "variable: qq[j] for j in gen\n\n\n\n"
-},
-
-{
-    "location": "variables.html#PowerModels.variable_reactive_line_flow",
-    "page": "Variables",
-    "title": "PowerModels.variable_reactive_line_flow",
-    "category": "Function",
-    "text": "variable: q[l,i,j] for (l,i,j) in arcs\n\n\n\n"
-},
-
-{
-    "location": "variables.html#PowerModels.variable_reactive_line_flow_ne",
-    "page": "Variables",
-    "title": "PowerModels.variable_reactive_line_flow_ne",
-    "category": "Function",
-    "text": "variable: -ne_branch[l][\"rate_a\"] <= q_ne[l,i,j] <= ne_branch[l][\"rate_a\"] for (l,i,j) in ne_arcs\n\n\n\n"
 },
 
 {
@@ -869,7 +869,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_from_on_off",
     "category": "Function",
-    "text": "\n\np[f_idx] == z*(g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\nq[f_idx] == z*(-(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\n\n\n\n-b*(t[f_bus] - t[t_bus] + t_min*(1-line_z[i])) <= p[f_idx] <= -b*(t[f_bus] - t[t_bus] + t_max*(1-line_z[i]))\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==        g/tm*w_fr[i] + (-g*tr+b*ti)/tm*(wr[i]) + (-b*tr-g*ti)/tm*(wi[i])\nq[f_idx] == -(b+c/2)/tm*w_fr[i] - (-b*tr-g*ti)/tm*(wr[i]) + (-g*tr+b*ti)/tm*(wi[i])\n\n\n\n"
+    "text": "\n\np[f_idx] == z*(g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\nq[f_idx] == z*(-(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\n\n\n\n-b*(t[f_bus] - t[t_bus] + t_min*(1-branch_z[i])) <= p[f_idx] <= -b*(t[f_bus] - t[t_bus] + t_max*(1-branch_z[i]))\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==        g/tm*w_fr[i] + (-g*tr+b*ti)/tm*(wr[i]) + (-b*tr-g*ti)/tm*(wi[i])\nq[f_idx] == -(b+c/2)/tm*w_fr[i] - (-b*tr-g*ti)/tm*(wr[i]) + (-g*tr+b*ti)/tm*(wi[i])\n\n\n\n"
 },
 
 {
@@ -949,7 +949,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_from_on_off",
     "category": "Function",
-    "text": "\n\np[f_idx]^2 + q[f_idx]^2 <= (rate_a * line_z[i])^2\n\n\n\nGeneric on/off thermal limit constraint\n\n-rate_a*line_z[i] <= p[f_idx] <=  rate_a*line_z[i]\n\n\n\n"
+    "text": "\n\np[f_idx]^2 + q[f_idx]^2 <= (rate_a * branch_z[i])^2\n\n\n\nGeneric on/off thermal limit constraint\n\n-rate_a*branch_z[i] <= p[f_idx] <=  rate_a*branch_z[i]\n\n\n\n"
 },
 
 {
@@ -957,7 +957,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_to_on_off",
     "category": "Function",
-    "text": "\n\np[t_idx]^2 + q[t_idx]^2 <= (rate_a * line_z[i])^2\n\n\n\nnothing to do, from handles both sides\n\n\n\n-rate_a*line_z[i] <= p[t_idx] <= rate_a*line_z[i]\n\n\n\n"
+    "text": "\n\np[t_idx]^2 + q[t_idx]^2 <= (rate_a * branch_z[i])^2\n\n\n\nnothing to do, from handles both sides\n\n\n\n-rate_a*branch_z[i] <= p[t_idx] <= rate_a*branch_z[i]\n\n\n\n"
 },
 
 {
@@ -965,7 +965,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_from_ne",
     "category": "Function",
-    "text": "\n\np_ne[f_idx]^2 + q_ne[f_idx]^2 <= (rate_a * line_ne[i])^2\n\n\n\nGeneric on/off thermal limit constraint\n\n-rate_a*line_ne[i] <= p_ne[f_idx] <=  rate_a*line_ne[i]\n\n\n\n"
+    "text": "\n\np_ne[f_idx]^2 + q_ne[f_idx]^2 <= (rate_a * branch_ne[i])^2\n\n\n\nGeneric on/off thermal limit constraint\n\n-rate_a*branch_ne[i] <= p_ne[f_idx] <=  rate_a*branch_ne[i]\n\n\n\n"
 },
 
 {
@@ -973,7 +973,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_to_ne",
     "category": "Function",
-    "text": "\n\np_ne[t_idx]^2 + q_ne[t_idx]^2 <= (rate_a * line_ne[i])^2\n\n\n\nnothing to do, from handles both sides\n\n\n\n"
+    "text": "\n\np_ne[t_idx]^2 + q_ne[t_idx]^2 <= (rate_a * branch_ne[i])^2\n\n\n\nnothing to do, from handles both sides\n\n\n\n"
 },
 
 {
@@ -997,7 +997,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_angle_difference_on_off",
     "category": "Function",
-    "text": "\n\nangmin <= line_z[i]*(t[f_bus] - t[t_bus]) <= angmax\n\n\n\nangmin*line_z[i] + t_min*(1-line_z[i]) <= t[f_bus] - t[t_bus] <= angmax*line_z[i] + t_max*(1-line_z[i])\n\n\n\nangmin*wr[i] <= wi[i] <= angmax*wr[i]\n\n\n\n"
+    "text": "\n\nangmin <= branch_z[i]*(t[f_bus] - t[t_bus]) <= angmax\n\n\n\nangmin*branch_z[i] + t_min*(1-branch_z[i]) <= t[f_bus] - t[t_bus] <= angmax*branch_z[i] + t_max*(1-branch_z[i])\n\n\n\nangmin*wr[i] <= wi[i] <= angmax*wr[i]\n\n\n\n"
 },
 
 {
@@ -1005,7 +1005,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_angle_difference_ne",
     "category": "Function",
-    "text": "\n\nangmin <= line_ne[i]*(t[f_bus] - t[t_bus]) <= angmax\n\n\n\nangmin*line_ne[i] + t_min*(1-line_ne[i]) <= t[f_bus] - t[t_bus] <= angmax*line_ne[i] + t_max*(1-line_ne[i])\n\n\n\nangmin*wr_ne[i] <= wi_ne[i] <= angmax*wr_ne[i]\n\n\n\n"
+    "text": "\n\nangmin <= branch_ne[i]*(t[f_bus] - t[t_bus]) <= angmax\n\n\n\nangmin*branch_ne[i] + t_min*(1-branch_ne[i]) <= t[f_bus] - t[t_bus] <= angmax*branch_ne[i] + t_max*(1-branch_ne[i])\n\n\n\nangmin*wr_ne[i] <= wi_ne[i] <= angmax*wr_ne[i]\n\n\n\n"
 },
 
 {
