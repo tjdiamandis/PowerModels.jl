@@ -1177,6 +1177,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "relaxations.html#PowerModels.relaxation_trilinear-Tuple{Any,Any,Any,Any,Any,Any}",
+    "page": "Relaxation Schemes",
+    "title": "PowerModels.relaxation_trilinear",
+    "category": "Method",
+    "text": "convex hull relaxation of trilinear term\n\nw₁ = getlowerbound(x)*getlowerbound(y)*getlowerbound(z)\nw₂ = getlowerbound(x)*getlowerbound(y)*getupperbound(z)\nw₃ = getlowerbound(x)*getupperbound(y)*getlowerbound(z)\nw₄ = getlowerbound(x)*getupperbound(y)*getupperbound(z)\nw₅ = getupperbound(x)*getlowerbound(y)*getlowerbound(z)\nw₆ = getupperbound(x)*getlowerbound(y)*getupperbound(z)\nw₇ = getupperbound(x)*getupperbound(y)*getlowerbound(z)\nw₈ = getupperbound(x)*getupperbound(y)*getupperbound(z)\nw = λ₁*w₁ + λ₂*w₂ + λ₃*w₃ + λ₄*w₄ + λ₅*w₅ + λ₆*w₆ + λ₇*w₇ + λ₈*w₈\nx = (λ₁ + λ₂ + λ₃ + λ₄)*getlowerbound(x) + (λ₅ + λ₆ + λ₇ + λ₈)*getupperbound(x)\ny = (λ₁ + λ₂ + λ₅ + λ₆)*getlowerbound(x) + (λ₃ + λ₄ + λ₇ + λ₈)*getupperbound(x)\nz = (λ₁ + λ₃ + λ₅ + λ₇)*getlowerbound(x) + (λ₂ + λ₄ + λ₆ + λ₈)*getupperbound(x)\nλ₁ + λ₂ + λ₃ + λ₄ + λ₅ + λ₆ + λ₇ + λ₈ = 1\n\n\n\n"
+},
+
+{
     "location": "relaxations.html#Relaxation-Schemes-1",
     "page": "Relaxation Schemes",
     "title": "Relaxation Schemes",
