@@ -933,7 +933,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_from",
     "category": "Function",
-    "text": "\n\np[f_idx]^2 + q[f_idx]^2 <= rate_a^2\n\n\n\nnorm([p[f_idx]; q[f_idx]]) <= rate_a\n\n\n\n-rate_a <= p[f_idx] <= rate_a\n\n\n\n"
+    "text": "constraint_thermal_limit_from(pm::GenericPowerModel, n::Int, i::Int)\n\nAdds the (upper and lower) thermal limit constraints for the desired branch to the PowerModel.\n\n\n\np[f_idx]^2 + q[f_idx]^2 <= rate_a^2\n\n\n\nnorm([p[f_idx]; q[f_idx]]) <= rate_a\n\n\n\n-rate_a <= p[f_idx] <= rate_a\n\n\n\n"
 },
 
 {
