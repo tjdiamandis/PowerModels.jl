@@ -461,7 +461,23 @@ var documenterSearchIndex = {"docs": [
     "page": "Objective",
     "title": "PowerModels.check_cost_models",
     "category": "Method",
+    "text": "Checks that all cost models are present and of the same type\n\n\n\n"
+},
+
+{
+    "location": "objective.html#PowerModels.check_polynomial_cost_models-Tuple{PowerModels.GenericPowerModel,Any}",
+    "page": "Objective",
+    "title": "PowerModels.check_polynomial_cost_models",
+    "category": "Method",
     "text": "Checks that all cost models are polynomials, quadratic or less\n\n\n\n"
+},
+
+{
+    "location": "objective.html#PowerModels.get_lines-Tuple{Any}",
+    "page": "Objective",
+    "title": "PowerModels.get_lines",
+    "category": "Method",
+    "text": "compute lines in m and b from from pwl cost models data is a list of components\n\n\n\n"
 },
 
 {
@@ -473,9 +489,25 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "objective.html#PowerModels.objective_min_fuel_cost",
+    "location": "objective.html#PowerModels.objective_min_polynomial_fuel_cost",
     "page": "Objective",
-    "title": "PowerModels.objective_min_fuel_cost",
+    "title": "PowerModels.objective_min_polynomial_fuel_cost",
+    "category": "Function",
+    "text": "\n\n"
+},
+
+{
+    "location": "objective.html#PowerModels.objective_min_polynomial_fuel_cost",
+    "page": "Objective",
+    "title": "PowerModels.objective_min_polynomial_fuel_cost",
+    "category": "Function",
+    "text": "\n\n"
+},
+
+{
+    "location": "objective.html#PowerModels.objective_min_pwl_fuel_cost",
+    "page": "Objective",
+    "title": "PowerModels.objective_min_pwl_fuel_cost",
     "category": "Function",
     "text": "\n\n"
 },
@@ -485,7 +517,15 @@ var documenterSearchIndex = {"docs": [
     "page": "Objective",
     "title": "PowerModels.objective_tnep_cost",
     "category": "Function",
-    "text": "Cost of building branchs\n\n\n\n"
+    "text": "Cost of building branches\n\n\n\n"
+},
+
+{
+    "location": "objective.html#PowerModels.slope_intercepts-Tuple{Array{T<:Real,1}}",
+    "page": "Objective",
+    "title": "PowerModels.slope_intercepts",
+    "category": "Method",
+    "text": "compute m and b from points pwl points\n\n\n\n"
 },
 
 {
