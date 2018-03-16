@@ -909,7 +909,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_from_on_off",
     "category": "function",
-    "text": "\n\np[f_idx] == z*(g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\nq[f_idx] == z*(-(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\n\n\n\n-b*(t[f_bus] - t[t_bus] + t_min*(1-branch_z[i])) <= p[f_idx] <= -b*(t[f_bus] - t[t_bus] + t_max*(1-branch_z[i]))\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==        g/tm*w_fr[i] + (-g*tr+b*ti)/tm*(wr[i]) + (-b*tr-g*ti)/tm*(wi[i])\nq[f_idx] == -(b+c/2)/tm*w_fr[i] - (-b*tr-g*ti)/tm*(wr[i]) + (-g*tr+b*ti)/tm*(wi[i])\n\n\n\n"
+    "text": "\n\np[f_idx] == z*(g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\nq[f_idx] == z*(-(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\n\n\n\n-b*(t[f_bus] - t[t_bus] + vad_min*(1-branch_z[i])) <= p[f_idx] <= -b*(t[f_bus] - t[t_bus] + vad_max*(1-branch_z[i]))\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==        g/tm*w_fr[i] + (-g*tr+b*ti)/tm*(wr[i]) + (-b*tr-g*ti)/tm*(wi[i])\nq[f_idx] == -(b+c/2)/tm*w_fr[i] - (-b*tr-g*ti)/tm*(wr[i]) + (-g*tr+b*ti)/tm*(wi[i])\n\n\n\n"
 },
 
 {
@@ -1037,7 +1037,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_angle_difference_on_off",
     "category": "function",
-    "text": "\n\nangmin <= branch_z[i]*(t[f_bus] - t[t_bus]) <= angmax\n\n\n\nangmin*branch_z[i] + t_min*(1-branch_z[i]) <= t[f_bus] - t[t_bus] <= angmax*branch_z[i] + t_max*(1-branch_z[i])\n\n\n\nangmin*wr[i] <= wi[i] <= angmax*wr[i]\n\n\n\n"
+    "text": "\n\nangmin <= branch_z[i]*(t[f_bus] - t[t_bus]) <= angmax\n\n\n\nangmin*branch_z[i] + vad_min*(1-branch_z[i]) <= t[f_bus] - t[t_bus] <= angmax*branch_z[i] + vad_max*(1-branch_z[i])\n\n\n\nangmin*wr[i] <= wi[i] <= angmax*wr[i]\n\n\n\n"
 },
 
 {
@@ -1045,7 +1045,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_angle_difference_ne",
     "category": "function",
-    "text": "\n\nangmin <= branch_ne[i]*(t[f_bus] - t[t_bus]) <= angmax\n\n\n\nangmin*branch_ne[i] + t_min*(1-branch_ne[i]) <= t[f_bus] - t[t_bus] <= angmax*branch_ne[i] + t_max*(1-branch_ne[i])\n\n\n\nangmin*wr_ne[i] <= wi_ne[i] <= angmax*wr_ne[i]\n\n\n\n"
+    "text": "\n\nangmin <= branch_ne[i]*(t[f_bus] - t[t_bus]) <= angmax\n\n\n\nangmin*branch_ne[i] + vad_min*(1-branch_ne[i]) <= t[f_bus] - t[t_bus] <= angmax*branch_ne[i] + vad_max*(1-branch_ne[i])\n\n\n\nangmin*wr_ne[i] <= wi_ne[i] <= angmax*wr_ne[i]\n\n\n\n"
 },
 
 {
