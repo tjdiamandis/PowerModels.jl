@@ -1281,6 +1281,70 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "parser.html#PowerModels.parse_pti",
+    "page": "File IO",
+    "title": "PowerModels.parse_pti",
+    "category": "function",
+    "text": "parse_pti(filename)\n\nOpen PTI raw file given by filename, passing the file contents as a string to the main PTI parser, returning a Dict of all the data parsed into the proper types.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.get_pti_sections",
+    "page": "File IO",
+    "title": "PowerModels.get_pti_sections",
+    "category": "function",
+    "text": "get_pti_sections()\n\nReturns Array of the names of the sections, in the order that they appear in a PTI file, v33+\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.get_pti_dtypes",
+    "page": "File IO",
+    "title": "PowerModels.get_pti_dtypes",
+    "category": "function",
+    "text": "get_pti_dtypes(field_name)\n\nReturns OrderedDict of data types for PTI file section given by field_name, as enumerated by PSS/E Program Operation Manual\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.parse_line_element!",
+    "page": "File IO",
+    "title": "PowerModels.parse_line_element!",
+    "category": "function",
+    "text": "parse_line_element!(data, elements, section)\n\nParses a single \"line\" of data elements from a PTI file, as given by elements which is an array of the line, typically split at ,. Elements are parsed into data types given by section and saved into data::Dict\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.add_section_data!",
+    "page": "File IO",
+    "title": "PowerModels.add_section_data!",
+    "category": "function",
+    "text": "add_section_data!(pti_data, section_data, section)\n\nAdds section_data::Dict, which contains all parsed elements of a PTI file section given by section, into the parent pti_data::Dict\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.get_line_elements",
+    "page": "File IO",
+    "title": "PowerModels.get_line_elements",
+    "category": "function",
+    "text": "get_line_elements(line)\n\nUses regular expressions to extract all separate data elements from a line of a PTI file and populate them into an Array{String}. Comments, typically indicated at the end of a line with a \'/\' character, are also extracted separately, and Array{Array{String}, String} is returned.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.parse_pti_data",
+    "page": "File IO",
+    "title": "PowerModels.parse_pti_data",
+    "category": "function",
+    "text": "parse_pti_data(data_string, sections)\n\nParse a PTI raw file into a Dict, given the data_string of the file and a list of the sections in the PTI file (typically given by default by get_pti_sections().\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PTI-Data-Files-(PSS/E)-1",
+    "page": "File IO",
+    "title": "PTI Data Files (PSS/E)",
+    "category": "section",
+    "text": "Note: This feature is currently in development, and only the parsing of PTI files into a Dict containing all of the raw data directly from the PTI file is currently supported. No data conversion to a PowerModels supported format is available yet.The following method is the main exported method for parsing PTI data files:parse_ptiThe following internal helper methods are also provided:get_pti_sections\nget_pti_dtypes\nparse_line_element!\nadd_section_data!\nget_line_elements\nparse_pti_data"
+},
+
+{
     "location": "developer.html#",
     "page": "Developer",
     "title": "Developer",
