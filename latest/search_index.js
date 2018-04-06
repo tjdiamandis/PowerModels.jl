@@ -237,7 +237,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Formulations",
     "title": "Type Hierarchy",
     "category": "section",
-    "text": "We begin with the top of the hierarchy, where we can distinguish between AC and DC power flow models.AbstractACPForm <: AbstractPowerFormulation\nAbstractDCPForm <: AbstractPowerFormulation\nAbstractWRForm <: AbstractPowerFormulationFrom there, different forms for ACP and DCP are possible:StandardACPForm <: AbstractACPForm\nAPIACPForm <: AbstractACPForm\n\nStandardDCPForm <: AbstractDCPForm\n\nSOCWRForm <: AbstractWRForm\nQCWRForm <: AbstractWRForm"
+    "text": "We begin with the top of the hierarchy, where we can distinguish between AC and DC power flow models.AbstractACPForm <: AbstractPowerFormulation\nAbstractDCPForm <: AbstractPowerFormulation\nAbstractWRForm <: AbstractPowerFormulation\nAbstractWForm <: AbstractPowerFormulationFrom there, different forms for ACP and DCP are possible:StandardACPForm <: AbstractACPForm\nAPIACPForm <: AbstractACPForm\n\nStandardDCPForm <: AbstractDCPForm\n\nSOCWRForm <: AbstractWRForm\nQCWRForm <: AbstractWRForm\n\nSOCDFForm <: AbstractWForm"
 },
 
 {
@@ -245,7 +245,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Formulations",
     "title": "Power Models",
     "category": "section",
-    "text": "Each of these forms can be used as the type parameter for a PowerModel:ACPPowerModel = GenericPowerModel{StandardACPForm}\nAPIACPPowerModel = GenericPowerModel{APIACPForm}\n\nDCPPowerModel = GenericPowerModel{StandardDCPForm}\n\nSOCWRPowerModel = GenericPowerModel{SOCWRForm}\nQCWRPowerModel = GenericPowerModel{QCWRForm}For details on GenericPowerModel, see the section on Power Model."
+    "text": "Each of these forms can be used as the type parameter for a PowerModel:ACPPowerModel = GenericPowerModel{StandardACPForm}\nAPIACPPowerModel = GenericPowerModel{APIACPForm}\n\nDCPPowerModel = GenericPowerModel{StandardDCPForm}\n\nSOCWRPowerModel = GenericPowerModel{SOCWRForm}\nQCWRPowerModel = GenericPowerModel{QCWRForm}\n\nSOCDFPowerModel = GenericPowerModel{SOCDFForm}For details on GenericPowerModel, see the section on Power Model."
 },
 
 {
@@ -305,6 +305,38 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "specifications.html#Optimal-Power-Flow-(OPF)-using-the-Branch-Flow-Model-1",
+    "page": "Problem Specifications",
+    "title": "Optimal Power Flow (OPF) using the Branch Flow Model",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "specifications.html#Objective-2",
+    "page": "Problem Specifications",
+    "title": "Objective",
+    "category": "section",
+    "text": "objective_min_fuel_cost(pm)"
+},
+
+{
+    "location": "specifications.html#Variables-2",
+    "page": "Problem Specifications",
+    "title": "Variables",
+    "category": "section",
+    "text": "variable_voltage(pm)\nvariable_active_generation(pm)\nvariable_reactive_generation(pm)\nvariable_branch_flow(pm)\nvariable_branch_current(pm)\nvariable_dcline_flow(pm)"
+},
+
+{
+    "location": "specifications.html#Constraints-2",
+    "page": "Problem Specifications",
+    "title": "Constraints",
+    "category": "section",
+    "text": "constraint_theta_ref(pm)\nconstraint_voltage(pm)\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\nend\nfor (i,branch) in pm.ref[:branch]\n    constraint_flow_losses(pm, branch)\n    constraint_voltage_magnitude_difference(pm, branch)\n    constraint_branch_current(pm, branch)\n\n    constraint_voltage_angle_difference(pm, branch)\n\n    constraint_thermal_limit_from(pm, branch)\n    constraint_thermal_limit_to(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_dcline(pm, dcline)\nend"
+},
+
+{
     "location": "specifications.html#Optimal-Transmission-Switching-(OTS)-1",
     "page": "Problem Specifications",
     "title": "Optimal Transmission Switching (OTS)",
@@ -321,7 +353,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#Variables-2",
+    "location": "specifications.html#Variables-3",
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
@@ -329,7 +361,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#Objective-2",
+    "location": "specifications.html#Objective-3",
     "page": "Problem Specifications",
     "title": "Objective",
     "category": "section",
@@ -337,7 +369,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#Constraints-2",
+    "location": "specifications.html#Constraints-3",
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
@@ -361,7 +393,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#Variables-3",
+    "location": "specifications.html#Variables-4",
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
@@ -369,11 +401,43 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#Constraints-3",
+    "location": "specifications.html#Constraints-4",
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
     "text": "constraint_theta_ref(pm)\nconstraint_voltage_magnitude_setpoint(pm, pm.ref[:bus][pm.ref[:ref_bus]])\nconstraint_voltage(pm)\n\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\n\n    # PV Bus Constraints\n    if length(pm.ref[:bus_gens][i]) > 0 && i != pm.ref[:ref_bus]\n        # this assumes inactive generators are filtered out of bus_gens\n        @assert bus[\"bus_type\"] == 2\n\n        constraint_voltage_magnitude_setpoint(pm, bus)\n        for j in pm.ref[:bus_gens][i]\n            constraint_active_gen_setpoint(pm, pm.ref[:gen][j])\n        end\n    end\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_active_dcline_setpoint(pm, dcline)\nend"
+},
+
+{
+    "location": "specifications.html#Power-Flow-(PF)-using-the-Branch-Flow-Model-1",
+    "page": "Problem Specifications",
+    "title": "Power Flow (PF) using the Branch Flow Model",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "specifications.html#Assumptions-2",
+    "page": "Problem Specifications",
+    "title": "Assumptions",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "specifications.html#Variables-5",
+    "page": "Problem Specifications",
+    "title": "Variables",
+    "category": "section",
+    "text": "variable_voltage(pm, bounded = false)\nvariable_active_generation(pm, bounded = false)\nvariable_reactive_generation(pm, bounded = false)\nvariable_branch_flow(pm, bounded = false)\nconstraint_branch_current(pm, bounded = false)\nvariable_branch_current(pm, bounded = false)"
+},
+
+{
+    "location": "specifications.html#Constraints-5",
+    "page": "Problem Specifications",
+    "title": "Constraints",
+    "category": "section",
+    "text": "constraint_theta_ref(pm)\nconstraint_voltage_magnitude_setpoint(pm, pm.ref[:bus][pm.ref[:ref_bus]])\nconstraint_voltage(pm)\n\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\n\n    # PV Bus Constraints\n    if length(pm.ref[:bus_gens][i]) > 0 && i != pm.ref[:ref_bus]\n        # this assumes inactive generators are filtered out of bus_gens\n        @assert bus[\"bus_type\"] == 2\n\n        constraint_voltage_magnitude_setpoint(pm, bus)\n        for j in pm.ref[:bus_gens][i]\n            constraint_active_gen_setpoint(pm, pm.ref[:gen][j])\n        end\n    end\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_flow_losses(pm, branch)\n    constraint_voltage_magnitude_difference(pm, branch)\n    constraint_branch_current(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_active_dcline_setpoint(pm, dcline)\nend"
 },
 
 {
@@ -385,7 +449,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#Objective-3",
+    "location": "specifications.html#Objective-4",
     "page": "Problem Specifications",
     "title": "Objective",
     "category": "section",
@@ -393,7 +457,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#Variables-4",
+    "location": "specifications.html#Variables-6",
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
@@ -401,7 +465,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "specifications.html#Constraints-4",
+    "location": "specifications.html#Constraints-6",
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
@@ -1357,7 +1421,119 @@ var documenterSearchIndex = {"docs": [
     "page": "Developer",
     "title": "Developer Documentation",
     "category": "section",
-    "text": "Nothing yet."
+    "text": ""
+},
+
+{
+    "location": "developer.html#Variable-and-parameter-naming-scheme-1",
+    "page": "Developer",
+    "title": "Variable and parameter naming scheme",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "developer.html#Suffixes-1",
+    "page": "Developer",
+    "title": "Suffixes",
+    "category": "section",
+    "text": "_fr: from-side (\'i\'-node)\n_to: to-side (\'j\'-node)"
+},
+
+{
+    "location": "developer.html#Power-1",
+    "page": "Developer",
+    "title": "Power",
+    "category": "section",
+    "text": "Defining power s = p + j cdot q and sm = ss: complex power (VA)\nsm: apparent power (VA)\np: active power (W)\nq: reactive power (var)"
+},
+
+{
+    "location": "developer.html#Voltage-1",
+    "page": "Developer",
+    "title": "Voltage",
+    "category": "section",
+    "text": "Defining voltage v = vm angle va = vr + j cdot vi:vm: magnitude of (complex) voltage (V)\nva: angle of complex voltage (rad)\nvr: real part of (complex) voltage (V)\nvi: imaginary part of complex voltage (V)"
+},
+
+{
+    "location": "developer.html#Current-1",
+    "page": "Developer",
+    "title": "Current",
+    "category": "section",
+    "text": "Defining current c = cm angle ca = cr + j cdot ci:cm: magnitude of (complex) current (A)\nca: angle of complex current (rad)\ncr: real part of (complex) current (A)\nci: imaginary part of complex current (A)"
+},
+
+{
+    "location": "developer.html#Voltage-products-1",
+    "page": "Developer",
+    "title": "Voltage products",
+    "category": "section",
+    "text": "Defining voltage product w = v_i cdot v_j then w = wm angle wa = wr + jcdot wi:wm (short for vvm): magnitude of (complex) voltage products (V^2)\nwa (short for vva): angle of complex voltage products (rad)\nwr (short for vvr): real part of (complex) voltage products (V^2)\nwi (short for vvi): imaginary part of complex voltage products (V^2)"
+},
+
+{
+    "location": "developer.html#Current-products-1",
+    "page": "Developer",
+    "title": "Current products",
+    "category": "section",
+    "text": "Defining current product cc = c_i cdot c_j then cc = ccm angle cca = ccr + jcdot cci:ccm: magnitude of (complex) current products (A^2)\ncca: angle of complex current products (rad)\nccr: real part of (complex) current products (A^2)\ncci: imaginary part of complex current products (A^2)"
+},
+
+{
+    "location": "developer.html#Transformer-ratio-1",
+    "page": "Developer",
+    "title": "Transformer ratio",
+    "category": "section",
+    "text": "Defining complex transformer ratio t = tm angle ta = tr + jcdot ti:tm: magnitude of (complex) transformer ratio (-)\nta: angle of complex transformer ratio (rad)\ntr: real part of (complex) transformer ratio (-)\nti: imaginary part of complex transformer ratio (-)"
+},
+
+{
+    "location": "developer.html#Impedance-1",
+    "page": "Developer",
+    "title": "Impedance",
+    "category": "section",
+    "text": "Defining impedance z = r + jcdot x:r: resistance (Omega)\nx: reactance (Omega)"
+},
+
+{
+    "location": "developer.html#Admittance-1",
+    "page": "Developer",
+    "title": "Admittance",
+    "category": "section",
+    "text": "Defining admittance y = g + jcdot b:g: conductance (S)\nb: susceptance (S)"
+},
+
+{
+    "location": "developer.html#DistFlow-derivation-1",
+    "page": "Developer",
+    "title": "DistFlow derivation",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "developer.html#For-an-asymmetric-pi-section-1",
+    "page": "Developer",
+    "title": "For an asymmetric pi section",
+    "category": "section",
+    "text": "Following notation of [1], but recognizing it derives the SOC BFM without shunts. In a pi-section, part of the total current $ I_{lij}$ at the from side flows through the series impedance, I ^s_lij, part of it flows through the from side shunt admittance $ I^{sh}_{lij}$. Vice versa for the to-side. Indicated by superscripts \'s\' (series) and \'sh\' (shunt).Ohm\'s law: U^mag_j angle theta_j = U^mag_iangle theta_i  - z^s_lij cdot I^s_lij forall lij\nKCL at shunts: $ I_{lij} = I^{s}_{lij} + I^{sh}_{lij}$, $ I_{lji} = I^{s}_{lji} + I^{sh}_{lji} $\nObserving: I^s_lij = - I^s_lji, $ \\vert I^{s}_{lij} \\vert = \\vert I^{s}_{lji} \\vert $\nOhm\'s law times its own complex conjugate: (U^mag_j)^2 = (U^mag_iangle theta_i  - z^s_lij cdot I^s_lij)cdot (U^mag_iangle theta_i  - z^s_lij cdot I^s_lij)^*\nDefining S^s_lij = P^s_lij + jcdot Q^s_lij = (U^mag_iangle theta_i) cdot (I^s_lij)^*\nWorking it out (U^mag_j)^2 = (U^mag_i)^2 - 2 cdot(r^s_lij cdot P^s_lij + x^s_lij cdot Q^s_lij)  + ((r^s_lij)^2 + (x^s_lij)^2)vert I^s_lij vert^2Power flow balance w.r.t. branch total lossesActive power flow:   P_lij + $ P_{lji} $ = $  g^{sh}_{lij} \\cdot (U^{mag}_{i})^2 + r^{s}_{l} \\cdot \\vert I^{s}_{lij} \\vert^2 +  g^{sh}_{lji} \\cdot  (U^{mag}_{j})^2 $\nReactive power flow: Q_lij + $ Q_{lji} $ = $ -b^{sh}_{lij} \\cdot (U^{mag}_{i})^2 + x^{s}_{l} \\cdot \\vert I^{s}_{lij} \\vert^2  - b^{sh}_{lji} \\cdot  (U^{mag}_{j})^2 $\nCurrent definition: $ \\vert S^{s}_{lij} \\vert^2  $ $=(U^{mag}_{i})^2 \\cdot \\vert I^{s}_{lij} \\vert^2 $Substitution:Voltage from: (U^mag_i)^2 rightarrow w_i\nVoltage to: (U^mag_j)^2 rightarrow w_j\nSeries current : vert I^s_lij vert^2 rightarrow l^s_lNote that l^s_l represents squared magnitude of the series current, i.e. the current flow through the series impedance in the pi-model.Power flow balance w.r.t. branch total lossesActive power flow:   P_lij + $ P_{lji} $ = $  g^{sh}_{lij} \\cdot w_{i} + r^{s}_{l} \\cdot l^{s}_{l} +  g^{sh}_{lji} \\cdot  w_{j} $\nReactive power flow: Q_lij + $ Q_{lji} $ = $ -b^{sh}_{lij} \\cdot w_{i} + x^{s}_{l} \\cdot l^{s}_{l}  - b^{sh}_{lji} \\cdot  w_{j} $Power flow balance w.r.t. branch series losses:Series active power flow : P^s_lij + P^s_lji $ = r^{s}_{l} \\cdot l^{s}_{l} $\nSeries reactive power flow: Q^s_lij + Q^s_lji $ = x^{s}_{l} \\cdot l^{s}_{l} $Valid equality to link w_i l_lij P^s_lij Q^s_lij:Nonconvex current definition: (P^s_lij)^2 + (Q^s_lij)^2  $=w_{i} \\cdot l_{lij} $\nSOC current definition: (P^s_lij)^2 + (Q^s_lij)^2  leq $ w_{i} \\cdot l_{lij} $"
+},
+
+{
+    "location": "developer.html#Adding-an-ideal-transformer-1",
+    "page": "Developer",
+    "title": "Adding an ideal transformer",
+    "category": "section",
+    "text": "Adding an ideal transformer at the from side implicitly creates an internal branch voltage, between the transformer and the pi-section.new voltage: w^_l\nideal voltage magnitude transformer: w^_l = fracw_i(t^mag)^2W.r.t to the pi-section only formulation, we effectively perform the following substitution in all the equations above:$ w_{i} \\rightarrow \\frac{w_{i}}{(t^{mag})^2}$The branch\'s power balance isn\'t otherwise impacted by adding the ideal transformer, as such transformer is lossless."
+},
+
+{
+    "location": "developer.html#Adding-total-current-limits-1",
+    "page": "Developer",
+    "title": "Adding total current limits",
+    "category": "section",
+    "text": "Total current from: $ \\vert I_{lij} \\vert \\leq I^{rated}_{l}$\nTotal current to: $ \\vert I_{lji} \\vert \\leq I^{rated}_{l}$In squared voltage magnitude variables:Total current from: $ (P_{lij})^2$ + (Q_lij)^2  leq (I^rated_l)^2 cdot  w_i\nTotal current to: $ (P_{lji})^2$ + (Q_lji)^2  leq (I^rated_l)^2 cdot w_j[1] Gan, L., Li, N., Topcu, U., & Low, S. (2012). Branch flow model for radial networks: convex relaxation. 51st IEEE Conference on Decision and Control, 1–8. Retrieved from http://smart.caltech.edu/papers/ExactRelaxation.pdf"
 },
 
 {
