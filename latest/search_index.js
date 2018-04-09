@@ -1317,7 +1317,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PowerModels.parse_file",
     "category": "function",
-    "text": "\n\n"
+    "text": "parse_file(file)\n\nParses a Matpower .m file or PTI (PSS(R)E-v33) .raw file into a PowerModels data structure.\n\n\n\n"
 },
 
 {
@@ -1353,51 +1353,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "parser.html#PowerModels.get_pti_sections",
+    "location": "parser.html#PowerModels.parse_psse",
     "page": "File IO",
-    "title": "PowerModels.get_pti_sections",
+    "title": "PowerModels.parse_psse",
     "category": "function",
-    "text": "get_pti_sections()\n\nReturns Array of the names of the sections, in the order that they appear in a PTI file, v33+\n\n\n\n"
-},
-
-{
-    "location": "parser.html#PowerModels.get_pti_dtypes",
-    "page": "File IO",
-    "title": "PowerModels.get_pti_dtypes",
-    "category": "function",
-    "text": "get_pti_dtypes(field_name)\n\nReturns OrderedDict of data types for PTI file section given by field_name, as enumerated by PSS/E Program Operation Manual\n\n\n\n"
-},
-
-{
-    "location": "parser.html#PowerModels.parse_line_element!",
-    "page": "File IO",
-    "title": "PowerModels.parse_line_element!",
-    "category": "function",
-    "text": "parse_line_element!(data, elements, section)\n\nParses a single \"line\" of data elements from a PTI file, as given by elements which is an array of the line, typically split at ,. Elements are parsed into data types given by section and saved into data::Dict\n\n\n\n"
-},
-
-{
-    "location": "parser.html#PowerModels.add_section_data!",
-    "page": "File IO",
-    "title": "PowerModels.add_section_data!",
-    "category": "function",
-    "text": "add_section_data!(pti_data, section_data, section)\n\nAdds section_data::Dict, which contains all parsed elements of a PTI file section given by section, into the parent pti_data::Dict\n\n\n\n"
-},
-
-{
-    "location": "parser.html#PowerModels.get_line_elements",
-    "page": "File IO",
-    "title": "PowerModels.get_line_elements",
-    "category": "function",
-    "text": "get_line_elements(line)\n\nUses regular expressions to extract all separate data elements from a line of a PTI file and populate them into an Array{String}. Comments, typically indicated at the end of a line with a \'/\' character, are also extracted separately, and Array{Array{String}, String} is returned.\n\n\n\n"
-},
-
-{
-    "location": "parser.html#PowerModels.parse_pti_data",
-    "page": "File IO",
-    "title": "PowerModels.parse_pti_data",
-    "category": "function",
-    "text": "parse_pti_data(data_string, sections)\n\nParse a PTI raw file into a Dict, given the data_string of the file and a list of the sections in the PTI file (typically given by default by get_pti_sections().\n\n\n\n"
+    "text": "parse_psse(pti_data)\n\nConverts PSS(R)E-style data parsed from a PTI raw file, passed by pti_data into a format suitable for use internally in PowerModels.\n\n\n\nParses directly from file\n\n\n\n"
 },
 
 {
@@ -1405,7 +1365,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PTI Data Files (PSS/E)",
     "category": "section",
-    "text": "Note: This feature is currently in development, and only the parsing of PTI files into a Dict containing all of the raw data directly from the PTI file is currently supported. No data conversion to a PowerModels supported format is available yet.The following method is the main exported method for parsing PTI data files:parse_ptiThe following internal helper methods are also provided:get_pti_sections\nget_pti_dtypes\nparse_line_element!\nadd_section_data!\nget_line_elements\nparse_pti_data"
+    "text": "Note: This feature is currently in development, and only partial parsing of and conversion of PTI files into a PowerModels format is supported. The following power network components are currently supported: buses, loads, shunts (fixed and approximation of switched), branches, two-winding transformers (without magnetizing admittance), and generators. There is early support for two-terminal dc lines, but this feature should not be relied upon.The following method is the main exported method for parsing PTI data files:parse_pti\nparse_psseThe following internal helper methods are also provided:get_pti_sections\nget_pti_dtypes\nparse_line_element!\nadd_section_data!\nget_line_elements\nparse_pti_data\nconvert_vsc_to_dcline\nwye_delta_transform\npsse2pm_branch!\npsse2pm_generator!\npsse2pm_bus!\npsse2pm_load!\npsse2pm_shunt!\npsse2pm_transformer!\npsse2pm_dclines\ncalc_2term_reactive_power\nget_bus_values\n"
 },
 
 {
