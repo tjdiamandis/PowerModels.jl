@@ -521,7 +521,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "objective.html#PowerModels.check_cost_models-Tuple{PowerModels.GenericPowerModel,Any}",
+    "location": "objective.html#PowerModels.check_cost_models-Tuple{PowerModels.GenericPowerModel}",
     "page": "Objective",
     "title": "PowerModels.check_cost_models",
     "category": "method",
@@ -529,7 +529,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "objective.html#PowerModels.check_polynomial_cost_models-Tuple{PowerModels.GenericPowerModel,Any}",
+    "location": "objective.html#PowerModels.check_polynomial_cost_models-Tuple{PowerModels.GenericPowerModel}",
     "page": "Objective",
     "title": "PowerModels.check_polynomial_cost_models",
     "category": "method",
@@ -545,23 +545,15 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "objective.html#PowerModels.objective_min_fuel_cost",
+    "location": "objective.html#PowerModels.objective_min_fuel_cost-Tuple{PowerModels.GenericPowerModel}",
     "page": "Objective",
     "title": "PowerModels.objective_min_fuel_cost",
-    "category": "function",
+    "category": "method",
     "text": "\n\n"
 },
 
 {
-    "location": "objective.html#PowerModels.objective_min_polynomial_fuel_cost",
-    "page": "Objective",
-    "title": "PowerModels.objective_min_polynomial_fuel_cost",
-    "category": "function",
-    "text": "\n\n"
-},
-
-{
-    "location": "objective.html#PowerModels.objective_min_polynomial_fuel_cost-Union{Tuple{PowerModels.GenericPowerModel{T},Any}, Tuple{PowerModels.GenericPowerModel{T}}, Tuple{T}} where T<:PowerModels.AbstractConicPowerFormulation",
+    "location": "objective.html#PowerModels.objective_min_polynomial_fuel_cost-Tuple{PowerModels.GenericPowerModel}",
     "page": "Objective",
     "title": "PowerModels.objective_min_polynomial_fuel_cost",
     "category": "method",
@@ -569,18 +561,26 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "objective.html#PowerModels.objective_min_pwl_fuel_cost",
+    "location": "objective.html#PowerModels.objective_min_polynomial_fuel_cost-Union{Tuple{PowerModels.GenericPowerModel{T}}, Tuple{T}} where T<:PowerModels.AbstractConicPowerFormulation",
     "page": "Objective",
-    "title": "PowerModels.objective_min_pwl_fuel_cost",
-    "category": "function",
+    "title": "PowerModels.objective_min_polynomial_fuel_cost",
+    "category": "method",
     "text": "\n\n"
 },
 
 {
-    "location": "objective.html#PowerModels.objective_tnep_cost",
+    "location": "objective.html#PowerModels.objective_min_pwl_fuel_cost-Tuple{PowerModels.GenericPowerModel}",
+    "page": "Objective",
+    "title": "PowerModels.objective_min_pwl_fuel_cost",
+    "category": "method",
+    "text": "\n\n"
+},
+
+{
+    "location": "objective.html#PowerModels.objective_tnep_cost-Tuple{PowerModels.GenericPowerModel}",
     "page": "Objective",
     "title": "PowerModels.objective_tnep_cost",
-    "category": "function",
+    "category": "method",
     "text": "Cost of building branches\n\n\n\n"
 },
 
