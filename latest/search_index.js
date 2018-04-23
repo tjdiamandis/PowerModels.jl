@@ -1317,7 +1317,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PowerModels.parse_file",
     "category": "function",
-    "text": "parse_file(file)\n\nParses a Matpower .m file or PTI (PSS(R)E-v33) .raw file into a PowerModels data structure.\n\n\n\n"
+    "text": "parse_file(file; import_all)\n\nParses a Matpower .m file or PTI (PSS(R)E-v33) .raw file into a PowerModels data structure. All fields from PTI files will be imported if import_all is true (Default: false).\n\n\n\n"
 },
 
 {
@@ -1357,7 +1357,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PowerModels.parse_psse",
     "category": "function",
-    "text": "parse_psse(pti_data)\n\nConverts PSS(R)E-style data parsed from a PTI raw file, passed by pti_data into a format suitable for use internally in PowerModels.\n\n\n\nParses directly from file\n\n\n\n"
+    "text": "parse_psse(pti_data)\n\nConverts PSS(R)E-style data parsed from a PTI raw file, passed by pti_data into a format suitable for use internally in PowerModels. Imports all remaining data from the PTI file if import_all is true (Default: false).\n\n\n\nParses directly from file\n\n\n\n"
 },
 
 {
@@ -1365,7 +1365,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PTI Data Files (PSS/E)",
     "category": "section",
-    "text": "Note: This feature is currently in development, and only partial parsing of and conversion of PTI files into a PowerModels format is supported. The following power network components are currently supported: buses, loads, shunts (fixed and approximation of switched), branches, two-winding and three-winding transformers (incl. magnetizing admittance), and generators. There is early support for two-terminal dc lines, but this feature should not be relied upon.The following method is the main exported method for parsing PTI data files:parse_pti\nparse_psseThe following internal helper methods are also provided:get_pti_sections\nget_pti_dtypes\nparse_line_element!\nadd_section_data!\nget_line_elements\nparse_pti_data\nconvert_vsc_to_dcline\nwye_delta_transform\npsse2pm_branch!\npsse2pm_generator!\npsse2pm_bus!\npsse2pm_load!\npsse2pm_shunt!\npsse2pm_transformer!\npsse2pm_dclines\ncalc_2term_reactive_power\nget_bus_values\nfind_max_bus_id\ncreate_starbus_from_transformer"
+    "text": "Note: This feature is currently in development, and only partial parsing of and conversion of PTI files into a PowerModels format is supported. The following power network components are currently supported: buses, loads, shunts (fixed and approximation of switched), branches, two-winding and three-winding transformers (incl. magnetizing admittance), and generators. There is early support for two-terminal dc lines, but this feature should not be relied upon.The following method is the main exported method for parsing PTI data files:parse_pti\nparse_psseThe following internal helper methods are also provided:get_pti_sections\nget_pti_dtypes\nparse_line_element!\nadd_section_data!\nget_line_elements\nparse_pti_data\nconvert_vsc_to_dcline\nwye_delta_transform\npsse2pm_branch!\npsse2pm_generator!\npsse2pm_bus!\npsse2pm_load!\npsse2pm_shunt!\npsse2pm_transformer!\npsse2pm_dclines\ncalc_2term_reactive_power\nget_bus_values\nfind_max_bus_id\ncreate_starbus_from_transformer\nimport_remaining!"
 },
 
 {
