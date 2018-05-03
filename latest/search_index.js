@@ -45,7 +45,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Quick Start Guide",
     "category": "section",
-    "text": "Once PowerModels is installed, Ipopt is installed, and a network data file (e.g. \"nesta_case3_lmbd.m\") has been acquired, an AC Optimal Power Flow can be executed with,using PowerModels\nusing Ipopt\n\nrun_ac_opf(\"nesta_case3_lmbd.m\", IpoptSolver())Similarly, a DC Optimal Power Flow can be executed withrun_dc_opf(\"nesta_case3_lmbd.m\", IpoptSolver())"
+    "text": "Once PowerModels is installed, Ipopt is installed, and a network data file (e.g. \"nesta_case3_lmbd.m\" or \"nesta_case3_lmbd.raw\") has been acquired, an AC Optimal Power Flow can be executed with,using PowerModels\nusing Ipopt\n\nrun_ac_opf(\"nesta_case3_lmbd.m\", IpoptSolver())Similarly, a DC Optimal Power Flow can be executed withrun_dc_opf(\"nesta_case3_lmbd.m\", IpoptSolver())PTI .raw files in the PSS(R)E v33 specification can be run similarly, e.g. in the case of an AC Optimal Power Flowrun_ac_opf(\"nesta_case3_lmbd.raw\", IpoptSolver())"
 },
 
 {
@@ -53,7 +53,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Getting Results",
     "category": "section",
-    "text": "The run commands in PowerModels return detailed results data in the form of a dictionary. This dictionary can be saved for further processing as follows,result = run_ac_opf(\"nesta_case3_lmbd.m\", IpoptSolver())For example, the algorithm\'s runtime and final objective value can be accessed with,result[\"solve_time\"]\nresult[\"objective\"]The \"solution\" field contains detailed information about the solution produced by the run method. For example, the following dictionary comprehension can be used to inspect the bus phase angles in the solution,Dict(name => data[\"va\"] for (name, data) in result[\"solution\"][\"bus\"])For more information about PowerModels result data see the PowerModels Result Data Format section."
+    "text": "The run commands in PowerModels return detailed results data in the form of a dictionary. Results dictionaries from either Matpower .m or PTI .raw files will be identical in format. This dictionary can be saved for further processing as follows,result = run_ac_opf(\"nesta_case3_lmbd.m\", IpoptSolver())For example, the algorithm\'s runtime and final objective value can be accessed with,result[\"solve_time\"]\nresult[\"objective\"]The \"solution\" field contains detailed information about the solution produced by the run method. For example, the following dictionary comprehension can be used to inspect the bus phase angles in the solution,Dict(name => data[\"va\"] for (name, data) in result[\"solution\"][\"bus\"])For more information about PowerModels result data see the PowerModels Result Data Format section."
 },
 
 {
@@ -69,7 +69,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Modifying Network Data",
     "category": "section",
-    "text": "The following example demonstrates one way to perform multiple PowerModels solves while modifing the network data in Julia,network_data = PowerModels.parse_file(\"nesta_case3_lmbd.m\")\n\nrun_opf(network_data, ACPPowerModel, IpoptSolver())\n\nnetwork_data[\"load\"][\"3\"][\"pd\"] = 0.0\nnetwork_data[\"load\"][\"3\"][\"qd\"] = 0.0\n\nrun_opf(network_data, ACPPowerModel, IpoptSolver())For additional details about the network data, see the PowerModels Network Data Format section."
+    "text": "The following example demonstrates one way to perform multiple PowerModels solves while modifing the network data in Julia,network_data = PowerModels.parse_file(\"nesta_case3_lmbd.m\")\n\nrun_opf(network_data, ACPPowerModel, IpoptSolver())\n\nnetwork_data[\"load\"][\"3\"][\"pd\"] = 0.0\nnetwork_data[\"load\"][\"3\"][\"qd\"] = 0.0\n\nrun_opf(network_data, ACPPowerModel, IpoptSolver())Network data parsed from PTI .raw files supports data extensions, i.e. data fields that are within the PSS(R)E specification, but not used by PowerModels for calculation. This can be achieve bynetwork_data = PowerModels.parse_file(\"nesta_case3_lmbd.raw\"; import_all=true)This network data can be modified in the same way as the previous Matpower .m file example. For additional details about the network data, see the PowerModels Network Data Format section."
 },
 
 {
@@ -109,7 +109,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Data Format",
     "title": "The Network Data Dictionary",
     "category": "section",
-    "text": "Internally PowerModels utilizes a dictionary to store network data. The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange.The data dictionary organization and key names are designed to be consistent with the Matpower file format and should be familiar to power system researchers, with the exception that loads and shunts are now split into separate components (see example below).The network data dictionary structure is roughly as follows:{\n\"name\":<string>,\n\"version\":\"2\",\n\"baseMVA\":<float>,\n\"bus\":{\n    \"1\":{\n        \"index\":<int>,\n        \"bus_type\":<int>,\n        \"va\":<float>,\n        \"vm\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"load\":{\n    \"1\":{\n        \"index\":<int>,\n        \"load_bus\":<int>,\n        \"pd\":<float>,\n        \"qd\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"shunt\":{\n    \"1\":{\n        \"index\":<int>,\n        \"shunt_bus\":<int>,\n        \"gs\":<float>,\n        \"bs\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"gen\":{\n    \"1\":{\n        \"index\":<int>,\n        \"gen_bus\":<int>,\n        \"pg\":<float>,\n        \"qg\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"branch\":{\n    \"1\":{\n        \"index\":<int>,\n        \"f_bus\":<int>,\n        \"t_bus\":<int>,\n        \"br_r\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n}\n}The following commands can be used to explore the network data dictionary generated by a given Matpower data file,network_data = PowerModels.parse_file(\"nesta_case3_lmbd.m\")\ndisplay(network_data) # raw dictionary\nPowerModels.print_summary(network_data) # quick table-like summaryThe print_summary function generates a table-like text summary of the network data, which is helpful in quickly assessing the values in a data or solution dictionary.For a detailed list of all possible parameters refer to the specification document provided with Matpower. The exception to this is that \"load\" and \"shunt\", containing \"pd\", \"qd\" and \"gs\", \"bs\", respectively, have been added as additional fields. These values are contained in \"bus\" in the original specification."
+    "text": "Internally PowerModels utilizes a dictionary to store network data. The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange.The data dictionary organization and key names are designed to be mostly consistent with the Matpower file format and should be familiar to power system researchers, with the notable exceptions that loads and shunts are now split into separate components (see example below), and in the case of \"multinetwork\" data, most often used for time series.The network data dictionary structure is roughly as follows:{\n\"name\":<string>,\n\"version\":\"2\",\n\"baseMVA\":<float>,\n\"source_type\":<string>,\n\"source_version\":<string>,\n\"bus\":{\n    \"1\":{\n        \"index\":<int>,\n        \"bus_type\":<int>,\n        \"va\":<float>,\n        \"vm\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"load\":{\n    \"1\":{\n        \"index\":<int>,\n        \"load_bus\":<int>,\n        \"pd\":<float>,\n        \"qd\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"shunt\":{\n    \"1\":{\n        \"index\":<int>,\n        \"shunt_bus\":<int>,\n        \"gs\":<float>,\n        \"bs\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"gen\":{\n    \"1\":{\n        \"index\":<int>,\n        \"gen_bus\":<int>,\n        \"pg\":<float>,\n        \"qg\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"branch\":{\n    \"1\":{\n        \"index\":<int>,\n        \"f_bus\":<int>,\n        \"t_bus\":<int>,\n        \"br_r\":<float>,\n        \"g_fr\":<float>,\n        \"b_fr\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"dcline\":{\n    \"1\":{\n        \"index\":<int>,\n        \"f_bus\":<int>,\n        \"t_bus\":<int>,\n        \"pf\":<float>,\n        \"qf\":<float>,\n        \"vf\":<float>,\n        \"loss0\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n}The following commands can be used to explore the network data dictionary generated by a given PTI or Matpower (this example) data file,network_data = PowerModels.parse_file(\"nesta_case3_lmbd.m\")\ndisplay(network_data) # raw dictionary\nPowerModels.print_summary(network_data) # quick table-like summaryThe print_summary function generates a table-like text summary of the network data, which is helpful in quickly assessing the values in a data or solution dictionary.For a detailed list of all possible parameters refer to the specification document provided with Matpower. The exception to this is that \"load\" and \"shunt\", containing \"pd\", \"qd\" and \"gs\", \"bs\", respectively, have been added as additional fields. These values are contained in \"bus\" in the original specification."
 },
 
 {
@@ -117,7 +117,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Data Format",
     "title": "Noteworthy Differences from Matpower Data Files",
     "category": "section",
-    "text": "The PowerModels network data dictionary differs from the Matpower format in the following ways,All PowerModels components have an index parameter, which can be used to uniquely identify that network element.\nAll network parameters are in per-unit and angles are in radians.\nAll non-transformer branches are given nominal transformer values (i.e. a tap of 1.0 and a shift of 0).\nAll branches have a transformer field indicating if they are a transformer or not.\nOnly quadratic active power generation cost functions are supported, at this time.\nWhen present, the gencost data is incorporated into the gen data, the column names remain the same.\nWhen present, the dclinecost data is incorporated into the dcline data, the column names remain the same.\nWhen present, the bus_names data is incorporated into the bus data under the property \"bus_name\".\nSpecial treatment is given to the optional ne_branch matrix to support the TNEP problem."
+    "text": "The PowerModels network data dictionary differs from the Matpower format in the following ways,All PowerModels components have an index parameter, which can be used to uniquely identify that network element.\nAll network parameters are in per-unit and angles are in radians.\nAll non-transformer branches are given nominal transformer values (i.e. a tap of 1.0 and a shift of 0).\nAll branches have a transformer field indicating if they are a transformer or not.\nOnly quadratic active power generation cost functions are supported, at this time.\nWhen present, the gencost data is incorporated into the gen data, the column names remain the same.\nWhen present, the dclinecost data is incorporated into the dcline data, the column names remain the same.\nWhen present, the bus_names data is incorporated into the bus data under the property \"bus_name\".\nSpecial treatment is given to the optional ne_branch matrix to support the TNEP problem.\nLoad data are split off from bus data into load data under the same property names.\nShunt data are split off from bus data into shunt data under the same property names."
 },
 
 {
@@ -166,6 +166,14 @@ var documenterSearchIndex = {"docs": [
     "title": "Standard Matrix Extensions",
     "category": "section",
     "text": "Finally, if a nonstandard matrix\'s name extends a current Matpower matrix name with an underscore, then its values will be merged with the original Matpower component data.  Note that this feature requires that the nonstandard matrix has column names and has the same number of rows as the original matrix (similar to the gencost matrix in the Matpower format).  For example,%column_names%  rate_i  rate_p\nmpc.branch_limit = [\n    50.2    45;\n    36  60.1;\n    12  30;\n];becomes{\n\"branch\":{\n    \"1\":{\n        \"index\":1,\n        ...(all pre existing fields)...\n        \"rate_i\":50.2,\n        \"rate_p\":45\n    },\n    \"2\":{\n        \"index\":2,\n        ...(all pre existing fields)...\n        \"rate_i\":36,\n        \"rate_p\":60.1\n    },\n    \"3\":{\n        \"index\":3,\n        ...(all pre existing fields)...\n        \"rate_i\":12,\n        \"rate_p\":30\n    }\n}\n}"
+},
+
+{
+    "location": "network-data.html#Working-with-PTI-Data-files-1",
+    "page": "Network Data Format",
+    "title": "Working with PTI Data files",
+    "category": "section",
+    "text": "PowerModels also has support for parsing PTI network files in the .raw format that follow the PSS(R)E v33 specification.In addition to parsing the standard parameters required by PowerModels for calculations, PowerModels also supports parsing additional data fields that are defined by the PSS(R)E specification, but not used by PowerModels directly. This can be achieved via the import_all optional keyword arguement in parse_file when loading a .raw file, e.g.PowerModels.parse_file(\"nesta_case3_lmbd.raw\"; import_all=true)"
 },
 
 {
@@ -1337,19 +1345,19 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "parser.html#PowerModels.parse_matpower",
+    "page": "File IO",
+    "title": "PowerModels.parse_matpower",
+    "category": "function",
+    "text": "\n\n"
+},
+
+{
     "location": "parser.html#Matpower-Data-Files-1",
     "page": "File IO",
     "title": "Matpower Data Files",
     "category": "section",
-    "text": "The following two methods are the main exported methods for parsing matpower data files:parse_matpower\nparse_matpower_dataWe also provide the following (internal) helper methods:standardize_cost_order\nupdate_branch_transformer_settings\nmerge_generator_cost_data\nmerge_bus_name_data\nparse_cell\nparse_matrix\nparse_matlab_data\nsplit_line\nadd_line_delimiter\nextract_assignment\nextract_mpc_assignment\ntype_value\ntype_array\nbuild_typed_dict\nextend_case_data\nmp_data_to_pm_data\nsplit_loads_shunts"
-},
-
-{
-    "location": "parser.html#PowerModels.parse_pti",
-    "page": "File IO",
-    "title": "PowerModels.parse_pti",
-    "category": "function",
-    "text": "parse_pti(filename)\n\nOpen PTI raw file given by filename, passing the file contents as a string to the main PTI parser, returning a Dict of all the data parsed into the proper types.\n\n\n\n"
+    "text": "The following method is the main exported methods for parsing Matpower data files:parse_matpowerWe also provide the following (internal) helper methods:parse_matpower_file\nparse_matpower_string\nmatpower_to_powermodels\nrow_to_typed_dict\nrow_to_dict\nmp_cost_data\nsplit_loads_shunts\nstandardize_cost_terms\nmerge_generator_cost_data\nmerge_bus_name_data\nmerge_generic_data\nmp2pm_branch\nmp2pm_dcline\nadd_dcline_costs"
 },
 
 {
@@ -1361,11 +1369,163 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "parser.html#PowerModels.parse_pti",
+    "page": "File IO",
+    "title": "PowerModels.parse_pti",
+    "category": "function",
+    "text": "parse_pti(filename)\n\nOpen PTI raw file given by filename, passing the file contents as a string to the main PTI parser, returning a Dict of all the data parsed into the proper types.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.parse_pti_data",
+    "page": "File IO",
+    "title": "PowerModels.parse_pti_data",
+    "category": "function",
+    "text": "parse_pti_data(data_string, sections)\n\nParse a PTI raw file into a Dict, given the data_string of the file and a list of the sections in the PTI file (typically given by default by get_pti_sections().\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.get_line_elements",
+    "page": "File IO",
+    "title": "PowerModels.get_line_elements",
+    "category": "function",
+    "text": "get_line_elements(line)\n\nUses regular expressions to extract all separate data elements from a line of a PTI file and populate them into an Array{String}. Comments, typically indicated at the end of a line with a \'/\' character, are also extracted separately, and Array{Array{String}, String} is returned.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.add_section_data!",
+    "page": "File IO",
+    "title": "PowerModels.add_section_data!",
+    "category": "function",
+    "text": "add_section_data!(pti_data, section_data, section)\n\nAdds section_data::Dict, which contains all parsed elements of a PTI file section given by section, into the parent pti_data::Dict\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.parse_line_element!",
+    "page": "File IO",
+    "title": "PowerModels.parse_line_element!",
+    "category": "function",
+    "text": "parse_line_element!(data, elements, section)\n\nParses a single \"line\" of data elements from a PTI file, as given by elements which is an array of the line, typically split at ,. Elements are parsed into data types given by section and saved into data::Dict\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.get_pti_dtypes",
+    "page": "File IO",
+    "title": "PowerModels.get_pti_dtypes",
+    "category": "function",
+    "text": "get_pti_dtypes(field_name)\n\nReturns OrderedDict of data types for PTI file section given by field_name, as enumerated by PSS/E Program Operation Manual\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.get_pti_sections",
+    "page": "File IO",
+    "title": "PowerModels.get_pti_sections",
+    "category": "function",
+    "text": "get_pti_sections()\n\nReturns Array of the names of the sections, in the order that they appear in a PTI file, v33+\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.psse2pm_dcline!",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_dcline!",
+    "category": "function",
+    "text": "psse2pm_dcline!(pm_data, pti_data)\n\nParses PSS(R)E-style Two-Terminal and VSC DC Lines data into a PowerModels compatible Dict structure by first converting them to a simple DC Line Model. For Two-Terminal DC lines, \"source_id\" is given by [\"IPR\", \"IPI\", \"NAME\"] in the PSS(R)E Two-Terminal DC specification. For Voltage Source Converters, \"source_id\" is given by [\"IBUS1\", \"IBUS2\", \"NAME\"], where \"IBUS1\" is \"IBUS\" of the first converter bus, and \"IBUS2\" is the \"IBUS\" of the second converter bus, in the PSS(R)E Voltage Source Converter specification.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.psse2pm_transformer!",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_transformer!",
+    "category": "function",
+    "text": "psse2pm_transformer!(pm_data, pti_data)\n\nParses PSS(R)E-style Transformer data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"J\", \"K\", \"CKT\", \"winding\"], where \"winding\" is 0 if transformer is two-winding, and 1, 2, or 3 for three-winding, and the remaining keys are defined in the PSS(R)E Transformer specification.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.psse2pm_shunt!",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_shunt!",
+    "category": "function",
+    "text": "psse2pm_shunt!(pm_data, pti_data)\n\nParses PSS(R)E-style Fixed and Switched Shunt data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"ID\"] for Fixed Shunts, and [\"I\", \"SWREM\"] for Switched Shunts, as given by the PSS(R)E Fixed and Switched Shunts specifications.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.psse2pm_load!",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_load!",
+    "category": "function",
+    "text": "psse2pm_load!(pm_data, pti_data)\n\nParses PSS(R)E-style Load data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"ID\"] in the PSS(R)E Load specification.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.psse2pm_bus!",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_bus!",
+    "category": "function",
+    "text": "psse2pm_bus!(pm_data, pti_data)\n\nParses PSS(R)E-style Bus data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"NAME\"] in PSS(R)E Bus specification.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.psse2pm_generator!",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_generator!",
+    "category": "function",
+    "text": "psse2pm_generator!(pm_data, pti_data)\n\nParses PSS(R)E-style Generator data in a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"ID\"] in PSS(R)E Generator specification.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.psse2pm_branch!",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_branch!",
+    "category": "function",
+    "text": "psse2pm_branch!(pm_data, pti_data)\n\nParses PSS(R)E-style Branch data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"J\", \"CKT\"] in PSS(R)E Branch specification.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.import_remaining!",
+    "page": "File IO",
+    "title": "PowerModels.import_remaining!",
+    "category": "function",
+    "text": "Imports remaining keys from data_in into data_out, excluding keys in exclude\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.create_starbus_from_transformer",
+    "page": "File IO",
+    "title": "PowerModels.create_starbus_from_transformer",
+    "category": "function",
+    "text": "create_starbus(pm_data, transformer)\n\nCreates a starbus from a given three-winding transformer. \"source_id\" is given by [\"bus_i\", \"name\", \"I\", \"J\", \"K\", \"CKT\"] where \"bus_i\" and \"name\" are the modified names for the starbus, and \"I\", \"J\", \"K\" and \"CKT\" come from the originating transformer, in the PSS(R)E transformer specification.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.find_max_bus_id",
+    "page": "File IO",
+    "title": "PowerModels.find_max_bus_id",
+    "category": "function",
+    "text": "find_max_bus_id(pm_data)\n\nReturns the maximum bus id in pm_data\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.init_bus!",
+    "page": "File IO",
+    "title": "PowerModels.init_bus!",
+    "category": "function",
+    "text": "init_bus!(bus, id)\n\nInitializes a bus of id id with default values given in the PSS(R)E specification.\n\n\n\n"
+},
+
+{
+    "location": "parser.html#PowerModels.calc_2term_reactive_power",
+    "page": "File IO",
+    "title": "PowerModels.calc_2term_reactive_power",
+    "category": "function",
+    "text": "calc_2term_reactive_power(power_demand, min_firing_angle, max_firing_angle)\n\nCalculates the lower and upper limits on the reactive power for a two-terminal DC line. See Kimbark (ISBN 0-471-47580-7), Ch 3, Eq (46). Overlap is assumed to be <60deg, i.e. the dc line is operating normally. See discussion in cited book above.\n\n\n\n"
+},
+
+{
     "location": "parser.html#PTI-Data-Files-(PSS/E)-1",
     "page": "File IO",
     "title": "PTI Data Files (PSS/E)",
     "category": "section",
-    "text": "Note: This feature supports the parsing and conversion of PTI files into a PowerModels format for the following power network components: buses, loads, shunts (fixed and approximation of switched), branches, two-winding and three-winding transformers (incl. magnetizing admittance), generators, two-terminal dc lines, and voltage source converter HVDC lines.The following method is the main exported method for parsing PTI data files:parse_pti\nparse_psseThe following internal helper methods are also provided:get_pti_sections\nget_pti_dtypes\nparse_line_element!\nadd_section_data!\nget_line_elements\nparse_pti_data\nconvert_vsc_to_dcline\nwye_delta_transform\npsse2pm_branch!\npsse2pm_generator!\npsse2pm_bus!\npsse2pm_load!\npsse2pm_shunt!\npsse2pm_transformer!\npsse2pm_dclines\ncalc_2term_reactive_power\nget_bus_values\nfind_max_bus_id\ncreate_starbus_from_transformer\nimport_remaining!"
+    "text": "Note: This feature supports the parsing and conversion of PTI files into a PowerModels format for the following power network components: buses, loads, shunts (fixed and approximation of switched), branches, two-winding and three-winding transformers (incl. magnetizing admittance), generators, two-terminal dc lines, and voltage source converter HVDC lines.The following method is the main exported method for parsing PSS(R)E v33 specified PTI data files:parse_psseThe following internal helper methods are also provided:parse_pti\nparse_pti_data\nget_line_elements\nadd_section_data!\nparse_line_element!\nget_pti_dtypes\nget_pti_sections\npsse2pm_dcline!\npsse2pm_transformer!\npsse2pm_shunt!\npsse2pm_load!\npsse2pm_bus!\npsse2pm_generator!\npsse2pm_branch!\nimport_remaining!\ncreate_starbus_from_transformer\nfind_max_bus_id\ninit_bus!\ncalc_2term_reactive_power"
 },
 
 {
