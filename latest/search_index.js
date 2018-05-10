@@ -1457,19 +1457,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "parser.html#PowerModels.calc_2term_reactive_power",
-    "page": "File IO",
-    "title": "PowerModels.calc_2term_reactive_power",
-    "category": "function",
-    "text": "calc_2term_reactive_power(power_demand, min_firing_angle, max_firing_angle)\n\nCalculates the lower and upper limits on the reactive power for a two-terminal DC line. See Kimbark (ISBN 0-471-47580-7), Ch 3, Eq (46). Overlap is assumed to be <60deg, i.e. the dc line is operating normally. See discussion in cited book above.\n\n\n\n"
-},
-
-{
     "location": "parser.html#PTI-Data-Files-(PSS/E)-1",
     "page": "File IO",
     "title": "PTI Data Files (PSS/E)",
     "category": "section",
-    "text": "Note: This feature supports the parsing and conversion of PTI files into a PowerModels format for the following power network components: buses, loads, shunts (fixed and approximation of switched), branches, two-winding and three-winding transformers (incl. magnetizing admittance), generators, two-terminal dc lines, and voltage source converter HVDC lines.The following method is the main exported method for parsing PSS(R)E v33 specified PTI data files:parse_psseThe following internal helper methods are also provided:parse_pti\nparse_pti_data\nget_line_elements\nadd_section_data!\nparse_line_element!\nget_pti_dtypes\nget_pti_sections\npsse2pm_dcline!\npsse2pm_transformer!\npsse2pm_shunt!\npsse2pm_load!\npsse2pm_bus!\npsse2pm_generator!\npsse2pm_branch!\nimport_remaining!\ncreate_starbus_from_transformer\nfind_max_bus_id\ninit_bus!\ncalc_2term_reactive_power"
+    "text": "Note: This feature supports the parsing and conversion of PTI files into a PowerModels format for the following power network components: buses, loads, shunts (fixed and approximation of switched), branches, two-winding and three-winding transformers (incl. magnetizing admittance), generators, two-terminal dc lines, and voltage source converter HVDC lines.The following method is the main exported method for parsing PSS(R)E v33 specified PTI data files:parse_psseThe following internal helper methods are also provided:parse_pti\nparse_pti_data\nget_line_elements\nadd_section_data!\nparse_line_element!\nget_pti_dtypes\nget_pti_sections\npsse2pm_dcline!\npsse2pm_transformer!\npsse2pm_shunt!\npsse2pm_load!\npsse2pm_bus!\npsse2pm_generator!\npsse2pm_branch!\nimport_remaining!\ncreate_starbus_from_transformer\nfind_max_bus_id\ninit_bus!"
 },
 
 {
