@@ -77,7 +77,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Inspecting AC and DC branch flow results",
     "category": "section",
-    "text": "The flow AC and DC branch results are not written to the result by default. To inspect the flow results, pass a settings Dictresult = run_opf(\"case3_dc.m\", ACPPowerModel, IpoptSolver(), setting = Dict(\"output\" => Dict(\"line_flows\" => true)))\nresult[\"solution\"][\"dcline\"][\"1\"]\nresult[\"solution\"][\"branch\"][\"2\"]The losses of a AC or DC branch can be derived:loss_ac =  Dict(name => data[\"p_to\"]+data[\"p_from\"] for (name, data) in result[\"solution\"][\"branch\"])\nloss_dc =  Dict(name => data[\"p_to\"]+data[\"p_from\"] for (name, data) in result[\"solution\"][\"dcline\"])"
+    "text": "The flow AC and DC branch results are not written to the result by default. To inspect the flow results, pass a settings Dictresult = run_opf(\"case3_dc.m\", ACPPowerModel, IpoptSolver(), setting = Dict(\"output\" => Dict(\"branch_flows\" => true)))\nresult[\"solution\"][\"dcline\"][\"1\"]\nresult[\"solution\"][\"branch\"][\"2\"]The losses of an AC or DC branch can be derived:loss_ac =  Dict(name => data[\"pt\"]+data[\"pf\"] for (name, data) in result[\"solution\"][\"branch\"])\nloss_dc =  Dict(name => data[\"pt\"]+data[\"pf\"] for (name, data) in result[\"solution\"][\"dcline\"])"
 },
 
 {
