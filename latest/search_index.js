@@ -545,7 +545,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "objective.html#PowerModels.get_lines-Tuple{Any}",
+    "location": "objective.html#PowerModels.get_lines-Tuple{Any,Int64}",
     "page": "Objective",
     "title": "PowerModels.get_lines",
     "category": "method",
@@ -617,202 +617,194 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "variables.html#PowerModels.getstart",
-    "page": "Variables",
-    "title": "PowerModels.getstart",
-    "category": "function",
-    "text": "extracts the start value\n\n\n\n"
-},
-
-{
-    "location": "variables.html#PowerModels.variable_active_branch_flow",
+    "location": "variables.html#PowerModels.variable_active_branch_flow-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_active_branch_flow",
-    "category": "function",
+    "category": "method",
     "text": "variable: p[l,i,j] for (l,i,j) in arcs\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_active_branch_flow_ne",
+    "location": "variables.html#PowerModels.variable_active_branch_flow_ne-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_active_branch_flow_ne",
-    "category": "function",
+    "category": "method",
     "text": "variable: -ne_branch[l][\"rate_a\"] <= p_ne[l,i,j] <= ne_branch[l][\"rate_a\"] for (l,i,j) in ne_arcs\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_active_dcline_flow",
+    "location": "variables.html#PowerModels.variable_active_dcline_flow-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_active_dcline_flow",
-    "category": "function",
+    "category": "method",
     "text": "variable: p_dc[l,i,j] for (l,i,j) in arcs_dc\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_active_generation",
+    "location": "variables.html#PowerModels.variable_active_generation-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_active_generation",
-    "category": "function",
+    "category": "method",
     "text": "variable: pg[j] for j in gen\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_branch_flow",
+    "location": "variables.html#PowerModels.variable_branch_flow-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_branch_flow",
-    "category": "function",
+    "category": "method",
     "text": "\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_branch_flow_ne",
+    "location": "variables.html#PowerModels.variable_branch_flow_ne-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_branch_flow_ne",
-    "category": "function",
+    "category": "method",
     "text": "generates variables for both active and reactive branch_flow_ne\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_branch_indicator",
+    "location": "variables.html#PowerModels.variable_branch_indicator-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_branch_indicator",
-    "category": "function",
+    "category": "method",
     "text": "variable: 0 <= branch_z[l] <= 1 for l in branches\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_branch_ne",
+    "location": "variables.html#PowerModels.variable_branch_ne-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_branch_ne",
-    "category": "function",
+    "category": "method",
     "text": "variable: 0 <= branch_ne[l] <= 1 for l in branches\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_generation",
+    "location": "variables.html#PowerModels.variable_generation-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_generation",
-    "category": "function",
+    "category": "method",
     "text": "generates variables for both active and reactive generation\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_reactive_branch_flow",
+    "location": "variables.html#PowerModels.variable_reactive_branch_flow-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_reactive_branch_flow",
-    "category": "function",
+    "category": "method",
     "text": "variable: q[l,i,j] for (l,i,j) in arcs\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_reactive_branch_flow_ne",
+    "location": "variables.html#PowerModels.variable_reactive_branch_flow_ne-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_reactive_branch_flow_ne",
-    "category": "function",
+    "category": "method",
     "text": "variable: -ne_branch[l][\"rate_a\"] <= q_ne[l,i,j] <= ne_branch[l][\"rate_a\"] for (l,i,j) in ne_arcs\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_reactive_dcline_flow",
+    "location": "variables.html#PowerModels.variable_reactive_dcline_flow-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_reactive_dcline_flow",
-    "category": "function",
+    "category": "method",
     "text": "variable: q_dc[l,i,j] for (l,i,j) in arcs_dc\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_reactive_generation",
+    "location": "variables.html#PowerModels.variable_reactive_generation-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_reactive_generation",
-    "category": "function",
+    "category": "method",
     "text": "variable: qq[j] for j in gen\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_angle",
+    "location": "variables.html#PowerModels.variable_voltage_angle-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_angle",
-    "category": "function",
+    "category": "method",
     "text": "variable: t[i] for i in buses\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_imaginary",
+    "location": "variables.html#PowerModels.variable_voltage_imaginary-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_imaginary",
-    "category": "function",
+    "category": "method",
     "text": "real part of the voltage variable i in buses\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_magnitude",
+    "location": "variables.html#PowerModels.variable_voltage_magnitude-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude",
-    "category": "function",
+    "category": "method",
     "text": "variable: v[i] for i in buses\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_magnitude_from_on_off",
+    "location": "variables.html#PowerModels.variable_voltage_magnitude_from_on_off-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude_from_on_off",
-    "category": "function",
+    "category": "method",
     "text": "variable: 0 <= vm_fr[l] <= buses[branches[l][\"f_bus\"]][\"vmax\"] for l in branches\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_magnitude_sqr",
+    "location": "variables.html#PowerModels.variable_voltage_magnitude_sqr-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude_sqr",
-    "category": "function",
+    "category": "method",
     "text": "variable: w[i] >= 0 for i in buses\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_magnitude_sqr_from_on_off",
+    "location": "variables.html#PowerModels.variable_voltage_magnitude_sqr_from_on_off-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude_sqr_from_on_off",
-    "category": "function",
+    "category": "method",
     "text": "variable: 0 <= w_fr[l] <= buses[branches[l][\"f_bus\"]][\"vmax\"]^2 for l in branches\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_magnitude_sqr_to_on_off",
+    "location": "variables.html#PowerModels.variable_voltage_magnitude_sqr_to_on_off-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude_sqr_to_on_off",
-    "category": "function",
+    "category": "method",
     "text": "variable: 0 <= w_to[l] <= buses[branches[l][\"t_bus\"]][\"vmax\"]^2 for l in branches\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_magnitude_to_on_off",
+    "location": "variables.html#PowerModels.variable_voltage_magnitude_to_on_off-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_magnitude_to_on_off",
-    "category": "function",
+    "category": "method",
     "text": "variable: 0 <= vm_to[l] <= buses[branches[l][\"t_bus\"]][\"vmax\"] for l in branches\n\n\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_product",
+    "location": "variables.html#PowerModels.variable_voltage_product-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_product",
-    "category": "function",
+    "category": "method",
     "text": "\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_product_on_off",
+    "location": "variables.html#PowerModels.variable_voltage_product_on_off-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_product_on_off",
-    "category": "function",
+    "category": "method",
     "text": "\n\n"
 },
 
 {
-    "location": "variables.html#PowerModels.variable_voltage_real",
+    "location": "variables.html#PowerModels.variable_voltage_real-Tuple{PowerModels.GenericPowerModel}",
     "page": "Variables",
     "title": "PowerModels.variable_voltage_real",
-    "category": "function",
+    "category": "method",
     "text": "real part of the voltage variable i in buses\n\n\n\n"
 },
 
