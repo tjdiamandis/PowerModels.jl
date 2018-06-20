@@ -569,7 +569,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "objective.html#PowerModels.get_lines-Tuple{Any,Int64}",
+    "location": "objective.html#PowerModels.get_lines-Tuple{Any}",
     "page": "Objective",
     "title": "PowerModels.get_lines",
     "category": "method",
