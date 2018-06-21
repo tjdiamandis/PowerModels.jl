@@ -1293,7 +1293,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PowerModels.parse_json",
     "category": "function",
-    "text": "\n\n"
+    "text": "\n\n\n\n"
 },
 
 {
@@ -1309,7 +1309,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PowerModels.parse_matpower",
     "category": "function",
-    "text": "\n\n"
+    "text": "Parses the matpwer data from either a filename or an IO object\n\n\n\n"
 },
 
 {
@@ -1325,7 +1325,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PowerModels.parse_psse",
     "category": "function",
-    "text": "parse_psse(pti_data)\n\nConverts PSS(R)E-style data parsed from a PTI raw file, passed by pti_data into a format suitable for use internally in PowerModels. Imports all remaining data from the PTI file if import_all is true (Default: false).\n\n\n\nParses directly from file\n\n\n\n"
+    "text": "parse_psse(pti_data)\n\nConverts PSS(R)E-style data parsed from a PTI raw file, passed by pti_data into a format suitable for use internally in PowerModels. Imports all remaining data from the PTI file if import_all is true (Default: false).\n\n\n\nParses directly from file\n\n\n\nParses directly from iostream\n\n\n\n"
 },
 
 {
@@ -1333,7 +1333,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PowerModels.parse_pti",
     "category": "function",
-    "text": "parse_pti(filename)\n\nOpen PTI raw file given by filename, passing the file contents as a string to the main PTI parser, returning a Dict of all the data parsed into the proper types.\n\n\n\n"
+    "text": "parse_pti(filename::String)\n\nOpen PTI raw file given by filename, returning a Dict of the data parsed into the proper types.\n\n\n\nparse_pti(io::IO)\n\nReads PTI data in io::IO, returning a Dict of the data parsed into the proper types.\n\n\n\n"
 },
 
 {
