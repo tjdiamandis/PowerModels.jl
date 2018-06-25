@@ -17,7 +17,7 @@ StandardDCPForm &lt;: AbstractDCPForm
 SOCWRForm &lt;: AbstractWRForm
 QCWRForm &lt;: AbstractWRForm
 
-SOCDFForm &lt;: AbstractWForm</code></pre><h2><a class="nav-anchor" id="Power-Models-1" href="#Power-Models-1">Power Models</a></h2><p>Each of these forms can be used as the type parameter for a PowerModel:</p><pre><code class="language-julia">ACPPowerModel = GenericPowerModel{StandardACPForm}
+SOCBFForm &lt;: AbstractWForm</code></pre><h2><a class="nav-anchor" id="Power-Models-1" href="#Power-Models-1">Power Models</a></h2><p>Each of these forms can be used as the type parameter for a PowerModel:</p><pre><code class="language-julia">ACPPowerModel = GenericPowerModel{StandardACPForm}
 APIACPPowerModel = GenericPowerModel{APIACPForm}
 
 DCPPowerModel = GenericPowerModel{StandardDCPForm}
@@ -25,7 +25,7 @@ DCPPowerModel = GenericPowerModel{StandardDCPForm}
 SOCWRPowerModel = GenericPowerModel{SOCWRForm}
 QCWRPowerModel = GenericPowerModel{QCWRForm}
 
-SOCDFPowerModel = GenericPowerModel{SOCDFForm}</code></pre><p>For details on <code>GenericPowerModel</code>, see the section on <a href="model.html#Power-Model-1">Power Model</a>.</p><h2><a class="nav-anchor" id="User-Defined-Abstractions-1" href="#User-Defined-Abstractions-1">User-Defined Abstractions</a></h2><p>Consider the class of conic formulations for power flow models. One way of modelling them in this package is through the following type hierarchy:</p><pre><code class="language-julia">AbstractConicPowerFormulation &lt;: AbstractPowerFormulation
+SOCBFPowerModel = GenericPowerModel{SOCBFForm}</code></pre><p>For details on <code>GenericPowerModel</code>, see the section on <a href="model.html#Power-Model-1">Power Model</a>.</p><h2><a class="nav-anchor" id="User-Defined-Abstractions-1" href="#User-Defined-Abstractions-1">User-Defined Abstractions</a></h2><p>Consider the class of conic formulations for power flow models. One way of modelling them in this package is through the following type hierarchy:</p><pre><code class="language-julia">AbstractConicPowerFormulation &lt;: AbstractPowerFormulation
 AbstractWRMForm &lt;: AbstractConicPowerFormulation
 
 SDPWRMForm &lt;: AbstractWRMForm
