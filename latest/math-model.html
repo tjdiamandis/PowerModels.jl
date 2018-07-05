@@ -18,13 +18,13 @@ ga('send', 'pageview');
 &amp; S, S_i \mbox{ - shunts and shunts at bus $i$} \nonumber \\
 %
 \mbox{data:} &amp; \nonumber \\ 
-&amp; {S^{gl}}_k, {S^{gu}}_k \;\; \forall k \in G \nonumber \\
+&amp; S^{gl}_k, S^{gu}_k \;\; \forall k \in G \nonumber \\
 &amp; c_{2k}, c_{1k}, c_{0k} \;\; \forall k \in G \nonumber \\
-&amp; {v^l}_i, {v^u}_i \;\; \forall i \in N \nonumber \\
+&amp; v^l_i, v^u_i \;\; \forall i \in N \nonumber \\
 &amp; {S^d}_k \;\; \forall k \in L \nonumber \\
-&amp; {Y^s}_{k} \;\; \forall k \in S \nonumber \\
-&amp; Y_{ij}, {Y^c}_{ij}, {Y^c}_{ji}, {T}_{ij} \;\; \forall (i,j) \in E \nonumber \\
-&amp; {s^u}_{ij}, {\theta^{\Delta l}}_{ij}, {\theta^{\Delta u}}_{ij} \;\; \forall (i,j) \in E \nonumber \\
+&amp; Y^s_{k} \;\; \forall k \in S \nonumber \\
+&amp; Y_{ij}, Y^c_{ij}, Y^c_{ji}, {T}_{ij} \;\; \forall (i,j) \in E \nonumber \\
+&amp; {s^u}_{ij}, \theta^{\Delta l}_{ij}, \theta^{\Delta u}_{ij} \;\; \forall (i,j) \in E \nonumber \\
 %
 \mbox{variables: } &amp; \nonumber \\
 &amp; S^g_k \;\; \forall k\in G \nonumber \\
@@ -35,12 +35,12 @@ ga('send', 'pageview');
 %
 \mbox{subject to: } &amp; \nonumber \\
 &amp; \angle V_{r} = 0  \;\; \forall r \in R \\
-&amp; {S^{gl}}_k \leq S^g_k \leq {S^{gu}}_k \;\; \forall k \in G  \\
-&amp; {v^l}_i \leq |V_i| \leq {v^u}_i \;\; \forall i \in N \\
-&amp; \sum_{\substack{k \in G_i}} S^g_k - \sum_{\substack{k \in L_i}} {{S^d}_k} - \sum_{\substack{k \in S_i}} {Y^s}_{k} |V_i|^2 = \sum_{\substack{(i,j)\in E_i \cup E_i^R}} S_{ij} \;\; \forall i\in N \\ 
-&amp; S_{ij} = \left( Y_{ij} + {Y^c}_{ij}\right)^* \frac{|V_i|^2}{|{T}_{ij}|^2} - Y^*_{ij} \frac{V_i V^*_j}{{T}_{ij}} \;\; \forall (i,j)\in E \\
-&amp; S_{ji} = \left( Y_{ij} + {Y^c}_{ji} \right)^* |V_j|^2 - Y^*_{ij} \frac{V^*_i V_j}{{T}^*_{ij}} \;\; \forall (i,j)\in E \\
-&amp; |S_{ij}| \leq {s^u}_{ij} \;\; \forall (i,j) \in E \cup E^R \\
-&amp; {\theta^{\Delta l}}_{ij} \leq \angle (V_i V^*_j) \leq {\theta^{\Delta u}}_{ij} \;\; \forall (i,j) \in E
+&amp; S^{gl}_k \leq S^g_k \leq S^{gu}_k \;\; \forall k \in G  \\
+&amp; v^l_i \leq |V_i| \leq v^u_i \;\; \forall i \in N \\
+&amp; \sum_{\substack{k \in G_i}} S^g_k - \sum_{\substack{k \in L_i}} S^d_k - \sum_{\substack{k \in S_i}} Y^s_k |V_i|^2 = \sum_{\substack{(i,j)\in E_i \cup E_i^R}} S_{ij} \;\; \forall i\in N \\ 
+&amp; S_{ij} = \left( Y_{ij} + Y^c_{ij}\right)^* \frac{|V_i|^2}{|{T}_{ij}|^2} - Y^*_{ij} \frac{V_i V^*_j}{{T}_{ij}} \;\; \forall (i,j)\in E \\
+&amp; S_{ji} = \left( Y_{ij} + Y^c_{ji} \right)^* |V_j|^2 - Y^*_{ij} \frac{V^*_i V_j}{{T}^*_{ij}} \;\; \forall (i,j)\in E \\
+&amp; |S_{ij}| \leq s^u_{ij} \;\; \forall (i,j) \in E \cup E^R \\
+&amp; \theta^{\Delta l}_{ij} \leq \angle (V_i V^*_j) \leq \theta^{\Delta u}_{ij} \;\; \forall (i,j) \in E
 %
 \end{align}\]</div><p>Note that for clarity of this presentation some model variants that PowerModels supports have been omitted (e.g. piecewise linear cost functions and HVDC lines).  Details about these variants is available in the <a href="http://www.pserc.cornell.edu/matpower/">Matpower</a> documentation.</p><footer><hr/><a class="previous" href="result-data.html"><span class="direction">Previous</span><span class="title">Result Data Format</span></a><a class="next" href="formulations.html"><span class="direction">Next</span><span class="title">Network Formulations</span></a></footer></article></body></html>
