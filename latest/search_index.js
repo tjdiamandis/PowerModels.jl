@@ -53,7 +53,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Getting Results",
     "category": "section",
-    "text": "The run commands in PowerModels return detailed results data in the form of a dictionary. Results dictionaries from either Matpower .m or PTI .raw files will be identical in format. This dictionary can be saved for further processing as follows,result = run_ac_opf(\"case3.m\", IpoptSolver())For example, the algorithm\'s runtime and final objective value can be accessed with,result[\"solve_time\"]\nresult[\"objective\"]The \"solution\" field contains detailed information about the solution produced by the run method. For example, the following dictionary comprehension can be used to inspect the bus phase angles in the solution,Dict(name => data[\"va\"] for (name, data) in result[\"solution\"][\"bus\"])For more information about PowerModels result data see the PowerModels Result Data Format section."
+    "text": "The run commands in PowerModels return detailed results data in the form of a dictionary. Results dictionaries from either Matpower .m or PTI .raw files will be identical in format. This dictionary can be saved for further processing as follows,result = run_ac_opf(\"case3.m\", IpoptSolver())For example, the algorithm\'s runtime and final objective value can be accessed with,result[\"solve_time\"]\nresult[\"objective\"]The \"solution\" field contains detailed information about the solution produced by the run method. For example, the following dictionary comprehension can be used to inspect the bus voltage angles in the solution,Dict(name => data[\"va\"] for (name, data) in result[\"solution\"][\"bus\"])For more information about PowerModels result data see the PowerModels Result Data Format section."
 },
 
 {
@@ -1117,7 +1117,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_angle_difference",
     "category": "function",
-    "text": "\n\nbranch phase angle difference bounds\n\n\n\nt[f_bus] - t[t_bus] <= angmax\nt[f_bus] - t[t_bus] >= angmin\n\n\n\n\n\nt[f_bus] - t[t_bus] <= angmax\nt[f_bus] - t[t_bus] >= angmin\n\n\n\n\n\n"
+    "text": "\n\nbranch voltage angle difference bounds\n\n\n\nt[f_bus] - t[t_bus] <= angmax\nt[f_bus] - t[t_bus] >= angmin\n\n\n\n\n\nt[f_bus] - t[t_bus] <= angmax\nt[f_bus] - t[t_bus] >= angmin\n\n\n\n\n\n"
 },
 
 {
@@ -1574,6 +1574,14 @@ var documenterSearchIndex = {"docs": [
     "title": "Admittance",
     "category": "section",
     "text": "Defining admittance y = g + jcdot b:g: conductance (S)\nb: susceptance (S)"
+},
+
+{
+    "location": "developer.html#Standard-Value-Names-1",
+    "page": "Developer",
+    "title": "Standard Value Names",
+    "category": "section",
+    "text": "network ids:network, nw, n\nconductors ids: conductor, cnd, c\nphase ids: phase, ph, h"
 },
 
 {
