@@ -617,7 +617,7 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "objective.html#PowerModels.objective_min_polynomial_fuel_cost-Union{Tuple{PowerModels.GenericPowerModel{T}}, Tuple{T}} where T<:PowerModels.AbstractConicPowerFormulation",
+    "location": "objective.html#PowerModels.objective_min_polynomial_fuel_cost-Union{Tuple{PowerModels.GenericPowerModel{T}}, Tuple{T}} where T<:Union{PowerModels.AbstractBFConicForm, PowerModels.AbstractConicPowerFormulation}",
     "page": "Objective",
     "title": "PowerModels.objective_min_polynomial_fuel_cost",
     "category": "method",
