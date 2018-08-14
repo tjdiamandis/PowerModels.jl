@@ -241,19 +241,27 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "math-model.html#Sets-and-Parameters-1",
+    "page": "Mathematical Model",
+    "title": "Sets and Parameters",
+    "category": "section",
+    "text": "PowerModels implements a slightly generalized version of the AC Optimal Power Flow problem from Matpower.  These generalizations make it possible for PowerModels to more accurately capture industrial transmission network datasets.  The core generalizations are,Support for multiple load (S^d_k) and shunt (Y^s_k) components on each bus i\nLine charging that supports a conductance and asymmetrical values (Y^c_ij Y^c_ji)\nbeginalign\n\nmboxsets  nonumber \n N mbox - busesnonumber \n R mbox - refrences busesnonumber \n E E^R mbox - branches forward and reverse orientation nonumber \n G G_i mbox - generators and generators at bus i nonumber \n L L_i mbox - loads and loads at bus i nonumber \n S S_i mbox - shunts and shunts at bus i nonumber \n\nmboxdata  nonumber \n S^gl_k S^gu_k  forall k in G nonumber \n c_2k c_1k c_0k  forall k in G nonumber \n v^l_i v^u_i  forall i in N nonumber \n S^d_k  forall k in L nonumber \n Y^s_k  forall k in S nonumber \n Y_ij Y^c_ij Y^c_ji T_ij  forall (ij) in E nonumber \n s^u_ij theta^Delta l_ij theta^Delta u_ij  forall (ij) in E nonumber \n\nendalign"
+},
+
+{
     "location": "math-model.html#AC-Optimal-Power-Flow-1",
     "page": "Mathematical Model",
     "title": "AC Optimal Power Flow",
     "category": "section",
-    "text": "PowerModels implements a slightly generalized version of the AC Optimal Power Flow problem from Matpower.  These generalizations make it possible for PowerModels to more accurately capture industrial transmission network datasets.  The core generalizations are,Support for multiple load and shunt components on each bus\nLine charging that supports a conductance and asymmetrical valuesA complete mathematical model is as follows,\nbeginalign\n\nmboxsets  nonumber \n N mbox - busesnonumber \n R mbox - refrences busesnonumber \n E E^R mbox - branches forward and reverse orientation nonumber \n G G_i mbox - generators and generators at bus i nonumber \n L L_i mbox - loads and loads at bus i nonumber \n S S_i mbox - shunts and shunts at bus i nonumber \n\nmboxdata  nonumber \n S^gl_k S^gu_k  forall k in G nonumber \n c_2k c_1k c_0k  forall k in G nonumber \n v^l_i v^u_i  forall i in N nonumber \n S^d_k  forall k in L nonumber \n Y^s_k  forall k in S nonumber \n Y_ij Y^c_ij Y^c_ji T_ij  forall (ij) in E nonumber \n s^u_ij theta^Delta l_ij theta^Delta u_ij  forall (ij) in E nonumber \n\nmboxvariables   nonumber \n S^g_k  forall kin G nonumber \n V_i  forall iin N nonumber \n S_ij  forall (ij) in E cup E^R nonumber \n\nmboxminimize   sum_k in G c_2k (Re(S^g_k))^2 + c_1kRe(S^g_k) + c_0k labeleq_objective\n\nmboxsubject to   nonumber \n angle V_r = 0   forall r in R labeleq_ref_bus\n S^gl_k leq S^g_k leq S^gu_k  forall k in G  labeleq_gen_bounds\n v^l_i leq V_i leq v^u_i  forall i in N labeleq_voltage_bounds\n sum_substackk in G_i S^g_k - sum_substackk in L_i S^d_k - sum_substackk in S_i Y^s_k V_i^2 = sum_substack(ij)in E_i cup E_i^R S_ij  forall iin N labeleq_kcl_shunt \n S_ij = left( Y_ij + Y^c_ijright)^* fracV_i^2T_ij^2 - Y^*_ij fracV_i V^*_jT_ij  forall (ij)in E labeleq_power_from\n S_ji = left( Y_ij + Y^c_ji right)^* V_j^2 - Y^*_ij fracV^*_i V_jT^*_ij  forall (ij)in E labeleq_power_to\n S_ij leq s^u_ij  forall (ij) in E cup E^R labeleq_thermal_limit\n theta^Delta l_ij leq angle (V_i V^*_j) leq theta^Delta u_ij  forall (ij) in E labeleq_angle_difference\n\nendalignNote that for clarity of this presentation some model variants that PowerModels supports have been omitted (e.g. piecewise linear cost functions and HVDC lines).  Details about these variants is available in the Matpower documentation."
+    "text": "A complete mathematical model is as follows,\nbeginalign\n\nmboxvariables    \n S^g_k  forall kin G  labelvar_generation\n V_i  forall iin N labelvar_voltage \n S_ij  forall (ij) in E cup E^R  labelvar_complex_power \n\nmboxminimize   sum_k in G c_2k (Re(S^g_k))^2 + c_1kRe(S^g_k) + c_0k labeleq_objective\n\nmboxsubject to   nonumber \n angle V_r = 0   forall r in R labeleq_ref_bus\n S^gl_k leq S^g_k leq S^gu_k  forall k in G  labeleq_gen_bounds\n v^l_i leq V_i leq v^u_i  forall i in N labeleq_voltage_bounds\n sum_substackk in G_i S^g_k - sum_substackk in L_i S^d_k - sum_substackk in S_i Y^s_k V_i^2 = sum_substack(ij)in E_i cup E_i^R S_ij  forall iin N labeleq_kcl_shunt \n S_ij = left( Y_ij + Y^c_ijright)^* fracV_i^2T_ij^2 - Y^*_ij fracV_i V^*_jT_ij  forall (ij)in E labeleq_power_from\n S_ji = left( Y_ij + Y^c_ji right)^* V_j^2 - Y^*_ij fracV^*_i V_jT^*_ij  forall (ij)in E labeleq_power_to\n S_ij leq s^u_ij  forall (ij) in E cup E^R labeleq_thermal_limit\n theta^Delta l_ij leq angle (V_i V^*_j) leq theta^Delta u_ij  forall (ij) in E labeleq_angle_difference\n\nendalignNote that for clarity of this presentation some model variants that PowerModels supports have been omitted (e.g. piecewise linear cost functions and HVDC lines).  Details about these variants is available in the Matpower documentation."
 },
 
 {
-    "location": "math-model.html#Mapping-to-constraint_template.jl-1",
+    "location": "math-model.html#Mapping-to-function-names-1",
     "page": "Mathematical Model",
-    "title": "Mapping to constraint_template.jl",
+    "title": "Mapping to function names",
     "category": "section",
-    "text": "Eq. eqrefeq_objective - objective_min_fuel_cost\nEq. eqrefeq_ref_bus - constraint_theta_ref\nEq. eqrefeq_gen_bounds - bounds of variable_generation\nEq. eqrefeq_voltage_bounds - bounds of variable_voltage\nEq. eqrefeq_kcl_shunt - constraint_kcl_shunt\nEq. eqrefeq_power_from - constraint_ohms_yt_from\nEq. eqrefeq_power_to - constraint_ohms_yt_to\nEq. eqrefeq_thermal_limit - constraint_thermal_limit_from and constraint_thermal_limit_to\nEq. eqrefeq_angle_difference - constraint_voltage_angle_difference"
+    "text": "Eq. eqrefvar_generation - variable_generation in variable.jl\nEq. eqrefvar_voltage - variable_voltage in variable.jl\nEq. eqrefvar_complex_power - variable_branch_flow in variable.jl\nEq. eqrefeq_objective - objective_min_fuel_cost in objective.jl\nEq. eqrefeq_ref_bus - constraint_theta_ref in constraint_template.jl\nEq. eqrefeq_gen_bounds - bounds of variable_generation in variable.jl\nEq. eqrefeq_voltage_bounds - bounds of variable_voltage in variable.jl\nEq. eqrefeq_kcl_shunt - constraint_kcl_shunt in constraint_template.jl\nEq. eqrefeq_power_from - constraint_ohms_yt_from in constraint_template.jl\nEq. eqrefeq_power_to - constraint_ohms_yt_to in constraint_template.jl\nEq. eqrefeq_thermal_limit - constraint_thermal_limit_from and constraint_thermal_limit_to in constraint_template.jl\nEq. eqrefeq_angle_difference - constraint_voltage_angle_difference in constraint_template.jl"
 },
 
 {
@@ -261,15 +269,15 @@ var documenterSearchIndex = {"docs": [
     "page": "Mathematical Model",
     "title": "AC Optimal Power Flow for the Branch Flow Model",
     "category": "section",
-    "text": "The same assumptions apply as before. The series impedance is Z_ij=(Y_ij)^-1. In comparison  with the BIM, a new variable I^s_ij, representing the current in the direction i to j, through the series part of the pi-section, is introduced. A complete mathematical formulation for a Branch Flow Model is conceived as:beginalign\n\nmboxvariables   nonumber \n S^g_k  forall kin G nonumber \n V_i  forall iin N nonumber \n S_ij  forall (ij) in E cup E^R nonumber \n I^s_ij  forall (ij) in E cup E^R nonumber \n\nmboxminimize   sum_k in G c_2k (Re(S^g_k))^2 + c_1kRe(S^g_k) + c_0k nonumber\n\nmboxsubject to   nonumber \n angle V_r = 0   forall r in R nonumber \n S^gl_k leq S^g_k leq S^gu_k  forall k in G nonumber \n v^l_i leq V_i leq v^u_i  forall i in N nonumber\n sum_substackk in G_i S^g_k - sum_substackk in L_i S^d_k - sum_substackk in S_i Y^s_k V_i^2 = sum_substack(ij)in E_i cup E_i^R S_ij  forall iin N nonumber\n S_ij +  S_ji = left(Y^c_ijright)^* fracV_i^2T_ij^2 + Z_ij I^s_ij^2 +  left(Y^c_jiright)^* V_j^2   forall (ij)in E labeleq_line_losses \n S_ij = S^s_ij + left(Y^c_ijright)^* fracV_i^2T_ij^2   forall (ij)in E labeleq_series_power_flow \n S^s_ij = fracV_iT_ij (I^s_ij)^*   forall (ij)in E labeleq_complex_power_definition \n fracV_iT_ij = V_j + z_ij I^s_ij   forall (ij)in E labeleq_ohms_bfm \n S_ij leq s^u_ij  forall (ij) in E cup E^R nonumber\n theta^Delta l_ij leq angle (V_i V^*_j) leq theta^Delta u_ij  forall (ij) in E nonumber\n\nendalignNote that constraints eqrefeq_line_losses - eqrefeq_ohms_bfm replace eqrefeq_power_from - eqrefeq_power_to but the remainder of the problem formulation is identical. Furthermore, the problems have the same feasible set.  "
+    "text": "The same assumptions apply as before. The series impedance is Z_ij=(Y_ij)^-1. In comparison  with the BIM, a new variable I^s_ij, representing the current in the direction i to j, through the series part of the pi-section, is introduced. A complete mathematical formulation for a Branch Flow Model is conceived as:beginalign\n\nmboxvariables   nonumber \n S^g_k  forall kin G nonumber \n V_i  forall iin N nonumber \n S_ij  forall (ij) in E cup E^R nonumber \n I^s_ij  forall (ij) in E cup E^R labelvar_branch_current\n\nmboxminimize   sum_k in G c_2k (Re(S^g_k))^2 + c_1kRe(S^g_k) + c_0k nonumber\n\nmboxsubject to   nonumber \n angle V_r = 0   forall r in R nonumber \n S^gl_k leq S^g_k leq S^gu_k  forall k in G nonumber \n v^l_i leq V_i leq v^u_i  forall i in N nonumber\n sum_substackk in G_i S^g_k - sum_substackk in L_i S^d_k - sum_substackk in S_i Y^s_k V_i^2 = sum_substack(ij)in E_i cup E_i^R S_ij  forall iin N nonumber\n S_ij +  S_ji = left(Y^c_ijright)^* fracV_i^2T_ij^2 + Z_ij I^s_ij^2 +  left(Y^c_jiright)^* V_j^2   forall (ij)in E labeleq_line_losses \n S_ij = S^s_ij + left(Y^c_ijright)^* fracV_i^2T_ij^2   forall (ij)in E labeleq_series_power_flow \n S^s_ij = fracV_iT_ij (I^s_ij)^*   forall (ij)in E labeleq_complex_power_definition \n fracV_iT_ij = V_j + z_ij I^s_ij   forall (ij)in E labeleq_ohms_bfm \n S_ij leq s^u_ij  forall (ij) in E cup E^R nonumber\n theta^Delta l_ij leq angle (V_i V^*_j) leq theta^Delta u_ij  forall (ij) in E nonumber\n\nendalignNote that constraints eqrefeq_line_losses - eqrefeq_ohms_bfm replace eqrefeq_power_from - eqrefeq_power_to but the remainder of the problem formulation is identical. Furthermore, the problems have the same feasible set.  "
 },
 
 {
-    "location": "math-model.html#Mapping-to-constraint_template.jl-2",
+    "location": "math-model.html#Mapping-to-function-names-2",
     "page": "Mathematical Model",
-    "title": "Mapping to constraint_template.jl",
+    "title": "Mapping to function names",
     "category": "section",
-    "text": "Eq. eqrefeq_line_losses - constraint_flow_losses\nEq. eqrefeq_series_power_flow - implicit, substituted out\nEq. eqrefeq_complex_power_definition - constraint_branch_current\nEq. eqrefeq_ohms_bfm - constraint_voltage_magnitude_difference"
+    "text": "Eq. eqrefvar_branch_current - variable_branch_current in variable.jl\nEq. eqrefeq_line_losses - constraint_flow_losses in constraint_template.jl\nEq. eqrefeq_series_power_flow - implicit, substituted out before implementation\nEq. eqrefeq_complex_power_definition - constraint_branch_current in constraint_template.jl\nEq. eqrefeq_ohms_bfm - constraint_voltage_magnitude_difference in constraint_template.jl"
 },
 
 {
@@ -1662,6 +1670,118 @@ var documenterSearchIndex = {"docs": [
     "title": "Adding total current limits",
     "category": "section",
     "text": "Total current from: $ \\vert I_{lij} \\vert \\leq I^{rated}_{l}$\nTotal current to: $ \\vert I_{lji} \\vert \\leq I^{rated}_{l}$In squared voltage magnitude variables:Total current from: $ (P_{lij})^2$ + (Q_lij)^2  leq (I^rated_l)^2 cdot  w_i\nTotal current to: $ (P_{lji})^2$ + (Q_lji)^2  leq (I^rated_l)^2 cdot w_j[1] Gan, L., Li, N., Topcu, U., & Low, S. (2012). Branch flow model for radial networks: convex relaxation. 51st IEEE Conference on Decision and Control, 1–8. Retrieved from http://smart.caltech.edu/papers/ExactRelaxation.pdf"
+},
+
+{
+    "location": "formulation-details.html#",
+    "page": "Formulation Details",
+    "title": "Formulation Details",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "formulation-details.html#Formulation-Details-1",
+    "page": "Formulation Details",
+    "title": "Formulation Details",
+    "category": "section",
+    "text": "This section provides references to understand the formulations as provided by PowerModels. The list is not meant as a literature discussion, but to give the main starting points to understand the implementation of the formulations.Molzahn, D., & Hiskens, I. (forthcoming). A Survey of Relaxations and Approximations of the Power Flow Equations. Foundations and Trends in Electric Energy Systems\nCoffrin, C., & Roald, L. (2018). Convex relaxations in power system optimization: a brief introduction. [Math.OC], 1–5. Retrieved from http://arxiv.org/abs/1807.07227\nCoffrin, C., Hijazi, H., & Van Hentenryck, P. (2016). The QC relaxation: a theoretical and computational study on optimal power flow. IEEE Trans. Power Syst., 31(4), 3008–3018. https://doi.org/10.1109/TPWRS.2015.2463111"
+},
+
+{
+    "location": "formulation-details.html#Notes-on-the-mathematical-model-for-all-formulations-1",
+    "page": "Formulation Details",
+    "title": "Notes on the mathematical model for all formulations",
+    "category": "section",
+    "text": "PowerModels implements a slightly generalized version of the AC Optimal Power Flow problem from Matpower, as discussed in The PowerModels Mathematical Model and presented here.In the next subsections the differences between PowerModels\' bus and branch models and those commonly used in the literature are discussed. Consideration is given to these differences when implementing formulations from articles."
+},
+
+{
+    "location": "formulation-details.html#Standardized-branch-model-1",
+    "page": "Formulation Details",
+    "title": "Standardized branch model",
+    "category": "section",
+    "text": "The branch model is standardized as follows:An idealized (lossless) transformer at the from side of the branch (immediately on node i) with a fixed, complex-value voltage transformation (i.e. tap and shift)\nFollowed by a pi-section with complex-valued line shunt admittance, where the from and to side shunt can have different values\nA branch is uniquely defined by a tuple (lij) where l is the line index, i is the from node, and j is the to node.\nThermal limits are defined in apparent power, and are defined at both ends of a line\nEach branch has a phase angle difference constraintNevertheless, in the literature, the following can be observed:The to and from side line shunts are equal\nThe line shunt admittance is a pure susceptance (equivalent to shunt conductance set to 0)\nA branch in a grid without parallel lines is uniquely defined by a tuple (ij) where i is the from node, and j is the to node.\nThermal limits are defined in current (total or series), complex power limits are approximated as a regular polygon, ...\nThermal limits are defined only at the from (or to) side\nPhase angle difference constraints are not includedFurthermore, \"lifted nonlinear cuts\" are used to improve the accuracy of PAD constraints for all formulations in the lifted S-W variable space:Coffrin, C., Hijazi, H., & Van Hentenryck, P. (2017). Strengthening the SDP relaxation of ac power flows with convex envelopes, bound tightening, and valid inequalities. IEEE Trans. Power Syst., 32(5), 3549–3558. https://doi.org/10.1109/TPWRS.2016.2634586"
+},
+
+{
+    "location": "formulation-details.html#Standardized-bus-model-1",
+    "page": "Formulation Details",
+    "title": "Standardized bus model",
+    "category": "section",
+    "text": "The bus model is standardized as follows:A bus defines a complex power balance for all the sets lines, generators, loads, bus shunts connected to it, i.e. one can define multiple load  and shunt  components on each bus iNevertheless, in the literature, a simplified bus model is often used:Only a single (aggregated) load per bus is supported\nOnly a single (aggregated) bus shunt per bus is supported"
+},
+
+{
+    "location": "formulation-details.html#ACPPowerModel-1",
+    "page": "Formulation Details",
+    "title": "ACPPowerModel",
+    "category": "section",
+    "text": "Cain, M. B., O’ Neill, R. P., & Castillo, A. (2012). History of optimal power flow and formulations. https://www.ferc.gov/industries/electric/indus-act/market-planning/opf-papers/acopf-1-history-formulation-testing.pdf"
+},
+
+{
+    "location": "formulation-details.html#ACRPowerModel-1",
+    "page": "Formulation Details",
+    "title": "ACRPowerModel",
+    "category": "section",
+    "text": "Cain, M. B., O’ Neill, R. P., & Castillo, A. (2012). History of optimal power flow and formulations. https://www.ferc.gov/industries/electric/indus-act/market-planning/opf-papers/acopf-1-history-formulation-testing.pdf"
+},
+
+{
+    "location": "formulation-details.html#ACTPowerModel-1",
+    "page": "Formulation Details",
+    "title": "ACTPowerModel",
+    "category": "section",
+    "text": "Jabr, R. A. (2008). Optimal power flow using an extended conic quadratic formulation. IEEE Trans. Power Syst., 23(3), 1000–1008. https://doi.org/10.1109/TPWRS.2008.926439"
+},
+
+{
+    "location": "formulation-details.html#DCPPowerModel-1",
+    "page": "Formulation Details",
+    "title": "DCPPowerModel",
+    "category": "section",
+    "text": "Stott, B., Jardim, J., & Alsac, O. (2009). DC power flow revisited. IEEE Trans. Power Syst., 24(3), 1290–1300. https://doi.org/10.1109/TPWRS.2009.2021235"
+},
+
+{
+    "location": "formulation-details.html#SDPWRMPowerModel-1",
+    "page": "Formulation Details",
+    "title": "SDPWRMPowerModel",
+    "category": "section",
+    "text": "Original paper:Bai, X., Wei, H., Fujisawa, K., & Wang, Y. (2008). Semidefinite programming for optimal power flow problems. Int. J. Elec. Power & Energy Syst., 30(6–7), 383–392. https://doi.org/10.1016/j.ijepes.2007.12.003First use of \'W\' to represent voltage products in BIM SDP:Sojoudi, S., & Lavaei, J. (2012). Physics of power networks makes hard optimization problems easy to solve. In IEEE Power and Energy Soc. General Meeting (pp. 1–8). San Diego, CA. https://doi.org/10.1109/PESGM.2012.6345272"
+},
+
+{
+    "location": "formulation-details.html#SOCWRPowerModel-1",
+    "page": "Formulation Details",
+    "title": "SOCWRPowerModel",
+    "category": "section",
+    "text": "Jabr, R. A. (2006). Radial distribution load flow using conic programming. IEEE Trans. Power Syst., 21(3), 2005–2006. https://doi.org/10.1109/TPWRS.2006.879234"
+},
+
+{
+    "location": "formulation-details.html#QCWRPowerModel-1",
+    "page": "Formulation Details",
+    "title": "QCWRPowerModel",
+    "category": "section",
+    "text": "Hijazi, H., Coffrin, C., & Van Hentenryck, P. (2016). Convex quadratic relaxations for mixed-integer nonlinear programs in power systems. Math. Prog. Comp., 1–47."
+},
+
+{
+    "location": "formulation-details.html#QCWRTriPowerModel-1",
+    "page": "Formulation Details",
+    "title": "QCWRTriPowerModel",
+    "category": "section",
+    "text": "Same as QCWRPowerModel but with McCormick\'s envelopes for product of three variables."
+},
+
+{
+    "location": "formulation-details.html#SOCBFPowerModel-1",
+    "page": "Formulation Details",
+    "title": "SOCBFPowerModel",
+    "category": "section",
+    "text": "Original work:Farivar, M. and Low, S. H. (2012) “Branch flow model: Relaxations and convexification,” in Proc. 51st IEEE Conf. Decision and Control.Extended with transformers as follows:Coffrin, C., Hijazi, H. L., & Van Hentenryck, P. (2015). DistFlow Extensions for AC Transmission Systems, 1–20. Retrieved from http://arxiv.org/abs/1506.04773"
 },
 
 {
