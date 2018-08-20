@@ -1717,7 +1717,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.ACPPowerModel",
     "category": "type",
-    "text": "AC power flow formulation with polar bus voltage variables.\n\nThe seminal reference of AC OPF:\n\n@article{carpentier1962contribution,\n  title={Contribution to the economic dispatch problem},\n  author={Carpentier, J},\n  journal={Bulletin de la Societe Francoise des Electriciens},\n  volume={3},\n  number={8},\n  pages={431--447},\n  year={1962}\n}\n\nHistory and discussion:\n\n@techreport{Cain2012,\nauthor = {Cain, Mary B and {O\' Neill}, Richard P and Castillo, Anya},\npages = {1--36},\ntitle = {{History of optimal power flow and formulations}},\nurl = {https://www.ferc.gov/industries/electric/indus-act/market-planning/opf-papers/acopf-1-history-formulation-testing.pdf}\nyear = {2012}\n}\n\n\n\n"
+    "text": "AC power flow formulation with polar bus voltage variables.\n\nThe seminal reference of AC OPF:\n\n@article{carpentier1962contribution,\n  title={Contribution to the economic dispatch problem},\n  author={Carpentier, J},\n  journal={Bulletin de la Societe Francoise des Electriciens},\n  volume={3},\n  number={8},\n  pages={431--447},\n  year={1962}\n}\n\nHistory and discussion:\n\n@techreport{Cain2012,\n  author = {Cain, Mary B and {O\' Neill}, Richard P and Castillo, Anya},\n  title = {{History of optimal power flow and formulations}},\n  year = {2012}\n  pages = {1--36},\n  url = {https://www.ferc.gov/industries/electric/indus-act/market-planning/opf-papers/acopf-1-history-formulation-testing.pdf}\n}\n\n\n\n"
 },
 
 {
@@ -1749,7 +1749,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.ACTPowerModel",
     "category": "type",
-    "text": "AC power flow formulation (nonconvex) with variables for voltage angle, voltage magnitude squared, and real and imaginary part of voltage crossproducts. A tangens constraint is added to represent meshed networks in an exact manner.\n\n@ARTICLE{4349090,\nauthor={R. A. Jabr},\njournal={IEEE Transactions on Power Systems},\ntitle={A Conic Quadratic Format for the Load Flow Equations of Meshed Networks},\nyear={2007},\nvolume={22},\nnumber={4},\npages={2285-2286},\ndoi={10.1109/TPWRS.2007.907590},\nISSN={0885-8950},\nmonth={Nov},}\n\n\n\n"
+    "text": "AC power flow formulation (nonconvex) with variables for voltage angle, voltage magnitude squared, and real and imaginary part of voltage crossproducts. A tangens constraint is added to represent meshed networks in an exact manner.\n\n@ARTICLE{4349090,\n  author={R. A. Jabr},\n  title={A Conic Quadratic Format for the Load Flow Equations of Meshed Networks},\n  journal={IEEE Transactions on Power Systems},\n  year={2007},\n  month={Nov},\n  volume={22},\n  number={4},\n  pages={2285-2286},\n  doi={10.1109/TPWRS.2007.907590},\n  ISSN={0885-8950}\n}\n\n\n\n"
 },
 
 {
@@ -1765,7 +1765,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.DCPPowerModel",
     "category": "type",
-    "text": "Linearized \'DC\' power flow formulation with polar voltage variables.\n\n@ARTICLE{4956966,\nauthor={B. Stott and J. Jardim and O. Alsac},\njournal={IEEE Transactions on Power Systems},\ntitle={DC Power Flow Revisited},\nyear={2009},\nvolume={24},\nnumber={3},\npages={1290-1300},\nkeywords={load flow;power markets;power system management;power system security;pricing;DC network power flow models;congestion-constrained market applications;electric power industry;Load flow;Power system modeling;Power generation economics;Large-scale systems;Testing;Application software;Reliability theory;Load flow analysis;Pricing;Software systems;Congestion revenue rights;contingency analysis;dc power flow;economic dispatch;financial transmission rights;LMP pricing;unit commitment},\ndoi={10.1109/TPWRS.2009.2021235},\nISSN={0885-8950},\nmonth={Aug},}\n\n\n\n"
+    "text": "Linearized \'DC\' power flow formulation with polar voltage variables.\n\n@ARTICLE{4956966,\n  author={B. Stott and J. Jardim and O. Alsac},\n  journal={IEEE Transactions on Power Systems},\n  title={DC Power Flow Revisited},\n  year={2009},\n  month={Aug},\n  volume={24},\n  number={3},\n  pages={1290-1300},\n  doi={10.1109/TPWRS.2009.2021235},\n  ISSN={0885-8950}\n}\n\n\n\n"
 },
 
 {
@@ -1781,7 +1781,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.SDPWRMPowerModel",
     "category": "type",
-    "text": "Semi-definite relaxation of AC OPF\n\nOriginally proposed by:\n\n@article{BAI2008383,\ntitle = \"Semidefinite programming for optimal power flow problems\",\njournal = \"International Journal of Electrical Power & Energy Systems\",\nvolume = \"30\",\nnumber = \"6\",\npages = \"383 - 392\",\nyear = \"2008\",\nissn = \"0142-0615\",\ndoi = \"https://doi.org/10.1016/j.ijepes.2007.12.003\",\nurl = \"http://www.sciencedirect.com/science/article/pii/S0142061507001378\",\nauthor = \"Xiaoqing Bai and Hua Wei and Katsuki Fujisawa and Yong Wang\",\n}\n\nFirst paper to use \"W\" variables in the BIM of AC OPF:\n\nauthor={S. Sojoudi and J. Lavaei},\nbooktitle={2012 IEEE Power and Energy Society General Meeting},\ntitle={Physics of power networks makes hard optimization problems easy to solve},\nyear={2012},\nvolume={},\nnumber={},\npages={1-8},\ndoi={10.1109/PESGM.2012.6345272},\nISSN={1932-5517},\nmonth={July},}\n\n\n\n"
+    "text": "Semi-definite relaxation of AC OPF\n\nOriginally proposed by:\n\n@article{BAI2008383,\n  author = \"Xiaoqing Bai and Hua Wei and Katsuki Fujisawa and Yong Wang\",\n  title = \"Semidefinite programming for optimal power flow problems\",\n  journal = \"International Journal of Electrical Power & Energy Systems\",\n  volume = \"30\",\n  number = \"6\",\n  pages = \"383 - 392\",\n  year = \"2008\",\n  issn = \"0142-0615\",\n  doi = \"https://doi.org/10.1016/j.ijepes.2007.12.003\",\n  url = \"http://www.sciencedirect.com/science/article/pii/S0142061507001378\",\n}\n\nFirst paper to use \"W\" variables in the BIM of AC OPF:\n\n@INPROCEEDINGS{6345272,\n  author={S. Sojoudi and J. Lavaei},\n  title={Physics of power networks makes hard optimization problems easy to solve},\n  booktitle={2012 IEEE Power and Energy Society General Meeting},\n  year={2012},\n  month={July},\n  pages={1-8},\n  doi={10.1109/PESGM.2012.6345272},\n  ISSN={1932-5517}\n}\n\n\n\n"
 },
 
 {
@@ -1797,7 +1797,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.SOCWRPowerModel",
     "category": "type",
-    "text": "Second-order cone relaxation of bus injection model of AC OPF.\n\nThe implementation casts this as a convex quadratically constrained problem.\n\n@ARTICLE{1664986,\nauthor={R. A. Jabr},\njournal={IEEE Transactions on Power Systems},\ntitle={Radial distribution load flow using conic programming},\nyear={2006},\nvolume={21},\nnumber={3},\npages={1458-1459},\ndoi={10.1109/TPWRS.2006.879234},\nISSN={0885-8950},\nmonth={Aug},}\n\n\n\n"
+    "text": "Second-order cone relaxation of bus injection model of AC OPF.\n\nThe implementation casts this as a convex quadratically constrained problem.\n\n@article{1664986,\n  author={R. A. Jabr},\n  title={Radial distribution load flow using conic programming},\n  journal={IEEE Transactions on Power Systems},\n  year={2006},\n  month={Aug},\n  volume={21},\n  number={3},\n  pages={1458-1459},\n  doi={10.1109/TPWRS.2006.879234},\n  ISSN={0885-8950}\n}\n\n\n\n"
 },
 
 {
@@ -1813,7 +1813,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.QCWRPowerModel",
     "category": "type",
-    "text": "\"Quadratic-Convex\" relaxation of AC OPF\n\n@Article{Hijazi2017,\nauthor=\"Hijazi, Hassan\nand Coffrin, Carleton\nand Hentenryck, Pascal Van\",\ntitle=\"Convex quadratic relaxations for mixed-integer nonlinear programs in power systems\",\njournal=\"Mathematical Programming Computation\",\nyear=\"2017\",\nmonth=\"Sep\",\nday=\"01\",\nvolume=\"9\",\nnumber=\"3\",\npages=\"321--367\",\nabstract=\"This paper presents a set of new convex quadratic relaxations for nonlinear and mixed-integer nonlinear programs arising in power systems. The considered models are motivated by hybrid discrete/continuous applications where existing approximations do not provide optimality guarantees. The new relaxations offer computational efficiency along with minimal optimality gaps, providing an interesting alternative to state-of-the-art semidefinite programming relaxations. Three case studies in optimal power flow, optimal transmission switching and capacitor placement demonstrate the benefits of the new relaxations.\",\nissn=\"1867-2957\",\ndoi=\"10.1007/s12532-016-0112-z\",\nurl=\"https://doi.org/10.1007/s12532-016-0112-z\"\n}\n\n\n\n"
+    "text": "\"Quadratic-Convex\" relaxation of AC OPF\n\n@Article{Hijazi2017,\n  author=\"Hijazi, Hassan and Coffrin, Carleton and Hentenryck, Pascal Van\",\n  title=\"Convex quadratic relaxations for mixed-integer nonlinear programs in power systems\",\n  journal=\"Mathematical Programming Computation\",\n  year=\"2017\",\n  month=\"Sep\",\n  volume=\"9\",\n  number=\"3\",\n  pages=\"321--367\",\n  issn=\"1867-2957\",\n  doi=\"10.1007/s12532-016-0112-z\",\n  url=\"https://doi.org/10.1007/s12532-016-0112-z\"\n}\n\n\n\n"
 },
 
 {
@@ -1829,7 +1829,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.QCWRTriPowerModel",
     "category": "type",
-    "text": "\"Quadratic-Convex\" relaxation of AC OPF with convex hull of triple product\n\n@Article{Hijazi2017,\nauthor=\"Hijazi, Hassan\nand Coffrin, Carleton\nand Hentenryck, Pascal Van\",\ntitle=\"Convex quadratic relaxations for mixed-integer nonlinear programs in power systems\",\njournal=\"Mathematical Programming Computation\",\nyear=\"2017\",\nmonth=\"Sep\",\nday=\"01\",\nvolume=\"9\",\nnumber=\"3\",\npages=\"321--367\",\nabstract=\"This paper presents a set of new convex quadratic relaxations for nonlinear and mixed-integer nonlinear programs arising in power systems. The considered models are motivated by hybrid discrete/continuous applications where existing approximations do not provide optimality guarantees. The new relaxations offer computational efficiency along with minimal optimality gaps, providing an interesting alternative to state-of-the-art semidefinite programming relaxations. Three case studies in optimal power flow, optimal transmission switching and capacitor placement demonstrate the benefits of the new relaxations.\",\nissn=\"1867-2957\",\ndoi=\"10.1007/s12532-016-0112-z\",\nurl=\"https://doi.org/10.1007/s12532-016-0112-z\"\n}\n\n\n\n"
+    "text": "\"Quadratic-Convex\" relaxation of AC OPF with convex hull of triple product\n\n@Article{Hijazi2017,\n  author=\"Hijazi, Hassan and Coffrin, Carleton and Hentenryck, Pascal Van\",\n  title=\"Convex quadratic relaxations for mixed-integer nonlinear programs in power systems\",\n  journal=\"Mathematical Programming Computation\",\n  year=\"2017\",\n  month=\"Sep\",\n  volume=\"9\",\n  number=\"3\",\n  pages=\"321--367\",\n  issn=\"1867-2957\",\n  doi=\"10.1007/s12532-016-0112-z\",\n  url=\"https://doi.org/10.1007/s12532-016-0112-z\"\n}\n\n\n\n"
 },
 
 {
@@ -1845,7 +1845,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.SOCBFPowerModel",
     "category": "type",
-    "text": "Second-order cone relaxation of branch flow model\n\nThe implementation casts this as a convex quadratically constrained problem.\n\n@INPROCEEDINGS{6425870,\nauthor={M. Farivar and S. H. Low},\nbooktitle={2012 IEEE 51st IEEE Conference on Decision and Control (CDC)},\ntitle={Branch flow model: Relaxations and convexification},\nyear={2012},\npages={3672-3679},\ndoi={10.1109/CDC.2012.6425870},\nISSN={0191-2216},\nmonth={Dec},}\n\nExtended as discussed in:\n\n@misc{1506.04773,\n  author = {Carleton Coffrin and Hassan L. Hijazi and Pascal Van Hentenryck},\n  title = {DistFlow Extensions for AC Transmission Systems},\n  year = {2018},\n  eprint = {arXiv:1506.04773},\n  url = {https://arxiv.org/abs/1506.04773}\n}\n\n\n\n"
+    "text": "Second-order cone relaxation of branch flow model\n\nThe implementation casts this as a convex quadratically constrained problem.\n\n@INPROCEEDINGS{6425870,\n  author={M. Farivar and S. H. Low},\n  title={Branch flow model: Relaxations and convexification},\n  booktitle={2012 IEEE 51st IEEE Conference on Decision and Control (CDC)},\n  year={2012},\n  month={Dec},\n  pages={3672-3679},\n  doi={10.1109/CDC.2012.6425870},\n  ISSN={0191-2216}\n}\n\nExtended as discussed in:\n\n@misc{1506.04773,\n  author = {Carleton Coffrin and Hassan L. Hijazi and Pascal Van Hentenryck},\n  title = {DistFlow Extensions for AC Transmission Systems},\n  year = {2018},\n  eprint = {arXiv:1506.04773},\n  url = {https://arxiv.org/abs/1506.04773}\n}\n\n\n\n"
 },
 
 {
