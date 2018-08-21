@@ -325,7 +325,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Formulations",
     "title": "Type Hierarchy",
     "category": "section",
-    "text": "We begin with the top of the hierarchy, where we can distinguish between AC and DC power flow models.AbstractACPForm <: AbstractPowerFormulation\nAbstractDCPForm <: AbstractPowerFormulation\nAbstractWRForm <: AbstractPowerFormulation\nAbstractWForm <: AbstractPowerFormulationFrom there, different forms for ACP and DCP are possible:StandardACPForm <: AbstractACPForm\nAPIACPForm <: AbstractACPForm\n\nStandardDCPForm <: AbstractDCPForm\n\nSOCWRForm <: AbstractWRForm\nQCWRForm <: AbstractWRForm\n\nSOCBFForm <: AbstractWForm"
+    "text": "We begin with the top of the hierarchy, where we can distinguish between AC and DC power flow models.AbstractACPForm <: AbstractPowerFormulation\nAbstractDCPForm <: AbstractPowerFormulation\nAbstractWRForm <: AbstractPowerFormulation\nAbstractWForm <: AbstractPowerFormulationFrom there, different forms for ACP and DCP are possible:StandardACPForm <: AbstractACPForm\nAPIACPForm <: AbstractACPForm\n\nDCPlosslessForm <: AbstractDCPForm\n\nSOCWRForm <: AbstractWRForm\nQCWRForm <: AbstractWRForm\n\nSOCBFForm <: AbstractWForm"
 },
 
 {
@@ -333,7 +333,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Formulations",
     "title": "Power Models",
     "category": "section",
-    "text": "Each of these forms can be used as the type parameter for a PowerModel:ACPPowerModel = GenericPowerModel{StandardACPForm}\nAPIACPPowerModel = GenericPowerModel{APIACPForm}\n\nDCPPowerModel = GenericPowerModel{StandardDCPForm}\n\nSOCWRPowerModel = GenericPowerModel{SOCWRForm}\nQCWRPowerModel = GenericPowerModel{QCWRForm}\n\nSOCBFPowerModel = GenericPowerModel{SOCBFForm}For details on GenericPowerModel, see the section on Power Model."
+    "text": "Each of these forms can be used as the type parameter for a PowerModel:ACPPowerModel = GenericPowerModel{StandardACPForm}\nAPIACPPowerModel = GenericPowerModel{APIACPForm}\n\nDCPPowerModel = GenericPowerModel{DCPlosslessForm}\n\nSOCWRPowerModel = GenericPowerModel{SOCWRForm}\nQCWRPowerModel = GenericPowerModel{QCWRForm}\n\nSOCBFPowerModel = GenericPowerModel{SOCBFForm}For details on GenericPowerModel, see the section on Power Model."
 },
 
 {
@@ -636,6 +636,30 @@ var documenterSearchIndex = {"docs": [
     "location": "objective.html#PowerModels.objective_min_fuel_cost-Tuple{PowerModels.GenericPowerModel}",
     "page": "Objective",
     "title": "PowerModels.objective_min_fuel_cost",
+    "category": "method",
+    "text": "\n\n"
+},
+
+{
+    "location": "objective.html#PowerModels.objective_min_gen_fuel_cost-Tuple{PowerModels.GenericPowerModel}",
+    "page": "Objective",
+    "title": "PowerModels.objective_min_gen_fuel_cost",
+    "category": "method",
+    "text": "\n\n"
+},
+
+{
+    "location": "objective.html#PowerModels.objective_min_gen_polynomial_fuel_cost-Tuple{PowerModels.GenericPowerModel}",
+    "page": "Objective",
+    "title": "PowerModels.objective_min_gen_polynomial_fuel_cost",
+    "category": "method",
+    "text": "\n\n"
+},
+
+{
+    "location": "objective.html#PowerModels.objective_min_gen_pwl_fuel_cost-Tuple{PowerModels.GenericPowerModel}",
+    "page": "Objective",
+    "title": "PowerModels.objective_min_gen_pwl_fuel_cost",
     "category": "method",
     "text": "\n\n"
 },
@@ -957,7 +981,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_theta_ref",
     "category": "function",
-    "text": "\n\nreference bus angle constraint\n\n\n\nt[ref_bus] == 0\n\n\n\nt[ref_bus] == 0\n\n\n\nt[ref_bus] == 0\n\n\n\nDo nothing, no way to represent this in these variables\n\n\n\n"
+    "text": "\n\nreference bus angle constraint\n\n\n\nt[ref_bus] == 0\n\n\n\nnothing to do, no voltage angle variables\n\n\n\nt[ref_bus] == 0\n\n\n\nt[ref_bus] == 0\n\n\n\nDo nothing, no way to represent this in these variables\n\n\n\n"
 },
 
 {
@@ -1013,7 +1037,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_from",
     "category": "function",
-    "text": "\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==  (g+g_fr)/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus]))\nq[f_idx] == -(b+b_fr)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus]))\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] == -b*(t[f_bus] - t[t_bus])\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n"
+    "text": "\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==  (g+g_fr)/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus]))\nq[f_idx] == -(b+b_fr)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus]))\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] == -b*(t[f_bus] - t[t_bus])\n\n\n\nnothing to do, no voltage angle variables\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n"
 },
 
 {
@@ -1173,7 +1197,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_angle_difference",
     "category": "function",
-    "text": "\n\nbranch voltage angle difference bounds\n\n\n\nt[f_bus] - t[t_bus] <= angmax\nt[f_bus] - t[t_bus] >= angmin\n\n\n\n\n\nt[f_bus] - t[t_bus] <= angmax\nt[f_bus] - t[t_bus] >= angmin\n\n\n\n\n\n"
+    "text": "\n\nbranch voltage angle difference bounds\n\n\n\nt[f_bus] - t[t_bus] <= angmax\nt[f_bus] - t[t_bus] >= angmin\n\n\n\nnothing to do, no voltage angle variables\n\n\n\n\n\nt[f_bus] - t[t_bus] <= angmax\nt[f_bus] - t[t_bus] >= angmin\n\n\n\n\n\n"
 },
 
 {

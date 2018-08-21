@@ -12,7 +12,7 @@ AbstractWRForm &lt;: AbstractPowerFormulation
 AbstractWForm &lt;: AbstractPowerFormulation</code></pre><p>From there, different forms for ACP and DCP are possible:</p><pre><code class="language-julia">StandardACPForm &lt;: AbstractACPForm
 APIACPForm &lt;: AbstractACPForm
 
-StandardDCPForm &lt;: AbstractDCPForm
+DCPlosslessForm &lt;: AbstractDCPForm
 
 SOCWRForm &lt;: AbstractWRForm
 QCWRForm &lt;: AbstractWRForm
@@ -20,7 +20,7 @@ QCWRForm &lt;: AbstractWRForm
 SOCBFForm &lt;: AbstractWForm</code></pre><h2><a class="nav-anchor" id="Power-Models-1" href="#Power-Models-1">Power Models</a></h2><p>Each of these forms can be used as the type parameter for a PowerModel:</p><pre><code class="language-julia">ACPPowerModel = GenericPowerModel{StandardACPForm}
 APIACPPowerModel = GenericPowerModel{APIACPForm}
 
-DCPPowerModel = GenericPowerModel{StandardDCPForm}
+DCPPowerModel = GenericPowerModel{DCPlosslessForm}
 
 SOCWRPowerModel = GenericPowerModel{SOCWRForm}
 QCWRPowerModel = GenericPowerModel{QCWRForm}
