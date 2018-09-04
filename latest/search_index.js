@@ -1817,6 +1817,22 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "formulation-details.html#PowerModels.SparseSDPWRMPowerModel",
+    "page": "Formulation Details",
+    "title": "PowerModels.SparseSDPWRMPowerModel",
+    "category": "type",
+    "text": "\n\n"
+},
+
+{
+    "location": "formulation-details.html#SparseSDPWRMPowerModel-1",
+    "page": "Formulation Details",
+    "title": "SparseSDPWRMPowerModel",
+    "category": "section",
+    "text": "SparseSDPWRMPowerModel"
+},
+
+{
     "location": "formulation-details.html#PowerModels.SOCWRPowerModel",
     "page": "Formulation Details",
     "title": "PowerModels.SOCWRPowerModel",
