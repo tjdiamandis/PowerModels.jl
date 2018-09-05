@@ -1757,7 +1757,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.ACRPowerModel",
     "category": "type",
-    "text": "AC power flow formulation with rectangular bus voltage variables.\n\n@techreport{Cain2012,\nauthor = {Cain, Mary B and {O\' Neill}, Richard P and Castillo, Anya},\npages = {1--36},\ntitle = {{History of optimal power flow and formulations}},\nurl = {https://www.ferc.gov/industries/electric/indus-act/market-planning/opf-papers/acopf-1-history-formulation-testing.pdf}\nyear = {2012}\n}\n\n\n\n"
+    "text": "AC power flow formulation with rectangular bus voltage variables.\n\n@techreport{Cain2012,\n  author = {Cain, Mary B and {O\' Neill}, Richard P and Castillo, Anya},\n  pages = {1--36},\n  title = {{History of optimal power flow and formulations}},\n  url = {https://www.ferc.gov/industries/electric/indus-act/market-planning/opf-papers/acopf-1-history-formulation-testing.pdf}\n  year = {2012}\n}\n\n\n\n"
 },
 
 {
