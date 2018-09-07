@@ -1821,7 +1821,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.SparseSDPWRMPowerModel",
     "category": "type",
-    "text": "\n\n"
+    "text": "Sparsity-exploiting semidefinite relaxation of AC OPF\n\nProposed in:\n\n@article{doi:10.1137/S1052623400366218,\nauthor = {Fukuda, M. and Kojima, M. and Murota, K. and Nakata, K.},\ntitle = {Exploiting Sparsity in Semidefinite Programming via Matrix Completion I: General Framework},\njournal = {SIAM Journal on Optimization},\nvolume = {11},\nnumber = {3},\npages = {647-674},\nyear = {2001},\ndoi = {10.1137/S1052623400366218},\nURL = {https://doi.org/10.1137/S1052623400366218},\neprint = {https://doi.org/10.1137/S1052623400366218}\n}\n\nOriginal application to OPF by:\n\n@ARTICLE{6064917,\nauthor={R. A. Jabr},\ntitle={Exploiting Sparsity in SDP Relaxations of the OPF Problem},\njournal={IEEE Transactions on Power Systems},\nvolume={27},\nnumber={2},\npages={1138-1139},\nyear={2012},\nmonth={May}},\ndoi={10.1109/TPWRS.2011.2170772},\nISSN={0885-8950}\n\n\n\n"
 },
 
 {
