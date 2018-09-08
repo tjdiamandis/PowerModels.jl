@@ -1757,7 +1757,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Formulation Details",
     "title": "PowerModels.ACRPowerModel",
     "category": "type",
-    "text": "AC power flow formulation with rectangular bus voltage variables.\n\n@techreport{Cain2012,\nauthor = {Cain, Mary B and {O\' Neill}, Richard P and Castillo, Anya},\npages = {1--36},\ntitle = {{History of optimal power flow and formulations}},\nurl = {https://www.ferc.gov/industries/electric/indus-act/market-planning/opf-papers/acopf-1-history-formulation-testing.pdf}\nyear = {2012}\n}\n\n\n\n"
+    "text": "AC power flow formulation with rectangular bus voltage variables.\n\n@techreport{Cain2012,\n  author = {Cain, Mary B and {O\' Neill}, Richard P and Castillo, Anya},\n  pages = {1--36},\n  title = {{History of optimal power flow and formulations}},\n  url = {https://www.ferc.gov/industries/electric/indus-act/market-planning/opf-papers/acopf-1-history-formulation-testing.pdf}\n  year = {2012}\n}\n\n\n\n"
 },
 
 {
@@ -1814,6 +1814,22 @@ var documenterSearchIndex = {"docs": [
     "title": "SDPWRMPowerModel",
     "category": "section",
     "text": "SDPWRMPowerModel"
+},
+
+{
+    "location": "formulation-details.html#PowerModels.SparseSDPWRMPowerModel",
+    "page": "Formulation Details",
+    "title": "PowerModels.SparseSDPWRMPowerModel",
+    "category": "type",
+    "text": "Sparsity-exploiting semidefinite relaxation of AC OPF\n\nProposed in:\n\n@article{doi:10.1137/S1052623400366218,\n  author = {Fukuda, M. and Kojima, M. and Murota, K. and Nakata, K.},\n  title = {Exploiting Sparsity in Semidefinite Programming via Matrix Completion I: General Framework},\n  journal = {SIAM Journal on Optimization},\n  volume = {11},\n  number = {3},\n  pages = {647-674},\n  year = {2001},\n  doi = {10.1137/S1052623400366218},\n  URL = {https://doi.org/10.1137/S1052623400366218},\n  eprint = {https://doi.org/10.1137/S1052623400366218}\n}\n\nOriginal application to OPF by:\n\n@ARTICLE{6064917,\n  author={R. A. Jabr},\n  title={Exploiting Sparsity in SDP Relaxations of the OPF Problem},\n  journal={IEEE Transactions on Power Systems},\n  volume={27},\n  number={2},\n  pages={1138-1139},\n  year={2012},\n  month={May},\n  doi={10.1109/TPWRS.2011.2170772},\n  ISSN={0885-8950}\n}\n\n\n\n"
+},
+
+{
+    "location": "formulation-details.html#SparseSDPWRMPowerModel-1",
+    "page": "Formulation Details",
+    "title": "SparseSDPWRMPowerModel",
+    "category": "section",
+    "text": "SparseSDPWRMPowerModel"
 },
 
 {
