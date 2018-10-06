@@ -989,7 +989,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_magnitude_setpoint",
     "category": "function",
-    "text": "\n\nv[i] == vm\n\n\n\nv[i] == vm\n\n\n\ndo nothing, this model does not have voltage variables\n\n\n\n"
+    "text": "\n\nv[i] == vm\n\n\n\nv[i] == vm\n\n\n\ndo nothing, this model does not have voltage variables\n\n\n\n\n\n"
 },
 
 {
