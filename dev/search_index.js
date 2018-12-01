@@ -641,6 +641,46 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "objective/#PowerModels._objective_min_gen_polynomial_fuel_cost_linear-Tuple{GenericPowerModel}",
+    "page": "Objective",
+    "title": "PowerModels._objective_min_gen_polynomial_fuel_cost_linear",
+    "category": "method",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "objective/#PowerModels._objective_min_gen_polynomial_fuel_cost_quadratic-Tuple{GenericPowerModel}",
+    "page": "Objective",
+    "title": "PowerModels._objective_min_gen_polynomial_fuel_cost_quadratic",
+    "category": "method",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "objective/#PowerModels._objective_min_polynomial_fuel_cost_linear-Tuple{GenericPowerModel}",
+    "page": "Objective",
+    "title": "PowerModels._objective_min_polynomial_fuel_cost_linear",
+    "category": "method",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "objective/#PowerModels._objective_min_polynomial_fuel_cost_quadratic-Tuple{GenericPowerModel}",
+    "page": "Objective",
+    "title": "PowerModels._objective_min_polynomial_fuel_cost_quadratic",
+    "category": "method",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "objective/#PowerModels._objective_min_polynomial_fuel_cost_quadratic-Union{Tuple{GenericPowerModel{T}}, Tuple{T}} where T<:Union{AbstractBFConicForm, AbstractConicPowerFormulation}",
+    "page": "Objective",
+    "title": "PowerModels._objective_min_polynomial_fuel_cost_quadratic",
+    "category": "method",
+    "text": "Adds lifted variables to turn a quadatic objective into a linear one; needed for conic solvers that only support linear objectives\n\n\n\n\n\n"
+},
+
+{
     "location": "objective/#PowerModels.check_cost_models-Tuple{GenericPowerModel}",
     "page": "Objective",
     "title": "PowerModels.check_cost_models",
@@ -698,14 +738,6 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "objective/#PowerModels.objective_min_polynomial_fuel_cost-Tuple{GenericPowerModel}",
-    "page": "Objective",
-    "title": "PowerModels.objective_min_polynomial_fuel_cost",
-    "category": "method",
-    "text": "\n\n\n\n"
-},
-
-{
-    "location": "objective/#PowerModels.objective_min_polynomial_fuel_cost-Union{Tuple{GenericPowerModel{T}}, Tuple{T}} where T<:Union{AbstractBFConicForm, AbstractConicPowerFormulation}",
     "page": "Objective",
     "title": "PowerModels.objective_min_polynomial_fuel_cost",
     "category": "method",
@@ -1533,7 +1565,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PowerModels.standardize_cost_terms",
     "category": "function",
-    "text": "ensures all polynomial costs functions have at least three terms\n\n\n\n\n\n"
+    "text": "ensures all polynomial costs functions have the same number of terms\n\n\n\n\n\n"
 },
 
 {
