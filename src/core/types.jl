@@ -28,19 +28,8 @@ export
 
 ##### Top Level Abstract Types #####
 
-"variants that target conic solvers"
-abstract type AbstractConicPowerFormulation <: AbstractPowerFormulation end
-
 "for branch flow models"
 abstract type AbstractBFForm <: AbstractPowerFormulation end
-
-"for variants of branch flow models that target QP or NLP solvers"
-abstract type AbstractBFQPForm <: AbstractBFForm end
-
-"for variants of branch flow models that target conic solvers"
-abstract type AbstractBFConicForm <: AbstractBFForm end
-
-
 
 
 
@@ -259,13 +248,8 @@ LPACCPowerModel(data::Dict{String,Any}; kwargs...) =
 abstract type AbstractWRForm <: AbstractPowerFormulation end
 
 ""
-abstract type AbstractWRConicForm <: AbstractConicPowerFormulation end
-
-""
-abstract type SOCWRConicForm <: AbstractWRConicForm end
-
-""
 abstract type SOCWRForm <: AbstractWRForm end
+
 
 """
 Second-order cone relaxation of bus injection model of AC OPF.
@@ -288,15 +272,20 @@ The implementation casts this as a convex quadratically constrained problem.
 """
 const SOCWRPowerModel = GenericPowerModel{SOCWRForm}
 
+"default SOC constructor"
+SOCWRPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, SOCWRForm; kwargs...)
+
+
+
+""
+abstract type SOCWRConicForm <: SOCWRForm end
+
 """
 Second-order cone relaxation of bus injection model of AC OPF.
 
 This implementation casts the problem as a convex conic problem.
 """
 const SOCWRConicPowerModel = GenericPowerModel{SOCWRConicForm}
-
-"default SOC constructor"
-SOCWRPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, SOCWRForm; kwargs...)
 
 SOCWRConicPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, SOCWRConicForm; kwargs...)
 
@@ -358,7 +347,7 @@ QCWRTriPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, Q
 
 
 ""
-abstract type SOCBFForm <: AbstractBFQPForm end
+abstract type SOCBFForm <: AbstractBFForm end
 
 """
 Second-order cone relaxation of branch flow model
@@ -394,7 +383,7 @@ SOCBFPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, SOC
 
 
 ""
-abstract type SOCBFConicForm <: AbstractBFConicForm end
+abstract type SOCBFConicForm <: SOCBFForm end
 
 ""
 const SOCBFConicPowerModel = GenericPowerModel{SOCBFConicForm}
@@ -410,7 +399,7 @@ SOCBFConicPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data
 ###### SDP Relaxations ######
 
 ""
-abstract type AbstractWRMForm <: AbstractConicPowerFormulation end
+abstract type AbstractWRMForm <: AbstractPowerFormulation end
 
 
 ""
@@ -512,11 +501,10 @@ SparseSDPWRMPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(da
 # type hierarchy can resolve the issue instead.
 #
 
-AbstractWRForms = Union{AbstractACTForm, AbstractWRForm, AbstractWRConicForm, AbstractWRMForm}
+AbstractWRForms = Union{AbstractACTForm, AbstractWRForm, AbstractWRMForm}
 AbstractWForms = Union{AbstractWRForms, AbstractBFForm}
 AbstractPForms = Union{AbstractACPForm, AbstractACTForm, AbstractDCPForm, AbstractLPACForm}
 
 "union of all conic form branches"
-AbstractConicForms = Union{AbstractConicPowerFormulation, AbstractBFConicForm}
-
+AbstractConicForms = Union{SOCWRConicForm, SOCBFConicForm, AbstractWRMForm}
 

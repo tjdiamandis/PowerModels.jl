@@ -7,11 +7,6 @@ function variable_voltage(pm::GenericPowerModel{T}; kwargs...) where T <: Abstra
     variable_voltage_product(pm; kwargs...)
 end
 
-""
-function variable_voltage(pm::GenericPowerModel{T}; kwargs...) where T <: AbstractWRConicForm
-    variable_voltage_magnitude_sqr(pm; kwargs...)
-    variable_voltage_product(pm; kwargs...)
-end
 
 ""
 function constraint_voltage(pm::GenericPowerModel{T}, n::Int, c::Int) where T <: AbstractWRForm
@@ -25,7 +20,7 @@ function constraint_voltage(pm::GenericPowerModel{T}, n::Int, c::Int) where T <:
 end
 
 ""
-function constraint_voltage(pm::GenericPowerModel{T}, n::Int, c::Int) where T <: AbstractWRConicForm
+function constraint_voltage(pm::GenericPowerModel{T}, n::Int, c::Int) where T <: SOCWRConicForm
     w  = var(pm, n, c,  :w)
     wr = var(pm, n, c, :wr)
     wi = var(pm, n, c, :wi)
