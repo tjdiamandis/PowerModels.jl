@@ -122,24 +122,41 @@ end
         end
     end
 
-    @testset "test sdp opf" begin
+    @testset "test soc (BIM) opf conic" begin
+        @testset "5-bus case" begin
+            data = build_current_data("../test/data/matpower/case5.m")
+            result = PowerModels.run_cl_opf_conic(data, SOCWRPowerModel, scs_solver)
+
+            @test result["status"] == :Optimal
+            @test isapprox(result["objective"], 15047.7; atol = 1e0)
+        end
+        @testset "14-bus no limits case" begin
+            data = build_current_data("../test/data/matpower/case14.m")
+            result = PowerModels.run_cl_opf_conic(data, SOCWRPowerModel, scs_solver)
+
+            @test result["status"] == :Optimal
+            @test isapprox(result["objective"], 8075.12; atol = 1e0)
+        end
+    end
+
+    @testset "test sdp opf conic" begin
         @testset "3-bus case" begin
             data = build_current_data("../test/data/matpower/case3.m")
-            result = PowerModels.run_cl_opf(data, SDPWRMPowerModel, scs_solver)
+            result = PowerModels.run_cl_opf_conic(data, SDPWRMPowerModel, scs_solver)
 
             @test result["status"] == :Optimal
             @test isapprox(result["objective"], 5747.32; atol = 1e0)
         end
         #@testset "5-bus case" begin
         #    data = build_current_data("../test/data/matpower/case5.m")
-        #    result = PowerModels.run_cl_opf(data, SDPWRMPowerModel, scs_solver)
+        #    result = PowerModels.run_cl_opf_conic(data, SDPWRMPowerModel, scs_solver)
 
         #    @test result["status"] == :Optimal
         #    @test isapprox(result["objective"], 15418.4; atol = 1e0)
         #end
         @testset "14-bus case" begin
             data = build_current_data("../test/data/matpower/case14.m")
-            result = PowerModels.run_cl_opf(data, SDPWRMPowerModel, scs_solver)
+            result = PowerModels.run_cl_opf_conic(data, SDPWRMPowerModel, scs_solver)
 
             @test result["status"] == :Optimal
             @test isapprox(result["objective"], 8081.52; atol = 1e0)

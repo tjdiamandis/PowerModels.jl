@@ -15,10 +15,8 @@ export
     # quadratic relaxations
     SOCWRPowerModel, SOCWRForm,
     QCWRPowerModel, QCWRForm,
-    SOCWRConicPowerModel, SOCWRConicForm,
     QCWRTriPowerModel, QCWRTriForm,
     SOCBFPowerModel, SOCBFForm,
-    SOCBFConicPowerModel, SOCBFConicForm,
 
     # sdp relaxations
     SDPWRMPowerModel, SDPWRMForm,
@@ -278,19 +276,6 @@ SOCWRPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, SOC
 
 
 ""
-abstract type SOCWRConicForm <: SOCWRForm end
-
-"""
-Second-order cone relaxation of bus injection model of AC OPF.
-
-This implementation casts the problem as a convex conic problem.
-"""
-const SOCWRConicPowerModel = GenericPowerModel{SOCWRConicForm}
-
-SOCWRConicPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, SOCWRConicForm; kwargs...)
-
-
-""
 abstract type QCWRForm <: AbstractWRForm end
 
 """
@@ -380,18 +365,6 @@ const SOCBFPowerModel = GenericPowerModel{SOCBFForm}
 
 "default SOC constructor"
 SOCBFPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, SOCBFForm; kwargs...)
-
-
-""
-abstract type SOCBFConicForm <: SOCBFForm end
-
-""
-const SOCBFConicPowerModel = GenericPowerModel{SOCBFConicForm}
-
-"default SOC constructor"
-SOCBFConicPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, SOCBFConicForm; kwargs...)
-
-
 
 
 
@@ -504,7 +477,4 @@ SparseSDPWRMPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(da
 AbstractWRForms = Union{AbstractACTForm, AbstractWRForm, AbstractWRMForm}
 AbstractWForms = Union{AbstractWRForms, AbstractBFForm}
 AbstractPForms = Union{AbstractACPForm, AbstractACTForm, AbstractDCPForm, AbstractLPACForm}
-
-"union of all conic form branches"
-AbstractConicForms = Union{SOCWRConicForm, SOCBFConicForm, AbstractWRMForm}
 

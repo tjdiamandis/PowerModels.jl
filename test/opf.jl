@@ -451,60 +451,60 @@ end
 
 @testset "test soc conic form opf" begin
     @testset "3-bus case" begin
-        result = run_opf("../test/data/matpower/case3.m", SOCWRConicPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/matpower/case3.m", SOCWRPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 5746.61; atol = 2e0)
     end
     @testset "5-bus transformer swap case" begin
-        result = run_opf("../test/data/matpower/case5.m", SOCWRConicPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/matpower/case5.m", SOCWRPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 15051.4; atol = 1e0)
     end
     @testset "5-bus asymmetric case" begin
-        result = run_opf("../test/data/matpower/case5_asym.m", SOCWRConicPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/matpower/case5_asym.m", SOCWRPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 14999.7; atol = 1e0)
     end
     # convergence issue encountered when linear objective used, SCS.jl v0.4.1
     #@testset "5-bus gap case" begin
-    #    result = run_opf("../test/data/matpower/case5_gap.m", SOCWRConicPowerModel, scs_solver)
+    #    result = run_opf_conic("../test/data/matpower/case5_gap.m", SOCWRPowerModel, scs_solver)
 
     #    @test result["status"] == :Optimal
     #    @test isapprox(result["objective"], -28237.3; atol = 1e0)
     #end
     @testset "5-bus with asymmetric line charge" begin
-        result = run_opf("../test/data/pti/case5_alc.raw", SOCWRConicPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/pti/case5_alc.raw", SOCWRPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 1005.27; atol = 1e0)
     end
     # does not converge in SCS.jl v0.4.0
     #@testset "5-bus with negative generators" begin
-    #    result = run_opf("../test/data/matpower/case5_npg.m", SOCWRConicPowerModel, scs_solver)
+    #    result = run_opf_conic("../test/data/matpower/case5_npg.m", SOCWRPowerModel, scs_solver)
 
     #    @test result["status"] == :Optimal
     #    @test isapprox(result["objective"], 3613.72; atol = 40)
     #end
     # TODO: figure out why this test fails
     # @testset "5-bus with pwl costs" begin
-    #     result = run_opf("../test/data/matpower/case5_pwlc.m", SOCWRConicPowerModel, scs_solver)
+    #     result = run_opf_conic("../test/data/matpower/case5_pwlc.m", SOCWRPowerModel, scs_solver)
     #
     #     @test result["status"] == :Optimal
     #     @test isapprox(result["objective"], 42895; atol = 1e0)
     # end
     # Turn off due to numerical stability
     @testset "6-bus case" begin
-        result = run_opf("../test/data/matpower/case6.m", SOCWRConicPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/matpower/case6.m", SOCWRPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 11472.2; atol = 3e0)
     end
     # does not converge in SCS.jl v0.4.0
     #@testset "24-bus rts case" begin
-    #    result = run_opf("../test/data/matpower/case24.m", SOCWRConicPowerModel, scs_solver)
+    #    result = run_opf_conic("../test/data/matpower/case24.m", SOCWRPowerModel, scs_solver)
 
     #    @test result["status"] == :Optimal
     #    @test isapprox(result["objective"], 70690.7; atol = 8e0)
@@ -564,25 +564,25 @@ end
 
 @testset "test soc conic distflow opf_bf" begin
     @testset "3-bus case" begin
-        result = run_opf_bf("../test/data/matpower/case3.m", SOCBFConicPowerModel, scs_solver)
+        result = run_opf_bf_conic("../test/data/matpower/case3.m", SOCBFPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 5746.7; atol = 1e1)
     end
     @testset "5-bus transformer swap case" begin
-        result = run_opf_bf("../test/data/matpower/case5.m", SOCBFConicPowerModel, scs_solver)
+        result = run_opf_bf_conic("../test/data/matpower/case5.m", SOCBFPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 15051; atol = 1e1)
     end
     @testset "5-bus asymmetric case" begin
-        result = run_opf_bf("../test/data/matpower/case5_asym.m", SOCBFConicPowerModel, scs_solver)
+        result = run_opf_bf_conic("../test/data/matpower/case5_asym.m", SOCBFPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 14999; atol = 1e1)
     end
     @testset "5-bus with negative generators" begin
-        result = run_opf_bf("../test/data/matpower/case5_npg.m", SOCBFConicPowerModel, scs_solver)
+        result = run_opf_bf_conic("../test/data/matpower/case5_npg.m", SOCBFPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 3610.49; atol = 1e1)
@@ -675,53 +675,53 @@ end
 
 @testset "test sdp opf" begin
     @testset "3-bus case" begin
-        result = run_opf("../test/data/matpower/case3.m", SDPWRMPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/matpower/case3.m", SDPWRMPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 5852.59; atol = 1e0)
     end
     # TODO see if convergence time can be improved
     #@testset "5-bus asymmetric case" begin
-    #    result = run_opf("../test/data/matpower/case5_asym.m", SDPWRMPowerModel, scs_solver)
+    #    result = run_opf_conic("../test/data/matpower/case5_asym.m", SDPWRMPowerModel, scs_solver)
 
     #    @test result["status"] == :Optimal
     #    @test isapprox(result["objective"], 16664; atol = 1e0)
     #end
     # does not converge in SCS.jl v0.4.0
     #@testset "5-bus gap case" begin
-    #    result = run_opf("../test/data/matpower/case5_gap.m", SDPWRMPowerModel, scs_solver)
+    #    result = run_opf_conic("../test/data/matpower/case5_gap.m", SDPWRMPowerModel, scs_solver)
 
     #    @test result["status"] == :Optimal
     #    @test isapprox(result["objective"], TBD; atol = 1e0)
     #end
     @testset "5-bus with asymmetric line charge" begin
-        result = run_opf("../test/data/pti/case5_alc.raw", SDPWRMPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/pti/case5_alc.raw", SDPWRMPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 1005.31; atol = 1e-1)
     end
     # does not converge in SCS.jl v0.4.0
     #@testset "5-bus with negative generators" begin
-    #    result = run_opf("../test/data/matpower/case5_npg.m", SDPWRMPowerModel, scs_solver)
+    #    result = run_opf_conic("../test/data/matpower/case5_npg.m", SDPWRMPowerModel, scs_solver)
 
     #    @test result["status"] == :LocalOptimal
     #    @test isapprox(result["objective"], 7291.69; atol = 1e0) # Mosek v8 value
     #end
     @testset "14-bus case" begin
-        result = run_opf("../test/data/matpower/case14.m", SDPWRMPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/matpower/case14.m", SDPWRMPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 8081.52; atol = 1e0)
     end
     @testset "6-bus case" begin
-        result = run_opf("../test/data/matpower/case6.m", SDPWRMPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/matpower/case6.m", SDPWRMPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 11580.8; atol = 1e0)
     end
     # TODO replace this with smaller case, way too slow for unit testing
     #@testset "24-bus rts case" begin
-    #    result = run_opf("../test/data/matpower/case24.m", SDPWRMPowerModel, scs_solver)
+    #    result = run_opf_conic("../test/data/matpower/case24.m", SDPWRMPowerModel, scs_solver)
 
     #    @test result["status"] == :Optimal
     #    @test isapprox(result["objective"], 75153; atol = 1e0)
@@ -731,19 +731,19 @@ end
 
 @testset "test sdp opf with constraint decomposition" begin
     @testset "3-bus case" begin
-        result = run_opf("../test/data/matpower/case3.m", SparseSDPWRMPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/matpower/case3.m", SparseSDPWRMPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 5852.35; atol = 1e0)
     end
     @testset "5-bus with asymmetric line charge" begin
-        result = run_opf("../test/data/pti/case5_alc.raw", SparseSDPWRMPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/pti/case5_alc.raw", SparseSDPWRMPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 1005.31; atol = 1e-1)
     end
     @testset "14-bus case" begin
-        result = run_opf("../test/data/matpower/case14.m", SparseSDPWRMPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/matpower/case14.m", SparseSDPWRMPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 8081.5; atol = 1e0)
@@ -752,7 +752,7 @@ end
     # multiple components are not currently supported by this form
     #=
     @testset "6-bus case" begin
-        result = run_opf("../test/data/matpower/case6.m", SparseSDPWRMPowerModel, scs_solver)
+        result = run_opf_conic("../test/data/matpower/case6.m", SparseSDPWRMPowerModel, scs_solver)
 
         @test result["status"] == :Optimal
         @test isapprox(result["objective"], 11578.8; atol = 1e0)
@@ -771,7 +771,7 @@ end
 
         pm.ext[:SDconstraintDecomposition] = PowerModels.SDconstraintDecomposition(groups, lookup_index, sigma)
 
-        PowerModels.post_opf(pm)
+        PowerModels.post_opf_conic(pm)
         result = solve_generic_model(pm, scs_solver; solution_builder=PowerModels.get_solution)
 
         @test result["status"] == :Optimal

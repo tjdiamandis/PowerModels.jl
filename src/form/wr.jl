@@ -20,7 +20,7 @@ function constraint_voltage(pm::GenericPowerModel{T}, n::Int, c::Int) where T <:
 end
 
 ""
-function constraint_voltage(pm::GenericPowerModel{T}, n::Int, c::Int) where T <: SOCWRConicForm
+function constraint_voltage_conic(pm::GenericPowerModel{T}, n::Int, c::Int) where T <: AbstractWRForm
     w  = var(pm, n, c,  :w)
     wr = var(pm, n, c, :wr)
     wi = var(pm, n, c, :wi)

@@ -20,6 +20,11 @@ function constraint_voltage(pm::GenericPowerModel; nw::Int=pm.cnw, cnd::Int=pm.c
 end
 
 ""
+function constraint_voltage_conic(pm::GenericPowerModel; nw::Int=pm.cnw, cnd::Int=pm.ccnd)
+    constraint_voltage_conic(pm, nw, cnd)
+end
+
+""
 function constraint_voltage_on_off(pm::GenericPowerModel; nw::Int=pm.cnw, cnd::Int=pm.ccnd)
     constraint_voltage_on_off(pm, nw, cnd)
 end
@@ -469,6 +474,35 @@ function constraint_thermal_limit_to(pm::GenericPowerModel, i::Int; nw::Int=pm.c
     constraint_thermal_limit_to(pm, nw, cnd, t_idx, branch["rate_a"][cnd])
 end
 
+""
+function constraint_thermal_limit_from_conic(pm::GenericPowerModel, i::Int; nw::Int=pm.cnw, cnd::Int=pm.ccnd)
+    if !haskey(con(pm, nw, cnd), :sm_fr)
+        con(pm, nw, cnd)[:sm_fr] = Dict{Int,Any}() # note this can be a constraint or a variable bound
+    end
+
+    branch = ref(pm, nw, :branch, i)
+    f_bus = branch["f_bus"]
+    t_bus = branch["t_bus"]
+    f_idx = (i, f_bus, t_bus)
+
+    constraint_thermal_limit_from_conic(pm, nw, cnd, f_idx, branch["rate_a"][cnd])
+end
+
+
+""
+function constraint_thermal_limit_to_conic(pm::GenericPowerModel, i::Int; nw::Int=pm.cnw, cnd::Int=pm.ccnd)
+    if !haskey(con(pm, nw, cnd), :sm_to)
+        con(pm, nw, cnd)[:sm_to] = Dict{Int,Any}() # note this can be a constraint or a variable bound
+    end
+
+    branch = ref(pm, nw, :branch, i)
+    f_bus = branch["f_bus"]
+    t_bus = branch["t_bus"]
+    t_idx = (i, t_bus, f_bus)
+
+    constraint_thermal_limit_to_conic(pm, nw, cnd, t_idx, branch["rate_a"][cnd])
+end
+
 
 ""
 function constraint_thermal_limit_from_on_off(pm::GenericPowerModel, i::Int; nw::Int=pm.cnw, cnd::Int=pm.ccnd)
@@ -526,6 +560,17 @@ function constraint_current_limit(pm::GenericPowerModel, i::Int; nw::Int=pm.cnw,
     f_idx = (i, f_bus, t_bus)
 
     constraint_current_limit(pm, nw, cnd, f_idx, branch["c_rating_a"][cnd])
+end
+
+
+""
+function constraint_current_limit_conic(pm::GenericPowerModel, i::Int; nw::Int=pm.cnw, cnd::Int=pm.ccnd)
+    branch = ref(pm, nw, :branch, i)
+    f_bus = branch["f_bus"]
+    t_bus = branch["t_bus"]
+    f_idx = (i, f_bus, t_bus)
+
+    constraint_current_limit_conic(pm, nw, cnd, f_idx, branch["c_rating_a"][cnd])
 end
 
 
@@ -641,6 +686,19 @@ function constraint_branch_current(pm::GenericPowerModel, i::Int; nw::Int=pm.cnw
     constraint_branch_current(pm, nw, cnd, i, f_bus, f_idx, g_sh_fr, b_sh_fr, tm)
 end
 
+
+function constraint_branch_current_conic(pm::GenericPowerModel, i::Int; nw::Int=pm.cnw, cnd::Int=pm.ccnd)
+    branch = ref(pm, nw, :branch, i)
+    f_bus = branch["f_bus"]
+    t_bus = branch["t_bus"]
+    f_idx = (i, f_bus, t_bus)
+
+    tm = branch["tap"][cnd]
+    g_sh_fr = branch["g_fr"][cnd]
+    b_sh_fr = branch["b_fr"][cnd]
+
+    constraint_branch_current_conic(pm, nw, cnd, i, f_bus, f_idx, g_sh_fr, b_sh_fr, tm)
+end
 
 
 

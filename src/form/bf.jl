@@ -86,7 +86,7 @@ end
 """
 Defines relationship between branch (series) power flow, branch (series) current and node voltage magnitude
 """
-function constraint_branch_current(pm::GenericPowerModel{T}, n::Int, c::Int, i, f_bus, f_idx, g_sh_fr, b_sh_fr, tm) where T <: SOCBFConicForm
+function constraint_branch_current_conic(pm::GenericPowerModel{T}, n::Int, c::Int, i, f_bus, f_idx, g_sh_fr, b_sh_fr, tm) where T <: SOCBFForm
     p_fr   = var(pm, n, c, :p, f_idx)
     q_fr   = var(pm, n, c, :q, f_idx)
     w_fr   = var(pm, n, c, :w, f_bus)

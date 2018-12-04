@@ -61,6 +61,21 @@ end
 
 
 ""
+function objective_min_fuel_cost_conic(pm::GenericPowerModel)
+    model = check_cost_models(pm)
+
+    if model == 1
+        return objective_min_pwl_fuel_cost(pm)
+    elseif model == 2
+        return objective_min_polynomial_fuel_cost_conic(pm)
+    else
+        error("Only cost models of types 1 and 2 are supported at this time, given cost model type of $(model)")
+    end
+
+end
+
+
+""
 function objective_min_gen_fuel_cost(pm::GenericPowerModel)
     model = check_cost_models(pm)
 
@@ -110,6 +125,22 @@ function objective_min_polynomial_fuel_cost(pm::GenericPowerModel)
         error("cost model order of $(order) is not supported")
     end
 end
+
+
+""
+function objective_min_polynomial_fuel_cost_conic(pm::GenericPowerModel)
+    check_polynomial_cost_models(pm)
+    order = calc_max_cost_index(pm.data)-1
+
+    if order == 1
+        return _objective_min_polynomial_fuel_cost_linear(pm)
+    elseif order == 2
+        return _objective_min_polynomial_fuel_cost_conic(pm)
+    else 
+        error("cost model order of $(order) is not supported")
+    end
+end
+
 
 
 ""
@@ -193,7 +224,7 @@ end
 
 
 "Adds lifted variables to turn a quadatic objective into a linear one; needed for conic solvers that only support linear objectives"
-function _objective_min_polynomial_fuel_cost_quadratic(pm::GenericPowerModel{T}) where T <: AbstractConicForms
+function _objective_min_polynomial_fuel_cost_conic(pm::GenericPowerModel)
     from_idx = Dict()
     for (n, nw_ref) in nws(pm)
         from_idx[n] = Dict(arc[1] => arc for arc in nw_ref[:arcs_from_dc])
