@@ -227,54 +227,6 @@ end
 end
 
 
-@testset "test dc-to opf " begin
-    @testset "3-bus case" begin
-        result = run_opf("../test/data/matpower/case3.m", DCPToPowerModel, ipopt_solver)
-
-        @test result["status"] == :LocalOptimal
-        @test isapprox(result["objective"], 5782; atol = 1e0)
-    end
-    @testset "5-bus case, LP solver" begin
-        result = run_opf("../test/data/matpower/case5.m", DCPToPowerModel, cbc_solver)
-
-        @test result["status"] == :Optimal
-        @test isapprox(result["objective"], 17613; atol = 1e0)
-    end
-    @testset "5-bus asymmetric case" begin
-        result = run_opf("../test/data/matpower/case5_asym.m", DCPToPowerModel, ipopt_solver)
-
-        @test result["status"] == :LocalOptimal
-        @test isapprox(result["objective"], 17479; atol = 1e0)
-    end
-    @testset "5-bus gap case" begin
-        result = run_opf("../test/data/matpower/case5_gap.m", DCPToPowerModel, ipopt_solver)
-
-        @test result["status"] == :LocalOptimal
-        @test isapprox(result["objective"], -27410.0; atol = 1e0)
-    end
-    @testset "5-bus with asymmetric line charge" begin
-        result = run_opf("../test/data/pti/case5_alc.raw", DCPToPowerModel, ipopt_solver)
-
-        @test result["status"] == :LocalOptimal
-        @test isapprox(result["objective"], 1000.0; atol = 1e0)
-    end
-    @testset "5-bus with pwl costs" begin
-        result = run_opf("../test/data/matpower/case5_pwlc.m", DCPToPowerModel, ipopt_solver)
-
-        @test result["status"] == :LocalOptimal
-        @test isapprox(result["objective"], 42565; atol = 1e0)
-    end
-    @testset "6-bus case" begin
-        result = run_opf("../test/data/matpower/case6.m", DCPToPowerModel, ipopt_solver)
-
-        @test result["status"] == :LocalOptimal
-        @test isapprox(result["objective"], 11391.8; atol = 1e0)
-        @test isapprox(result["solution"]["bus"]["1"]["va"], 0.0; atol = 1e-4)
-        @test isapprox(result["solution"]["bus"]["4"]["va"], 0.0; atol = 1e-4)
-    end
-end
-
-
 @testset "test nfa opf" begin
     @testset "3-bus case" begin
         result = run_opf("../test/data/matpower/case3.m", NFAPowerModel, ipopt_solver)

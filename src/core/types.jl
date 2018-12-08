@@ -180,13 +180,6 @@ const DCPPowerModel = GenericPowerModel{DCPForm}
 DCPPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, DCPForm; kwargs...)
 
 
-abstract type DCPToForm <: DCPlosslessForm end
-
-"DC power flow without implicit p[(i,j)] variables"
-const DCPToPowerModel = GenericPowerModel{DCPToForm}
-
-DCPToPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, DCPToForm; kwargs...)
-
 
 abstract type NFAForm <: DCPlosslessForm end
 

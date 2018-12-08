@@ -149,6 +149,80 @@ end
 end
 
 
+@testset "test opf tp" begin
+
+    @testset "test ac polar opf" begin
+        @testset "5-bus case" begin
+            result = PowerModels.run_opf_tp("../test/data/matpower/case5.m", PowerModels.ACPPowerModel, ipopt_solver)
+
+            @test result["status"] == :LocalOptimal
+            @test isapprox(result["objective"], 18269.1; atol = 1e0)
+        end
+    end
+
+    @testset "test dc polar opf" begin
+        @testset "5-bus case" begin
+            result = PowerModels.run_opf_tp("../test/data/matpower/case5.m", PowerModels.DCPPowerModel, ipopt_solver)
+
+            @test result["status"] == :LocalOptimal
+            @test isapprox(result["objective"], 18222.0; atol = 1e0)
+        end
+    end
+
+end
+
+
+@testset "test opf ibf" begin
+
+    # not yet implemented
+    #@testset "test ac polar opf" begin
+    #    @testset "5-bus case" begin
+    #        result = PowerModels.run_opf_tp("../test/data/matpower/case5.m", PowerModels.ACPPowerModel, ipopt_solver)
+
+    #        @test result["status"] == :LocalOptimal
+    #        @test isapprox(result["objective"], 18269.1; atol = 1e0)
+    #    end
+    #end
+
+    @testset "test dc polar opf" begin
+        @testset "5-bus case" begin
+            result = PowerModels.run_opf_ibf("../test/data/matpower/case5.m", PowerModels.DCPPowerModel, ipopt_solver)
+
+            @test result["status"] == :LocalOptimal
+            @test isapprox(result["objective"], 17613.2; atol = 1e0)
+        end
+    end
+
+end
+
+
+@testset "test opf ibf tp" begin
+
+    # not yet implemented
+    #@testset "test ac polar opf" begin
+    #    @testset "5-bus case" begin
+    #        result = PowerModels.run_opf_ibf_tp("../test/data/matpower/case5.m", PowerModels.ACPPowerModel, ipopt_solver)
+
+    #        @test result["status"] == :LocalOptimal
+    #        @test isapprox(result["objective"], 18269.1; atol = 1e0)
+    #    end
+    #end
+
+    @testset "test dc polar opf" begin
+        @testset "5-bus case" begin
+            result = PowerModels.run_opf_ibf_tp("../test/data/matpower/case5.m", PowerModels.DCPPowerModel, ipopt_solver)
+
+            @test result["status"] == :LocalOptimal
+            @test isapprox(result["objective"], 18222.0; atol = 1e0)
+        end
+    end
+
+end
+
+
+
+
+
 @testset "test storage opf" begin
 
     @testset "test ac polar opf" begin

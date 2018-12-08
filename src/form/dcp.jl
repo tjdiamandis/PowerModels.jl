@@ -71,6 +71,42 @@ function variable_active_branch_flow_ne(pm::GenericPowerModel{T}; nw::Int=pm.cnw
     var(pm, nw, cnd)[:p_ne] = p_ne_expr
 end
 
+function expression_branch_flow_yt(pm::GenericPowerModel{T}; nw::Int=pm.cnw, cnd::Int=pm.ccnd) where T <: DCPlosslessForm
+    p_expr = Dict()
+    for (l,branch) in ref(pm, nw, :branch)
+        i = branch["f_bus"]
+        j = branch["t_bus"]
+        g, b = calc_branch_y(branch)
+        b = b[cnd,cnd]
+
+        va_fr = var(pm, nw, cnd, :va, i)
+        va_to = var(pm, nw, cnd, :va, j)
+
+        p_expr[(l,i,j)] = -b*(va_fr - va_to)
+        p_expr[(l,j,i)] = -b*(va_to - va_fr)
+    end
+    var(pm, nw, cnd)[:p] = p_expr
+end
+
+function expression_branch_flow_y(pm::GenericPowerModel{T}; nw::Int=pm.cnw, cnd::Int=pm.ccnd) where T <: DCPlosslessForm
+    p_expr = Dict()
+    for (l,branch) in ref(pm, nw, :branch)
+        i = branch["f_bus"]
+        j = branch["t_bus"]
+        g, b = calc_branch_y(branch)
+        b = b[cnd,cnd]
+        ta = branch["shift"][cnd]
+
+        va_fr = var(pm, nw, cnd, :va, i)
+        va_to = var(pm, nw, cnd, :va, j)
+
+        p_expr[(l,i,j)] = -b*(va_fr - va_to - ta)
+        p_expr[(l,j,i)] = -b*(va_to - va_fr + ta)
+    end
+    var(pm, nw, cnd)[:p] = p_expr
+end
+
+
 "do nothing, this model does not have complex voltage variables"
 function constraint_voltage(pm::GenericPowerModel{T}; kwargs...) where T <: AbstractDCPForm
 end
@@ -132,6 +168,22 @@ function constraint_kcl_shunt_ne(pm::GenericPowerModel{T}, n::Int, c::Int, i, bu
     @constraint(pm.model, sum(p[a] for a in bus_arcs) + sum(p_ne[a] for a in bus_arcs_ne) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - sum(pd for pd in values(bus_pd)) - sum(gs for gs in values(bus_gs))*1.0^2)
 end
 
+
+""
+function constraint_ohms_y_from(pm::GenericPowerModel{T}, n::Int, c::Int, f_bus, t_bus, f_idx, t_idx, g, b, g_fr, b_fr, tm, ta) where T <: AbstractDCPForm
+    p_fr  = var(pm, n, c,  :p, f_idx)
+    va_fr = var(pm, n, c, :va, f_bus)
+    va_to = var(pm, n, c, :va, t_bus)
+
+    @constraint(pm.model, p_fr == -b*(va_fr - va_to - ta))
+    # omit reactive constraint
+end
+
+"Do nothing, this model is symmetric"
+function constraint_ohms_y_to(pm::GenericPowerModel{T}, n::Int, c::Int, f_bus, t_bus, f_idx, t_idx, g, b, g_to, b_to, tm, ta) where T <: AbstractDCPForm
+end
+
+
 """
 Creates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)
 
@@ -168,9 +220,17 @@ end
 
 "`-rate_a <= p[f_idx] <= rate_a`"
 function constraint_thermal_limit_from(pm::GenericPowerModel{T}, n::Int, c::Int, f_idx, rate_a) where T <: AbstractDCPForm
-    p_fr = con(pm, n, c, :sm_fr)[f_idx[1]] = var(pm, n, c, :p, f_idx)
-    getlowerbound(p_fr) < -rate_a && setlowerbound(p_fr, -rate_a)
-    getupperbound(p_fr) >  rate_a && setupperbound(p_fr,  rate_a)
+    p_fr = var(pm, n, c, :p, f_idx)
+
+    if isa(p_fr, JuMP.Variable)
+        con(pm, n, c, :sm_fr)[f_idx[1]] = p_fr
+        getlowerbound(p_fr) < -rate_a && setlowerbound(p_fr, -rate_a)
+        getupperbound(p_fr) >  rate_a && setupperbound(p_fr,  rate_a)
+    else
+        con(pm, n, c, :sm_fr)[f_idx[1]] = @constraint(pm.model, p_fr <=  rate_a)
+        # TODO capture this dual variable
+        @constraint(pm.model, p_fr >= -rate_a)
+    end
 end
 
 "Do nothing, this model is symmetric"
@@ -180,8 +240,13 @@ end
 function constraint_current_limit(pm::GenericPowerModel{T}, n::Int, c::Int, f_idx, c_rating_a) where T <: AbstractDCPForm
     p_fr = var(pm, n, c, :p, f_idx)
 
-    getlowerbound(p_fr) < -c_rating_a && setlowerbound(p_fr, -c_rating_a)
-    getupperbound(p_fr) >  c_rating_a && setupperbound(p_fr,  c_rating_a)
+    if isa(p_fr, JuMP.Variable)
+        getlowerbound(p_fr) < -c_rating_a && setlowerbound(p_fr, -c_rating_a)
+        getupperbound(p_fr) >  c_rating_a && setupperbound(p_fr,  c_rating_a)
+    else
+        @constraint(pm.model, p_fr <=  c_rating_a)
+        @constraint(pm.model, p_fr >= -c_rating_a)
+    end
 end
 
 
@@ -310,39 +375,6 @@ function constraint_voltage_angle_difference_ne(pm::GenericPowerModel{T}, n::Int
 
     @constraint(pm.model, va_fr - va_to <= angmax*z + vad_max*(1-z))
     @constraint(pm.model, va_fr - va_to >= angmin*z + vad_min*(1-z))
-end
-
-
-
-
-######## DCPToPowerModel ########
-
-""
-function variable_active_branch_flow(pm::GenericPowerModel{T}; nw::Int=pm.cnw, cnd::Int=pm.ccnd, bounded = true) where T <: DCPToForm
-end
-
-""
-function constraint_kcl_shunt(pm::GenericPowerModel{T}, n::Int, c::Int, i, bus_arcs, bus_arcs_dc, bus_gens, bus_pd, bus_qd, bus_gs, bus_bs) where T <: DCPToForm
-    pg = var(pm, n, c, :pg)
-    va = var(pm, n, c, :va)
-    p_dc = var(pm, n, c, :p_dc)
-
-    b = Dict(l => calc_branch_y(ref(pm, n, :branch, l))[2] for (l,i,j) in bus_arcs)
-
-    @constraint(pm.model, sum(-b[l]*(va[i] - va[j]) for (l,i,j) in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - sum(pd for pd in values(bus_pd)) - sum(gs for gs in values(bus_gs))*1.0^2)
-end
-
-function constraint_ohms_yt_from(pm::GenericPowerModel{T}, n::Int, c::Int, f_bus, t_bus, f_idx, t_idx, g, b, g_fr, b_fr, tr, ti, tm) where T <: DCPToForm
-end
-
-""
-function constraint_thermal_limit_from(pm::GenericPowerModel{T}, n::Int, c::Int, f_idx, rate_a) where T <: DCPToForm
-    l, i, j = f_idx
-    g, b = calc_branch_y(ref(pm, n, :branch, l))
-    va = var(pm, n, c, :va)
-
-    @constraint(pm.model, -b*(va[i] - va[j]) <=  rate_a)
-    @constraint(pm.model, -b*(va[i] - va[j]) >= -rate_a)
 end
 
 
