@@ -5,7 +5,8 @@ export
     ACTPowerModel, StandardACTForm,
 
     # linear approximations
-    DCPPowerModel, DCPlosslessForm,
+    DCPPowerModel, DCPForm,
+    DCPToPowerModel, DCPToForm,
     NFAPowerModel, NFAForm,
 
     # quadratic approximations
@@ -152,10 +153,12 @@ abstract type AbstractDCPForm <: AbstractPowerFormulation end
 "active power only formulations where p[(i,j)] = -p[(j,i)]"
 abstract type DCPlosslessForm <: AbstractDCPForm end
 
-const StandardDCPForm = DCPlosslessForm
+abstract type DCPForm <: DCPlosslessForm end
 
 """
 Linearized 'DC' power flow formulation with polar voltage variables.
+
+This variant has explicit branch flow variables.
 
 ```
 @ARTICLE{4956966,
@@ -172,10 +175,17 @@ Linearized 'DC' power flow formulation with polar voltage variables.
 }
 ```
 """
-const DCPPowerModel = GenericPowerModel{DCPlosslessForm}
+const DCPPowerModel = GenericPowerModel{DCPForm}
 
-"default DC constructor"
-DCPPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, DCPlosslessForm; kwargs...)
+DCPPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, DCPForm; kwargs...)
+
+
+abstract type DCPToForm <: DCPlosslessForm end
+
+"DC power flow without implicit p[(i,j)] variables"
+const DCPToPowerModel = GenericPowerModel{DCPToForm}
+
+DCPToPowerModel(data::Dict{String,Any}; kwargs...) = GenericPowerModel(data, DCPToForm; kwargs...)
 
 
 abstract type NFAForm <: DCPlosslessForm end

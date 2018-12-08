@@ -87,10 +87,10 @@ end
 function constraint_reactive_gen_setpoint(pm::GenericPowerModel{T}, n::Int, c::Int, i, qg) where T <: AbstractDCPForm
 end
 
-
 "do nothing, this model does not have voltage variables"
-function variable_bus_voltage(pm::GenericPowerModel{T}; kwargs...) where T <: DCPlosslessForm
+function variable_bus_voltage(pm::GenericPowerModel{T}; kwargs...) where T <: AbstractDCPForm
 end
+
 
 ""
 function constraint_power_balance(pm::GenericPowerModel{T}, n::Int, c::Int, i, comp_gen_ids, comp_pd, comp_qd, comp_gs, comp_bs, comp_branch_g, comp_branch_b) where T <: DCPlosslessForm
@@ -311,6 +311,40 @@ function constraint_voltage_angle_difference_ne(pm::GenericPowerModel{T}, n::Int
     @constraint(pm.model, va_fr - va_to <= angmax*z + vad_max*(1-z))
     @constraint(pm.model, va_fr - va_to >= angmin*z + vad_min*(1-z))
 end
+
+
+
+
+######## DCPToPowerModel ########
+
+""
+function variable_active_branch_flow(pm::GenericPowerModel{T}; nw::Int=pm.cnw, cnd::Int=pm.ccnd, bounded = true) where T <: DCPToForm
+end
+
+""
+function constraint_kcl_shunt(pm::GenericPowerModel{T}, n::Int, c::Int, i, bus_arcs, bus_arcs_dc, bus_gens, bus_pd, bus_qd, bus_gs, bus_bs) where T <: DCPToForm
+    pg = var(pm, n, c, :pg)
+    va = var(pm, n, c, :va)
+    p_dc = var(pm, n, c, :p_dc)
+
+    b = Dict(l => calc_branch_y(ref(pm, n, :branch, l))[2] for (l,i,j) in bus_arcs)
+
+    @constraint(pm.model, sum(-b[l]*(va[i] - va[j]) for (l,i,j) in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - sum(pd for pd in values(bus_pd)) - sum(gs for gs in values(bus_gs))*1.0^2)
+end
+
+function constraint_ohms_yt_from(pm::GenericPowerModel{T}, n::Int, c::Int, f_bus, t_bus, f_idx, t_idx, g, b, g_fr, b_fr, tr, ti, tm) where T <: DCPToForm
+end
+
+""
+function constraint_thermal_limit_from(pm::GenericPowerModel{T}, n::Int, c::Int, f_idx, rate_a) where T <: DCPToForm
+    l, i, j = f_idx
+    g, b = calc_branch_y(ref(pm, n, :branch, l))
+    va = var(pm, n, c, :va)
+
+    @constraint(pm.model, -b*(va[i] - va[j]) <=  rate_a)
+    @constraint(pm.model, -b*(va[i] - va[j]) >= -rate_a)
+end
+
 
 
 
