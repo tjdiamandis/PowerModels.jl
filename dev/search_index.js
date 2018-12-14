@@ -1085,7 +1085,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_reactive_gen_setpoint",
     "category": "function",
-    "text": "\n\n\n\nqq[i] == qq\n\n\n\n\n\ndo nothing, this model does not have reactive variables\n\n\n\n\n\n"
+    "text": "\n\n\n\nqq[i] == qq\n\n\n\n\n\ndo nothing, apo models do not have reactive variables\n\n\n\n\n\n"
 },
 
 {
@@ -1133,7 +1133,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_kcl_shunt",
     "category": "function",
-    "text": "\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - sum(pd[d] for d in bus_loads) - sum(gs[s] for s in bus_shunts)*v^2\nsum(q[a] for a in bus_arcs) + sum(q_dc[a_dc] for a_dc in bus_arcs_dc) == sum(qg[g] for g in bus_gens) - sum(qd[d] for d in bus_loads) + sum(bs[s] for s in bus_shunts)*v^2\n\n\n\n\n\n\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc)== sum(pg[g] for g in bus_gens) - sum(pd[d] for d in bus_loads) - sum(gs[s] for s in bus_shunts)*1.0^2\n\n\n\n\n\n\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - sum(pd[d] for d in bus_loads) - sum(gs[s] for d in bus_shunts)*w[i]\nsum(q[a] for a in bus_arcs) + sum(q_dc[a_dc] for a_dc in bus_arcs_dc) == sum(qg[g] for g in bus_gens) - sum(qd[d] for d in bus_loads) + sum(bs[s] for d in bus_shunts)*w[i]\n\n\n\n\n\n"
+    "text": "\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - sum(pd[d] for d in bus_loads) - sum(gs[s] for s in bus_shunts)*v^2\nsum(q[a] for a in bus_arcs) + sum(q_dc[a_dc] for a_dc in bus_arcs_dc) == sum(qg[g] for g in bus_gens) - sum(qd[d] for d in bus_loads) + sum(bs[s] for s in bus_shunts)*v^2\n\n\n\n\n\n\n\n\n\n\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - sum(pd[d] for d in bus_loads) - sum(gs[s] for d in bus_shunts)*w[i]\nsum(q[a] for a in bus_arcs) + sum(q_dc[a_dc] for a_dc in bus_arcs_dc) == sum(qg[g] for g in bus_gens) - sum(qd[d] for d in bus_loads) + sum(bs[s] for d in bus_shunts)*w[i]\n\n\n\n\n\n"
 },
 
 {
@@ -1165,7 +1165,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_from",
     "category": "function",
-    "text": "\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==  (g+g_fr)/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus]))\nq[f_idx] == -(b+b_fr)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus]))\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] == -b*(t[f_bus] - t[t_bus])\n\n\n\n\n\nnothing to do, no voltage angle variables\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\n"
+    "text": "\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==  (g+g_fr)/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus]))\nq[f_idx] == -(b+b_fr)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus]))\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] == -b*(t[f_bus] - t[t_bus])\n\n\n\n\n\nnothing to do, no voltage angle variables\n\n\n\n\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\n"
 },
 
 {
@@ -1173,7 +1173,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_to",
     "category": "function",
-    "text": "\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[t_idx] ==  (g+g_to)*v[t_bus]^2 + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[t_bus]-t[f_bus])) + (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus]))\nq[t_idx] == -(b+b_to)*v[t_bus]^2 - (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus]))\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\nDo nothing, this model is symmetric\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\n"
+    "text": "\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[t_idx] ==  (g+g_to)*v[t_bus]^2 + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[t_bus]-t[f_bus])) + (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus]))\nq[t_idx] == -(b+b_to)*v[t_bus]^2 - (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus]))\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\nnothing to do, this model is symetric\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\n\n\n\n\n"
 },
 
 {
@@ -1205,7 +1205,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_from_on_off",
     "category": "function",
-    "text": "\n\n\n\np[f_idx] == z*(g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\nq[f_idx] == z*(-(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\n\n\n\n\n\n-b*(t[f_bus] - t[t_bus] + vad_min*(1-branch_z[i])) <= p[f_idx] <= -b*(t[f_bus] - t[t_bus] + vad_max*(1-branch_z[i]))\n\n\n\n\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==        g/tm*w_fr[i] + (-g*tr+b*ti)/tm*(wr[i]) + (-b*tr-g*ti)/tm*(wi[i])\nq[f_idx] == -(b+c/2)/tm*w_fr[i] - (-b*tr-g*ti)/tm*(wr[i]) + (-g*tr+b*ti)/tm*(wi[i])\n\n\n\n\n\n"
+    "text": "\n\n\n\np[f_idx] == z*(g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\nq[f_idx] == z*(-(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\n\n\n\n\n\n-b*(t[f_bus] - t[t_bus] + vad_min*(1-branch_z[i])) <= p[f_idx] <= -b*(t[f_bus] - t[t_bus] + vad_max*(1-branch_z[i]))\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] ==        g/tm*w_fr[i] + (-g*tr+b*ti)/tm*(wr[i]) + (-b*tr-g*ti)/tm*(wi[i])\nq[f_idx] == -(b+c/2)/tm*w_fr[i] - (-b*tr-g*ti)/tm*(wr[i]) + (-g*tr+b*ti)/tm*(wi[i])\n\n\n\n\n\n"
 },
 
 {
@@ -1213,7 +1213,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_to_on_off",
     "category": "function",
-    "text": "\n\n\n\np[t_idx] == z*(g*v[t_bus]^2 + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[t_bus]-t[f_bus])) + (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\nq[t_idx] == z*(-(b+c/2)*v[t_bus]^2 - (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\n\n\n\n\n\nDo nothing, this model is symmetric\n\n\n\n\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[t_idx] ==        g*w_to[i] + (-g*tr-b*ti)/tm*(wr[i]) + (-b*tr+g*ti)/tm*(-wi[i])\nq[t_idx] == -(b+c/2)*w_to[i] - (-b*tr+g*ti)/tm*(wr[i]) + (-g*tr-b*ti)/tm*(-wi[i])\n\n\n\n\n\n"
+    "text": "\n\n\n\np[t_idx] == z*(g*v[t_bus]^2 + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[t_bus]-t[f_bus])) + (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\nq[t_idx] == z*(-(b+c/2)*v[t_bus]^2 - (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\n\n\n\n\n\nnothing to do, this model is symetric\n\n\n\n\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[t_idx] ==        g*w_to[i] + (-g*tr-b*ti)/tm*(wr[i]) + (-b*tr+g*ti)/tm*(-wi[i])\nq[t_idx] == -(b+c/2)*w_to[i] - (-b*tr+g*ti)/tm*(wr[i]) + (-g*tr-b*ti)/tm*(-wi[i])\n\n\n\n\n\n"
 },
 
 {
@@ -1221,7 +1221,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_from_ne",
     "category": "function",
-    "text": "\n\n\n\np_ne[f_idx] == z*(g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\nq_ne[f_idx] == z*(-(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\n\n\n\n\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] == g/tm*w_fr_ne[i] + (-g*tr+b*ti)/tm*(wr_ne[i]) + (-b*tr-g*ti)/tm*(wi_ne[i])\nq[f_idx] == -(b+c/2)/tm*w_fr_ne[i] - (-b*tr-g*ti)/tm*(wr_ne[i]) + (-g*tr+b*ti)/tm*(wi_ne[i])\n\n\n\n\n\n"
+    "text": "\n\n\n\np_ne[f_idx] == z*(g/tm*v[f_bus]^2 + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\nq_ne[f_idx] == z*(-(b+c/2)/tm*v[f_bus]^2 - (-b*tr-g*ti)/tm*(v[f_bus]*v[t_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr+b*ti)/tm*(v[f_bus]*v[t_bus]*sin(t[f_bus]-t[t_bus])))\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[f_idx] == g/tm*w_fr_ne[i] + (-g*tr+b*ti)/tm*(wr_ne[i]) + (-b*tr-g*ti)/tm*(wi_ne[i])\nq[f_idx] == -(b+c/2)/tm*w_fr_ne[i] - (-b*tr-g*ti)/tm*(wr_ne[i]) + (-g*tr+b*ti)/tm*(wi_ne[i])\n\n\n\n\n\n"
 },
 
 {
@@ -1229,7 +1229,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_ohms_yt_to_ne",
     "category": "function",
-    "text": "\n\n\n\np_ne[t_idx] == z*(g*v[t_bus]^2 + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[t_bus]-t[f_bus])) + (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\nq_ne[t_idx] == z*(-(b+c/2)*v[t_bus]^2 - (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\n\n\n\n\n\nDo nothing, this model is symmetric\n\n\n\n\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[t_idx] == g*w_to_ne[i] + (-g*tr-b*ti)/tm*(wr_ne[i]) + (-b*tr+g*ti)/tm*(-wi_ne[i])\nq[t_idx] == -(b+c/2)*w_to_ne[i] - (-b*tr+g*ti)/tm*(wr_ne[i]) + (-g*tr-b*ti)/tm*(-wi_ne[i])\n\n\n\n\n\n"
+    "text": "\n\n\n\np_ne[t_idx] == z*(g*v[t_bus]^2 + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[t_bus]-t[f_bus])) + (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\nq_ne[t_idx] == z*(-(b+c/2)*v[t_bus]^2 - (-b*tr+g*ti)/tm*(v[t_bus]*v[f_bus]*cos(t[f_bus]-t[t_bus])) + (-g*tr-b*ti)/tm*(v[t_bus]*v[f_bus]*sin(t[t_bus]-t[f_bus])))\n\n\n\n\n\nnothing to do, this model is symetric\n\n\n\n\n\n\n\n\n\nCreates Ohms constraints (yt post fix indicates that Y and T values are in rectangular form)\n\np[t_idx] == g*w_to_ne[i] + (-g*tr-b*ti)/tm*(wr_ne[i]) + (-b*tr+g*ti)/tm*(-wi_ne[i])\nq[t_idx] == -(b+c/2)*w_to_ne[i] - (-b*tr+g*ti)/tm*(wr_ne[i]) + (-g*tr-b*ti)/tm*(-wi_ne[i])\n\n\n\n\n\n"
 },
 
 {
@@ -1277,7 +1277,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_to",
     "category": "function",
-    "text": "\n\n\n\np[t_idx]^2 + q[t_idx]^2 <= rate_a^2\n\n\n\n\n\nnorm([p[t_idx]; q[t_idx]]) <= rate_a\n\n\n\n\n\nDo nothing, this model is symmetric\n\n\n\n\n\n"
+    "text": "\n\n\n\np[t_idx]^2 + q[t_idx]^2 <= rate_a^2\n\n\n\n\n\nnorm([p[t_idx]; q[t_idx]]) <= rate_a\n\n\n\n\n\n\n\n\n\nnothing to do, this model is symetric\n\n\n\n\n\n"
 },
 
 {
@@ -1285,7 +1285,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_from_on_off",
     "category": "function",
-    "text": "\n\n\n\np[f_idx]^2 + q[f_idx]^2 <= (rate_a * branch_z[i])^2\n\n\n\n\n\nGeneric on/off thermal limit constraint\n\n-rate_a*branch_z[i] <= p[f_idx] <=  rate_a*branch_z[i]\n\n\n\n\n\n"
+    "text": "\n\n\n\np[f_idx]^2 + q[f_idx]^2 <= (rate_a * branch_z[i])^2\n\n\n\n\n\n\n\n\n\n"
 },
 
 {
@@ -1293,7 +1293,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_to_on_off",
     "category": "function",
-    "text": "\n\n\n\np[t_idx]^2 + q[t_idx]^2 <= (rate_a * branch_z[i])^2\n\n\n\n\n\nnothing to do, from handles both sides\n\n\n\n\n\n-rate_a*branch_z[i] <= p[t_idx] <= rate_a*branch_z[i]\n\n\n\n\n\n"
+    "text": "\n\n\n\np[t_idx]^2 + q[t_idx]^2 <= (rate_a * branch_z[i])^2\n\n\n\n\n\n\n\n\n\nnothing to do, this model is symetric\n\n\n\n\n\n"
 },
 
 {
@@ -1301,7 +1301,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_from_ne",
     "category": "function",
-    "text": "\n\n\n\np_ne[f_idx]^2 + q_ne[f_idx]^2 <= (rate_a * branch_ne[i])^2\n\n\n\n\n\nGeneric on/off thermal limit constraint\n\n-rate_a*branch_ne[i] <= p_ne[f_idx] <=  rate_a*branch_ne[i]\n\n\n\n\n\n"
+    "text": "\n\n\n\np_ne[f_idx]^2 + q_ne[f_idx]^2 <= (rate_a * branch_ne[i])^2\n\n\n\n\n\n\n\n\n\n"
 },
 
 {
@@ -1309,7 +1309,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "PowerModels.constraint_thermal_limit_to_ne",
     "category": "function",
-    "text": "\n\n\n\np_ne[t_idx]^2 + q_ne[t_idx]^2 <= (rate_a * branch_ne[i])^2\n\n\n\n\n\nnothing to do, from handles both sides\n\n\n\n\n\n"
+    "text": "\n\n\n\np_ne[t_idx]^2 + q_ne[t_idx]^2 <= (rate_a * branch_ne[i])^2\n\n\n\n\n\n\n\n\n\nnothing to do, this model is symetric\n\n\n\n\n\n"
 },
 
 {
