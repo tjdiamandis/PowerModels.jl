@@ -1545,22 +1545,6 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "parser/#PowerModels.row_to_typed_dict",
-    "page": "File IO",
-    "title": "PowerModels.row_to_typed_dict",
-    "category": "function",
-    "text": "takes a row from a matrix and assigns the values names and types\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.row_to_dict",
-    "page": "File IO",
-    "title": "PowerModels.row_to_dict",
-    "category": "function",
-    "text": "takes a row from a matrix and assigns the values names\n\n\n\n\n\n"
-},
-
-{
     "location": "parser/#PowerModels.mp_cost_data",
     "page": "File IO",
     "title": "PowerModels.mp_cost_data",
@@ -1637,7 +1621,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "Matpower Data Files",
     "category": "section",
-    "text": "The following method is the main exported methods for parsing Matpower data files:parse_matpowerWe also provide the following (internal) helper methods:parse_matpower_file\nparse_matpower_string\nmatpower_to_powermodels\nrow_to_typed_dict\nrow_to_dict\nmp_cost_data\nsplit_loads_shunts\nstandardize_cost_terms\nmerge_generator_cost_data\nmerge_bus_name_data\nmerge_generic_data\nmp2pm_branch\nmp2pm_dcline\nadd_dcline_costs"
+    "text": "The following method is the main exported methods for parsing Matpower data files:parse_matpowerWe also provide the following (internal) helper methods:parse_matpower_file\nparse_matpower_string\nmatpower_to_powermodels\nmp_cost_data\nsplit_loads_shunts\nstandardize_cost_terms\nmerge_generator_cost_data\nmerge_bus_name_data\nmerge_generic_data\nmp2pm_branch\nmp2pm_dcline\nadd_dcline_costs"
 },
 
 {
