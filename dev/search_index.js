@@ -45,7 +45,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Quick Start Guide",
     "category": "section",
-    "text": "Once PowerModels is installed, Ipopt is installed, and a network data file (e.g. \"case3.m\" or \"case3.raw\") has been acquired, an AC Optimal Power Flow can be executed with,using PowerModels\nusing Ipopt\n\nrun_ac_opf(\"case3.m\", IpoptSolver())Similarly, a DC Optimal Power Flow can be executed withrun_dc_opf(\"case3.m\", IpoptSolver())PTI .raw files in the PSS(R)E v33 specification can be run similarly, e.g. in the case of an AC Optimal Power Flowrun_ac_opf(\"case3.raw\", IpoptSolver())"
+    "text": "Once PowerModels is installed, Ipopt is installed, and a network data file (e.g. \"case3.m\" or \"case3.raw\") has been acquired, an AC Optimal Power Flow can be executed with,using PowerModels\nusing Ipopt\n\nrun_ac_opf(\"matpower/case3.m\", IpoptSolver())Similarly, a DC Optimal Power Flow can be executed withrun_dc_opf(\"matpower/case3.m\", IpoptSolver())PTI .raw files in the PSS(R)E v33 specification can be run similarly, e.g. in the case of an AC Optimal Power Flowrun_ac_opf(\"pti/case3.raw\", IpoptSolver())"
 },
 
 {
@@ -53,7 +53,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Getting Results",
     "category": "section",
-    "text": "The run commands in PowerModels return detailed results data in the form of a dictionary. Results dictionaries from either Matpower .m or PTI .raw files will be identical in format. This dictionary can be saved for further processing as follows,result = run_ac_opf(\"case3.m\", IpoptSolver())For example, the algorithm\'s runtime and final objective value can be accessed with,result[\"solve_time\"]\nresult[\"objective\"]The \"solution\" field contains detailed information about the solution produced by the run method. For example, the following dictionary comprehension can be used to inspect the bus voltage angles in the solution,Dict(name => data[\"va\"] for (name, data) in result[\"solution\"][\"bus\"])For more information about PowerModels result data see the PowerModels Result Data Format section."
+    "text": "The run commands in PowerModels return detailed results data in the form of a dictionary. Results dictionaries from either Matpower .m or PTI .raw files will be identical in format. This dictionary can be saved for further processing as follows,result = run_ac_opf(\"matpower/case3.m\", IpoptSolver())For example, the algorithm\'s runtime and final objective value can be accessed with,result[\"solve_time\"]\nresult[\"objective\"]The \"solution\" field contains detailed information about the solution produced by the run method. For example, the following dictionary comprehension can be used to inspect the bus voltage angles in the solution,Dict(name => data[\"va\"] for (name, data) in result[\"solution\"][\"bus\"])For more information about PowerModels result data see the PowerModels Result Data Format section."
 },
 
 {
@@ -61,7 +61,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Accessing Different Formulations",
     "category": "section",
-    "text": "The function \"runacopf\" and \"rundcopf\" are shorthands for a more general formulation-independent OPF execution, \"runopf\". For example, `runac_opf` is equivalent to,run_opf(\"case3.m\", ACPPowerModel, IpoptSolver())where \"ACPPowerModel\" indicates an AC formulation in polar coordinates.  This more generic run_opf() allows one to solve an OPF problem with any power network formulation implemented in PowerModels.  For example, an SOC Optimal Power Flow can be run with,run_opf(\"case3.m\", SOCWRPowerModel, IpoptSolver())"
+    "text": "The function \"runacopf\" and \"rundcopf\" are shorthands for a more general formulation-independent OPF execution, \"runopf\". For example, `runac_opf` is equivalent to,run_opf(\"matpower/case3.m\", ACPPowerModel, IpoptSolver())where \"ACPPowerModel\" indicates an AC formulation in polar coordinates.  This more generic run_opf() allows one to solve an OPF problem with any power network formulation implemented in PowerModels.  For example, an SOC Optimal Power Flow can be run with,run_opf(\"matpower/case3.m\", SOCWRPowerModel, IpoptSolver())"
 },
 
 {
@@ -69,7 +69,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Modifying Network Data",
     "category": "section",
-    "text": "The following example demonstrates one way to perform multiple PowerModels solves while modifing the network data in Julia,network_data = PowerModels.parse_file(\"case3.m\")\n\nrun_opf(network_data, ACPPowerModel, IpoptSolver())\n\nnetwork_data[\"load\"][\"3\"][\"pd\"] = 0.0\nnetwork_data[\"load\"][\"3\"][\"qd\"] = 0.0\n\nrun_opf(network_data, ACPPowerModel, IpoptSolver())Network data parsed from PTI .raw files supports data extensions, i.e. data fields that are within the PSS(R)E specification, but not used by PowerModels for calculation. This can be achieve bynetwork_data = PowerModels.parse_file(\"case3.raw\"; import_all=true)This network data can be modified in the same way as the previous Matpower .m file example. For additional details about the network data, see the PowerModels Network Data Format section."
+    "text": "The following example demonstrates one way to perform multiple PowerModels solves while modifing the network data in Julia,network_data = PowerModels.parse_file(\"matpower/case3.m\")\n\nrun_opf(network_data, ACPPowerModel, IpoptSolver())\n\nnetwork_data[\"load\"][\"3\"][\"pd\"] = 0.0\nnetwork_data[\"load\"][\"3\"][\"qd\"] = 0.0\n\nrun_opf(network_data, ACPPowerModel, IpoptSolver())Network data parsed from PTI .raw files supports data extensions, i.e. data fields that are within the PSS(R)E specification, but not used by PowerModels for calculation. This can be achieved bynetwork_data = PowerModels.parse_file(\"pti/case3.raw\"; import_all=true)This network data can be modified in the same way as the previous Matpower .m file example. For additional details about the network data, see the PowerModels Network Data Format section."
 },
 
 {
@@ -77,15 +77,15 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Inspecting AC and DC branch flow results",
     "category": "section",
-    "text": "The flow AC and DC branch results are not written to the result by default. To inspect the flow results, pass a settings Dictresult = run_opf(\"case3_dc.m\", ACPPowerModel, IpoptSolver(), setting = Dict(\"output\" => Dict(\"branch_flows\" => true)))\nresult[\"solution\"][\"dcline\"][\"1\"]\nresult[\"solution\"][\"branch\"][\"2\"]The losses of an AC or DC branch can be derived:loss_ac =  Dict(name => data[\"pt\"]+data[\"pf\"] for (name, data) in result[\"solution\"][\"branch\"])\nloss_dc =  Dict(name => data[\"pt\"]+data[\"pf\"] for (name, data) in result[\"solution\"][\"dcline\"])"
+    "text": "The flow AC and DC branch results are not written to the result by default. To inspect the flow results, pass a Dict in through the setting keyword:result = run_opf(\"matpower/case3.m\", ACPPowerModel, IpoptSolver(), setting = Dict(\"output\" => Dict(\"branch_flows\" => true)))\nresult[\"solution\"][\"dcline\"][\"1\"]\nresult[\"solution\"][\"branch\"][\"2\"]The losses of an AC or DC branch can be derived:loss_ac =  Dict(name => data[\"pt\"]+data[\"pf\"] for (name, data) in result[\"solution\"][\"branch\"])\nloss_dc =  Dict(name => data[\"pt\"]+data[\"pf\"] for (name, data) in result[\"solution\"][\"dcline\"])"
 },
 
 {
-    "location": "quickguide/#Inspecting-the-Formulation-1",
+    "location": "quickguide/#Building-PowerModels-from-Network-Data-Dictionaries-1",
     "page": "Getting Started",
-    "title": "Inspecting the Formulation",
+    "title": "Building PowerModels from Network Data Dictionaries",
     "category": "section",
-    "text": "The following example demonstrates how to break a run_opf call into separate model building and solving steps.  This allows inspection of the JuMP model created by PowerModels for the AC-OPF problem,pm = build_generic_model(\"case3.m\", ACPPowerModel, PowerModels.post_opf)\n\nprint(pm.model)\n\nsolve_generic_model(pm, IpoptSolver())"
+    "text": "The following example demonstrates how to break a run_opf call into separate model building and solving steps.  This allows inspection of the JuMP model created by PowerModels for the AC-OPF problem,pm = build_generic_model(\"matpower/case3.m\", ACPPowerModel, PowerModels.post_opf)\n\nprint(pm.model)\n\nsolve_generic_model(pm, IpoptSolver())Alternatively, you can further break it up by parsing a file into a network data dictionary, before passing it on to build_generic_model() like sonetwork_data = PowerModels.parse_file(\"matpower/case3.m\")\n\npm = build_generic_model(network_data, ACPPowerModel, PowerModels.post_opf)\n\nprint(pm.model)\n\nsolve_generic_model(pm, IpoptSolver())"
 },
 
 {
@@ -109,7 +109,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Data Format",
     "title": "The Network Data Dictionary",
     "category": "section",
-    "text": "Internally PowerModels utilizes a dictionary to store network data. The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange.The data dictionary organization and key names are designed to be mostly consistent with the Matpower file format and should be familiar to power system researchers, with the notable exceptions that loads and shunts are now split into separate components (see example below), and in the case of \"multinetwork\" data, most often used for time series.The network data dictionary structure is roughly as follows:{\n\"name\":<string>,\n\"version\":\"2\",\n\"baseMVA\":<float>,\n\"source_type\":<string>,\n\"source_version\":<string>,\n\"bus\":{\n    \"1\":{\n        \"index\":<int>,\n        \"bus_type\":<int>,\n        \"va\":<float>,\n        \"vm\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"load\":{\n    \"1\":{\n        \"index\":<int>,\n        \"load_bus\":<int>,\n        \"pd\":<float>,\n        \"qd\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"shunt\":{\n    \"1\":{\n        \"index\":<int>,\n        \"shunt_bus\":<int>,\n        \"gs\":<float>,\n        \"bs\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"gen\":{\n    \"1\":{\n        \"index\":<int>,\n        \"gen_bus\":<int>,\n        \"pg\":<float>,\n        \"qg\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"storage\":{\n    \"1\":{\n        \"index\":<int>,\n        \"storage_bus\":<int>,\n        \"energy\":<float>,\n        \"energy_rating\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"branch\":{\n    \"1\":{\n        \"index\":<int>,\n        \"f_bus\":<int>,\n        \"t_bus\":<int>,\n        \"br_r\":<float>,\n        \"g_fr\":<float>,\n        \"b_fr\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"dcline\":{\n    \"1\":{\n        \"index\":<int>,\n        \"f_bus\":<int>,\n        \"t_bus\":<int>,\n        \"pf\":<float>,\n        \"qf\":<float>,\n        \"vf\":<float>,\n        \"loss0\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n}The following commands can be used to explore the network data dictionary generated by a given PTI or Matpower (this example) data file,network_data = PowerModels.parse_file(\"case3.m\")\ndisplay(network_data) # raw dictionary\nPowerModels.print_summary(network_data) # quick table-like summary\nPowerModels.component_table(network_data, \"bus\", [\"vmin\", \"vmax\"]) # component data in matrix formThe print_summary function generates a table-like text summary of the network data, which is helpful in quickly assessing the values in a data or solution dictionary.  The component_table builds a matrix of data for a given component type where there is one row for each component and one column for each requested data field.  The first column of a component table is the component\'s identifier (i.e. the index).For a detailed list of all possible parameters refer to the specification document provided with Matpower. The exception to this is that \"load\" and \"shunt\", containing \"pd\", \"qd\" and \"gs\", \"bs\", respectively, have been added as additional fields. These values are contained in \"bus\" in the original specification."
+    "text": "Internally PowerModels utilizes a dictionary to store network data. The dictionary uses strings as key values so it can be serialized to JSON for algorithmic data exchange.The data dictionary organization and key names are designed to be mostly consistent with the Matpower file format and should be familiar to power system researchers, with the notable exceptions that loads and shunts are now split into separate components (see example below), and in the case of \"multinetwork\" data, most often used for time series.The network data dictionary structure is roughly as follows:{\n\"name\":<string>,\n\"baseMVA\":<float>,\n\"source_type\":<string>,\n\"source_version\":{\n    \"major\":<int>,\n    \"minor\":<int>,\n    \"patch\":<int>,\n    ...\n},\n\"bus\":{\n    \"1\":{\n        \"index\":<int>,\n        \"bus_type\":<int>,\n        \"va\":<float>,\n        \"vm\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"load\":{\n    \"1\":{\n        \"index\":<int>,\n        \"load_bus\":<int>,\n        \"pd\":<float>,\n        \"qd\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"shunt\":{\n    \"1\":{\n        \"index\":<int>,\n        \"shunt_bus\":<int>,\n        \"gs\":<float>,\n        \"bs\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"gen\":{\n    \"1\":{\n        \"index\":<int>,\n        \"gen_bus\":<int>,\n        \"pg\":<float>,\n        \"qg\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"storage\":{\n    \"1\":{\n        \"index\":<int>,\n        \"storage_bus\":<int>,\n        \"energy\":<float>,\n        \"energy_rating\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"branch\":{\n    \"1\":{\n        \"index\":<int>,\n        \"f_bus\":<int>,\n        \"t_bus\":<int>,\n        \"br_r\":<float>,\n        \"g_fr\":<float>,\n        \"b_fr\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n\"dcline\":{\n    \"1\":{\n        \"index\":<int>,\n        \"f_bus\":<int>,\n        \"t_bus\":<int>,\n        \"pf\":<float>,\n        \"qf\":<float>,\n        \"vf\":<float>,\n        \"loss0\":<float>,\n        ...\n    },\n    \"2\":{...},\n    ...\n},\n...\n}The following commands can be used to explore the network data dictionary generated by a given PTI or Matpower (this example) data file,network_data = PowerModels.parse_file(\"matpower/case3.m\")\ndisplay(network_data) # raw dictionary\nPowerModels.print_summary(network_data) # quick table-like summary\nPowerModels.component_table(network_data, \"bus\", [\"vmin\", \"vmax\"]) # component data in matrix formThe print_summary function generates a table-like text summary of the network data, which is helpful in quickly assessing the values in a data or solution dictionary.  The component_table builds a matrix of data for a given component type where there is one row for each component and one column for each requested data field.  The first column of a component table is the component\'s identifier (i.e. the index).For a detailed list of all possible parameters refer to the specification document provided with Matpower. The exception to this is that \"load\" and \"shunt\", containing \"pd\", \"qd\" and \"gs\", \"bs\", respectively, have been added as additional fields. These values are contained in \"bus\" in the original specification."
 },
 
 {
@@ -125,7 +125,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Data Format",
     "title": "Working with the Network Data Dictionary",
     "category": "section",
-    "text": "Data exchange via JSON files is ideal for building algorithms, however it is hard to for humans to read and process.  To that end PowerModels provides various helper functions for manipulating the network data dictionary.The first of these helper functions are make_per_unit and make_mixed_units, which convert the units of the data inside a network data dictionary.  The mixed units format follows the unit conventions from Matpower and other common power network formats where some of the values are in per unit and others are the true values.  These functions can be used as follows,network_data = PowerModels.parse_file(\"case3.m\")\nPowerModels.print_summary(network_data) # default per-unit form\nPowerModels.make_mixed_units(network_data)\nPowerModels.print_summary(network_data) # mixed units formAnother useful helper function is update_data, which takes two network data dictionaries and updates the values in the first dictionary with the values from the second dictionary.  This is particularly helpful when applying sparse updates to network data.  A good example is using the solution of one computation to update the data in preparation for a second computation, like so,data = PowerModels.parse_file(\"case3.m\")\nopf_result = run_ac_opf(data, IpoptSolver())\nPowerModels.print_summary(opf_result[\"solution\"])\n\nPowerModels.update_data(data, opf_result[\"solution\"])\npf_result = run_ac_pf(data, IpoptSolver())\nPowerModels.print_summary(pf_result[\"solution\"])A variety of helper functions are available for processing the topology of the network.  For example, connected_components will compute the collections of buses that are connected by branches (i.e. the network\'s islands).  By default PowerModels will attempt to solve all of the network components simultaneously.  The select_largest_component function can be used to only consider the largest component in the network.  Finally the propagate_topology_status can be used to explicitly deactivate components that are implicitly inactive due to the status of other components (e.g. deactivating branches based on the status of their connecting buses), like so,data = PowerModels.parse_file(\"case3.m\")\nPowerModels.propagate_topology_status(data)\nopf_result = run_ac_opf(data, IpoptSolver())The test/data/case7_tplgy.m case provides an example of the kind of component status deductions that can be made.  The propagate_topology_status function can be helpful in diagnosing network models that converge to an infeasible solution.For details on all of the network data helper functions see, src/core/data.jl."
+    "text": "Data exchange via JSON files is ideal for building algorithms, however it is hard to for humans to read and process.  To that end PowerModels provides various helper functions for manipulating the network data dictionary.The first of these helper functions are make_per_unit and make_mixed_units, which convert the units of the data inside a network data dictionary.  The mixed units format follows the unit conventions from Matpower and other common power network formats where some of the values are in per unit and others are the true values.  These functions can be used as follows,network_data = PowerModels.parse_file(\"matpower/case3.m\")\nPowerModels.print_summary(network_data) # default per-unit form\nPowerModels.make_mixed_units(network_data)\nPowerModels.print_summary(network_data) # mixed units formAnother useful helper function is update_data, which takes two network data dictionaries and updates the values in the first dictionary with the values from the second dictionary.  This is particularly helpful when applying sparse updates to network data.  A good example is using the solution of one computation to update the data in preparation for a second computation, like so,data = PowerModels.parse_file(\"matpower/case3.m\")\nopf_result = run_ac_opf(data, IpoptSolver())\nPowerModels.print_summary(opf_result[\"solution\"])\n\nPowerModels.update_data(data, opf_result[\"solution\"])\npf_result = run_ac_pf(data, IpoptSolver())\nPowerModels.print_summary(pf_result[\"solution\"])A variety of helper functions are available for processing the topology of the network.  For example, connected_components will compute the collections of buses that are connected by branches (i.e. the network\'s islands).  By default PowerModels will attempt to solve all of the network components simultaneously.  The select_largest_component function can be used to only consider the largest component in the network.  Finally the propagate_topology_status can be used to explicitly deactivate components that are implicitly inactive due to the status of other components (e.g. deactivating branches based on the status of their connecting buses), like so,data = PowerModels.parse_file(\"matpower/case3.m\")\nPowerModels.propagate_topology_status(data)\nopf_result = run_ac_opf(data, IpoptSolver())The test/data/matpower/case7_tplgy.m case provides an example of the kind of component status deductions that can be made.  The propagate_topology_status function can be helpful in diagnosing network models that converge to an infeasible solution.For details on all of the network data helper functions see, src/core/data.jl."
 },
 
 {
@@ -173,7 +173,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Network Data Format",
     "title": "Working with PTI Data files",
     "category": "section",
-    "text": "PowerModels also has support for parsing PTI network files in the .raw format that follow the PSS(R)E v33 specification.  Currently PowerModels supports the following PTI components,Buses\nLoads (constant power)\nFixed Shunts\nSwitch Shunts (default configuration)\nGenerators\nBranches\nTransformers (two and three winding)\nTwo-Terminal HVDC Lines (approximate)\nVoltage Source Converter HVDC Lines (approximate)In addition to parsing the standard parameters required by PowerModels for calculations, PowerModels also supports parsing additional data fields that are defined by the PSS(R)E specification, but not used by PowerModels directly. This can be achieved via the import_all optional keyword argument in parse_file when loading a .raw file, e.g.PowerModels.parse_file(\"case3.raw\"; import_all=true)"
+    "text": "PowerModels also has support for parsing PTI network files in the .raw format that follow the PSS(R)E v33 specification.  Currently PowerModels supports the following PTI components,Buses\nLoads (constant power)\nFixed Shunts\nSwitch Shunts (default configuration)\nGenerators\nBranches\nTransformers (two and three winding)\nTwo-Terminal HVDC Lines (approximate)\nVoltage Source Converter HVDC Lines (approximate)In addition to parsing the standard parameters required by PowerModels for calculations, PowerModels also supports parsing additional data fields that are defined by the PSS(R)E specification, but not used by PowerModels directly. This can be achieved via the import_all optional keyword argument in parse_file when loading a .raw file, e.g.PowerModels.parse_file(\"pti/case3.raw\"; import_all=true)"
 },
 
 {
@@ -301,7 +301,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Storage Model",
     "title": "Storage Data Model",
     "category": "section",
-    "text": "The data for the generic storage model is as follows,{\n  \"index\":<int>,\n  \"storage_bus\":<int>,\n  \"energy\":<float, MWh>,\n  \"energy_rating\":<float, MWh>,\n  \"charge_rating\":<float, MW>,\n  \"discharge_rating\":<float, MW>,\n  \"charge_efficiency\":<float>,\n  \"discharge_efficiency\":<float>,\n  (\"thermal_rating\":<float, MVA>,)\n  (\"current_rating\":<float, MA>,)\n  \"qmin\":<float, MVar>,\n  \"qmax\":<float, MVar>,\n  \"r\":<float, p.u.>,\n  \"x\":<float, p.u.>,\n  \"standby_loss\":<float, MW>,\n  \"status\":<int>,\n}All of these quantities should be positive except for qmin, which can be negative.  The efficiency parameters are unit-less scalars in the range of 1.0 and 0.0.  By default, all of these quantities are used in per unit inside PowerModels.  The units indicated here are only used by PowerModels\' mixed-unit representation and the extended Matpower network format.Note that the optional thermal_rating and current_rating parameters are applied at the point of coupling to the network while the other ratings are internal to the storage device.In addition to these component parameters, PowerModels also requires a global parameter time_elapsed (in hours) to specify how active power is converted into units of energy as the storage device is charged or discharged.PowerModels\' storage components can be added to Matpower data files as follows,% hours\nmpc.time_elapsed = 1.0\n\n%% storage data\n%   storage_bus  energy  energy_rating charge_rating  discharge_rating  charge_efficiency  discharge_efficiency  thermal_rating  qmin  qmax  r  x  standby_loss  status\nmpc.storage = [\n   3   20.0  100.0   50.0  70.0  0.8   0.9   100.0   -50.0   70.0  0.1   0.0   0.0   1;\n   10  30.0  100.0   50.0  70.0  0.9   0.8   100.0   -50.0   70.0  0.1   0.0   0.0   1;\n];Note that this Matpower-based format includes the optional thermal_rating parameter."
+    "text": "When parsing a matpower file with storage information, data = PowerModels.parse_file(\"matpower/case5_strg.m\")the storage information can be retrieved via the \"storage\" keyword in the data dictionary. They will be correspondingly rendered when PowerModels.print_summary(data) or PowerModels.component_table(data, \"storage\", <columns>) is called.The list of columns for the generic storage model can be found at PowerModels.mp_storage_columns and is roughly as follows,{\n  \"index\":<int>,\n  \"storage_bus\":<int>,\n  \"energy\":<float, MWh>,\n  \"energy_rating\":<float, MWh>,\n  \"charge_rating\":<float, MW>,\n  \"discharge_rating\":<float, MW>,\n  \"charge_efficiency\":<float>,\n  \"discharge_efficiency\":<float>,\n  (\"thermal_rating\":<float, MVA>,)\n  (\"current_rating\":<float, MA>,)\n  \"qmin\":<float, MVar>,\n  \"qmax\":<float, MVar>,\n  \"r\":<float, p.u.>,\n  \"x\":<float, p.u.>,\n  \"standby_loss\":<float, MW>,\n  \"status\":<int>,\n}All of these quantities should be positive except for qmin, which can be negative.  The efficiency parameters are unit-less scalars in the range of 1.0 and 0.0.  By default, all of these quantities are used in per unit inside PowerModels.  The units indicated here are only used by PowerModels\' mixed-unit representation and the extended Matpower network format.Note that the optional thermal_rating and current_rating parameters are applied at the point of coupling to the network while the other ratings are internal to the storage device.In addition to these component parameters, PowerModels also requires a global parameter time_elapsed (in hours) to specify how active power is converted into units of energy as the storage device is charged or discharged.PowerModels\' storage components can be added to Matpower data files as follows,% hours\nmpc.time_elapsed = 1.0\n\n%% storage data\n%   storage_bus  energy  energy_rating charge_rating  discharge_rating  charge_efficiency  discharge_efficiency  thermal_rating  qmin  qmax  r  x  standby_loss  status\nmpc.storage = [\n   3   20.0  100.0   50.0  70.0  0.8   0.9   100.0   -50.0   70.0  0.1   0.0   0.0   1;\n   10  30.0  100.0   50.0  70.0  0.9   0.8   100.0   -50.0   70.0  0.1   0.0   0.0   1;\n];Note that this Matpower-based format includes the optional thermal_rating parameter."
 },
 
 {
@@ -310,6 +310,38 @@ var documenterSearchIndex = {"docs": [
     "title": "Storage Mathematical Model",
     "category": "section",
     "text": "Given the storage data model and two sequential time points s and t, the storage component\'s mathematical model is given by,beginalign\n\nmboxdata   nonumber \n e^u mbox - energy rating \n sc^u mbox - charge rating \n sd^u mbox - discharge rating \n eta^c mbox - charge efficiency \n eta^d mbox - discharge efficiency \n te mbox - time elapsed \n sl mbox - standing losses \n r mbox - injection resistance \n q^l q^u  mbox - reactive power injection limits \n s^u mbox - thermal injection limit \n i^u mbox - current injection limit \n\nmboxvariables   nonumber \n e_i in (0 e^u) mbox - storage energy at time i \n sc_i in (0 sc^u) mbox - charge amount at time i \n sd_i in (0 sd^u) mbox - discharge amount at time i \n S_i mbox - complex bus power injection at time i \n I_i mbox - complex bus current injection at time i \n\nmboxsubject to   nonumber \n e_t - e_s = te left(eta^c sc_t - fracsd_teta^d right) labeleq_strg_energy \n sc_t cdot sd_t = 0 labeleq_strg_compl \n Re(S_t) + (sd_t - sc_t) = sl + r I_t labeleq_strg_loss \n q^l leq Im(S_t) leq q^u labeleq_strg_q_limit \n S_t leq s^u labeleq_strg_thermal_limit \n I_t leq i^u labeleq_strg_current_limit\nendalign"
+},
+
+{
+    "location": "multi-networks/#",
+    "page": "Multi Networks",
+    "title": "Multi Networks",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "multi-networks/#PowerModels.ismultinetwork",
+    "page": "Multi Networks",
+    "title": "PowerModels.ismultinetwork",
+    "category": "function",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "multi-networks/#PowerModels.replicate",
+    "page": "Multi Networks",
+    "title": "PowerModels.replicate",
+    "category": "function",
+    "text": "calls the replicate function with PowerModels\' global keys\n\n\n\n\n\n"
+},
+
+{
+    "location": "multi-networks/#Working-with-Multi-Network-Data-1",
+    "page": "Multi Networks",
+    "title": "Working with Multi-Network Data",
+    "category": "section",
+    "text": "using PowerModels\n\ncase3file = Pkg.dir(dirname(@__DIR__), \"test\", \"data\", \"matpower\", \"case3.m\")There are occasions when it will be desirable to support multiple replicates of the same network, where there might be additional dimensions to represent variable network parameters. These dimensions might correspond to time for dynamic networks, or scenarios for stochastic networks.To distinguish between network data (see The Network Data Dictionary) that correspond to a single network or to multiple networks, PowerModels.jl providesPowerModels.ismultinetworkFor example, we can do the following:network_data = PowerModels.parse_file(case3file)\npm = build_generic_model(network_data, ACPPowerModel, PowerModels.post_opf)\n\nPowerModels.ismultinetwork(pm)PowerModels.jl would generally not read in network data as multi-networks. To generate multiple networks from the same network data, we use the following methodPowerModels.replicateFor example, we can make three replicates by callingnetwork_data3 = PowerModels.replicate(network_data, 3)Observe that the structure of network_data3 is different from that of network_data, since it is a multi-network. The user can then modify each replicate of the network to vary in the corresponding parameter of interest. See test/common.jl for examples on setting up valid Multi-Network data.To build a PowerModel from a multinetwork data dictionary (see Building PowerModels from Network Data Dictionaries), we supply multinetwork=true during the call to build_generic_model and replace post_opf with post_mn_opf,pm3 = PowerModels.build_generic_model(network_data3, ACPPowerModel, PowerModels.post_mn_opf, multinetwork=true)\n\nPowerModels.ismultinetwork(pm3)note: Note\nThe replicate() method only works on single networks. Sodata33 = PowerModels.replicate(data3, 3)will result in an error. Moreover, build_generic_model() (see )Because this is a common pattern of usage, we provide corresponding calls to run_mn_opf (which behaves analogously to run_opf, but for multinetworks), run_mn_opb, run_mn_pf, run_mn_mc_opf, run_mn_strg_opf and run_mn_mc_strg_opf.note: Note\nWorking with Multi-Networks is for advanced users, and those who are interested should refer to src/prob/test.jl for toy problem formulations of multi-network and multi-conductor models."
 },
 
 {
@@ -329,11 +361,19 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "utilities/#PowerModels.run_obbt_opf",
+    "page": "Utilities",
+    "title": "PowerModels.run_obbt_opf",
+    "category": "function",
+    "text": "Iteratively tighten bounds on voltage magnitude and phase-angle difference variables.\n\nThe function can be invoked on any convex relaxation which explicitly has these variables. By default, the function uses the QC relaxation for performing bound-tightening. Interested readers are refered to the paper \"Strengthening Convex Relaxations with Bound Tightening for Power Network Optimization\".\n\nExample\n\nThe function can be invoked as follows:\n\ndata, stats = run_obbt_opf(\"matpower/case3.m\", IpoptSolver(), kwargs...)\n\ndata contains the parsed network data with tightened bounds. stats contains information output from the bounds-tightening algorithm. It looks roughly like\n\nDict{String,Any} with 19 entries:\n  \"initial_relaxation_objective\" => 5817.91\n  \"vm_range_init\"                => 0.6\n  \"final_relaxation_objective\"   => 5901.96\n  \"avg_vm_range_init\"            => 0.2\n  \"final_rel_gap_from_ub\"        => NaN\n  \"run_time\"                     => 0.832232\n  \"model_constructor\"            => PowerModels.GenericPowerModel{...}\n  \"avg_td_range_final\"           => 0.436166\n  \"initial_rel_gap_from_ub\"      => Inf\n  \"sim_parallel_run_time\"        => 1.13342\n  \"upper_bound\"                  => Inf\n  \"vm_range_final\"               => 0.6\n  \"vad_sign_determined\"          => 2\n  \"avg_td_range_init\"            => 1.0472\n  \"avg_vm_range_final\"           => 0.2\n  \"iteration_count\"              => 5\n  \"td_range_init\"                => 3.14159\n  \"td_range_final\"               => 1.3085\n\nKeyword Arguments\n\nmodel_constructor: relaxation to use for performing bound-tightening.   Currently, it supports any relaxation that has explicit voltage magnitude   and phase-angle difference variables. \nmax_iter: maximum number of bound-tightening iterations to perform. \ntime_limit: maximum amount of time (sec) for the bound-tightening algorithm.\nupper_bound: can be used to specify a local feasible solution objective for   the AC Optimal Power Flow problem. \nupper_bound_constraint: boolean option that can be used to add an additional   constraint to reduce the search space of each of the bound-tightening   solves. This cannot be set to true without specifying an upper bound.\nrel_gap_tol: tolerance used to terminate the algorithm when the objective   value of the relaxation is close to the upper bound specified using the   upper_bound keyword.\nmin_bound_width: domain beyond which bound-tightening is not performed.\ntermination: Bound-tightening algorithm terminates if the improvement in   the average or maximum bound improvement, specified using either the   termination = :avg or the termination = :max option, is less than   improvement_tol.\nprecision: number of decimal digits to round the tightened bounds to.\n\n\n\n\n\n"
+},
+
+{
     "location": "utilities/#Optimization-Based-Bound-Tightening-for-the-AC-Optimal-Power-Flow-Problem-1",
     "page": "Utilities",
     "title": "Optimization-Based Bound-Tightening for the AC Optimal Power Flow Problem",
     "category": "section",
-    "text": "To improve the quality of the convex relaxations available in PowerModels and also to obtain tightened bounds on the voltage-magnitude and phase-angle difference variables, an optimization-based bound-tightening algorithm is made available as a function in PowerModels. The implementation of this function can be found in src/util/obbt.jl. The algorithm iteratively tightens the bounds on the voltage magnitude and phase-angle difference variables. The function can be invoked on any convex relaxation which explicitly has these variables. By default, the function uses the QC relaxation for performing bound-tightening. Interested readers are refered to the paper \"Strengthening Convex Relaxations with Bound Tightening for Power Network Optimization\" for an overview of the algorithm. The function can be invoked as follows:data, stats = run_obbt_opf(\"case3.m\", IpoptSolver());\n# data is a dictionary that contains the parsed network data with tightened bounds\n# stats is a dictionary that contains some useful information output by algorithm\nDict{String,Any} with 19 entries:\n  \"initial_relaxation_objective\" => 5817.91\n  \"vm_range_init\"                => 0.6\n  \"final_relaxation_objective\"   => 5901.96\n  \"avg_vm_range_init\"            => 0.2\n  \"final_rel_gap_from_ub\"        => NaN\n  \"run_time\"                     => 0.832232\n  \"model_constructor\"            => PowerModels.GenericPowerModel{...}\n  \"avg_td_range_final\"           => 0.436166\n  \"initial_rel_gap_from_ub\"      => Inf\n  \"sim_parallel_run_time\"        => 1.13342\n  \"upper_bound\"                  => Inf\n  \"vm_range_final\"               => 0.6\n  \"vad_sign_determined\"          => 2\n  \"avg_td_range_init\"            => 1.0472\n  \"avg_vm_range_final\"           => 0.2\n  \"iteration_count\"              => 5\n  \"td_range_init\"                => 3.14159\n  \"td_range_final\"               => 1.3085The optional keyword arguments are self-explantory and can also be found in the function\'s implementation. The keyword arguments with their defaults are as follows:model_constructor = QCWRTriPowerModel,\nmax_iter = 100, \ntime_limit = 3600.0,\nupper_bound = Inf,\nupper_bound_constraint = false, \nrel_gap_tol = Inf,\nmin_bound_width = 1e-2,\nimprovement_tol = 1e-3, \nprecision = 4,\ntermination = :avg,The keyword model_constructor specifies the relaxation to use for performing bound-tightening. Currently, it supports any relaxation that has explicit voltage magnitude and phase-angle difference variables. \nmax_iter is the keyword that limits the number of bound-tightening iterations to perform. \ntime_limit is the limit on the computation time of the bound-tightening algorithm in seconds.\nupper_bound is a keyword that can be used to specify a local feasible solution objective for the AC Optimal Power Flow problem. \nupper_bound_constraint is a boolean option that can be used to add an additional constraint to reduce the search space of each of the bound-tightening solves. This option cannot be set to true without specifying an upper bound. \nrel_gap_tol is a tolerance that is used to terminate the algorithm when the objective value of the relaxation is close to the upper bound specified using the upper_bound keyword. \nmin_bound_width, as the name suggests is the variable domain, beyond which point, bound-tightening is not performed for that variable.\nThe bound-tightening algorithm terminates if the improvement in the average or maximum bound improvement, specified using either the termination = :avg or the termination =:max option, is less than improvement_tol. \nFinally, precision is used to round the tightened bounds to that many decimal digits. "
+    "text": "To improve the quality of the convex relaxations available in PowerModels and also to obtain tightened bounds on the voltage-magnitude and phase-angle difference variables, an optimization-based bound-tightening algorithm is made available as a function in PowerModels.run_obbt_opf"
 },
 
 {
@@ -421,7 +461,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage(pm)\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\nend\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\n\n    constraint_voltage_angle_difference(pm, branch)\n\n    constraint_thermal_limit_from(pm, branch)\n    constraint_thermal_limit_to(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_dcline(pm, dcline)\nend"
+    "text": "constraint_voltage(pm)\nfor i in ids(pm, :ref_buses)\n    constraint_theta_ref(pm, i)\nend\nfor i in ids(pm, :bus)\n    constraint_kcl_shunt(pm, i)\nend\nfor i in ids(pm, :branch)\n    constraint_ohms_yt_from(pm, i)\n    constraint_ohms_yt_to(pm, i)\n\n    constraint_voltage_angle_difference(pm, i)\n\n    constraint_thermal_limit_from(pm, i)\n    constraint_thermal_limit_to(pm, i)\nend\nfor i in ids(pm, :dcline)\n    constraint_dcline(pm, i)\nend"
 },
 
 {
@@ -453,7 +493,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage(pm)\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\nend\nfor (i,branch) in pm.ref[:branch]\n    constraint_flow_losses(pm, branch)\n    constraint_voltage_magnitude_difference(pm, branch)\n    constraint_branch_current(pm, branch)\n\n    constraint_voltage_angle_difference(pm, branch)\n\n    constraint_thermal_limit_from(pm, branch)\n    constraint_thermal_limit_to(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_dcline(pm, dcline)\nend"
+    "text": "constraint_voltage(pm)\nfor i in ids(pm, :ref_buses)\n    constraint_theta_ref(pm, i)\nend\nfor i in ids(pm, :bus)\n    constraint_kcl_shunt(pm, i)\nend\nfor i in ids(pm, :branch)\n    constraint_flow_losses(pm, i)\n    constraint_voltage_magnitude_difference(pm, i)\n    constraint_branch_current(pm, i)\n\n    constraint_voltage_angle_difference(pm, i)\n\n    constraint_thermal_limit_from(pm, i)\n    constraint_thermal_limit_to(pm, i)\nend\nfor i in ids(pm, :dcline)\n    constraint_dcline(pm, i)\nend"
 },
 
 {
@@ -493,7 +533,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage_on_off(pm)\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\nend\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from_on_off(pm, branch)\n    constraint_ohms_yt_to_on_off(pm, branch)\n\n    constraint_voltage_angle_difference_on_off(pm, branch)\n\n    constraint_thermal_limit_from_on_off(pm, branch)\n    constraint_thermal_limit_to_on_off(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_dcline(pm, dcline)\nend"
+    "text": "constraint_voltage_on_off(pm)\nfor i in ids(pm, :ref_buses)\n    constraint_theta_ref(pm, i)\nend\nfor i in ids(pm, :bus)\n    constraint_kcl_shunt(pm, i)\nend\nfor i in ids(pm, :branch)\n    constraint_ohms_yt_from_on_off(pm, i)\n    constraint_ohms_yt_to_on_off(pm, i)\n\n    constraint_voltage_angle_difference_on_off(pm, i)\n\n    constraint_thermal_limit_from_on_off(pm, i)\n    constraint_thermal_limit_to_on_off(pm, i)\nend\nfor i in ids(pm, :dcline)\n    constraint_dcline(pm, i)\nend"
 },
 
 {
@@ -525,7 +565,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage_magnitude_setpoint(pm, pm.ref[:bus][pm.ref[:ref_bus]])\nconstraint_voltage(pm)\n\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\n\n    # PV Bus Constraints\n    if length(pm.ref[:bus_gens][i]) > 0 && i != pm.ref[:ref_bus]\n        # this assumes inactive generators are filtered out of bus_gens\n        @assert bus[\"bus_type\"] == 2\n\n        constraint_voltage_magnitude_setpoint(pm, bus)\n        for j in pm.ref[:bus_gens][i]\n            constraint_active_gen_setpoint(pm, pm.ref[:gen][j])\n        end\n    end\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_active_dcline_setpoint(pm, dcline)\nend"
+    "text": "constraint_voltage(pm)\nfor (i,bus) in ref(pm, :ref_buses)\n    @assert bus[\"bus_type\"] == 3\n    constraint_theta_ref(pm, i)\n    constraint_voltage_magnitude_setpoint(pm, i)\nend\nfor (i,bus) in ref(pm, :bus)\n    constraint_kcl_shunt(pm, i)\n    # PV Bus Constraints\n    if length(ref(pm, :bus_gens, i)) > 0 && !(i in ids(pm,:ref_buses))\n        # this assumes inactive generators are filtered out of bus_gens\n        @assert bus[\"bus_type\"] == 2\n        constraint_voltage_magnitude_setpoint(pm, i)\n        for j in ref(pm, :bus_gens, i)\n            constraint_active_gen_setpoint(pm, j)\n        end\n    end\nend\nfor i in ids(pm, :branch)\n    constraint_ohms_yt_from(pm, i)\n    constraint_ohms_yt_to(pm, i)\nend\nfor (i,dcline) in ref(pm, :dcline)\n    constraint_active_dcline_setpoint(pm, i)\n\n    f_bus = ref(pm, :bus)[dcline[\"f_bus\"]]\n    if f_bus[\"bus_type\"] == 1\n        constraint_voltage_magnitude_setpoint(pm, f_bus[\"index\"])\n    end\n\n    t_bus = ref(pm, :bus)[dcline[\"t_bus\"]]\n    if t_bus[\"bus_type\"] == 1\n        constraint_voltage_magnitude_setpoint(pm, t_bus[\"index\"])\n    end\nend"
 },
 
 {
@@ -549,7 +589,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Variables",
     "category": "section",
-    "text": "variable_voltage(pm, bounded = false)\nvariable_active_generation(pm, bounded = false)\nvariable_reactive_generation(pm, bounded = false)\nvariable_branch_flow(pm, bounded = false)\nconstraint_branch_current(pm, bounded = false)\nvariable_branch_current(pm, bounded = false)"
+    "text": "variable_voltage(pm, bounded = false)\nvariable_active_generation(pm, bounded = false)\nvariable_reactive_generation(pm, bounded = false)\nvariable_branch_flow(pm, bounded = false)\nvariable_branch_current(pm, bounded = false)\nvariable_dcline_flow(pm, bounded = false)"
 },
 
 {
@@ -557,7 +597,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage_magnitude_setpoint(pm, pm.ref[:bus][pm.ref[:ref_bus]])\nconstraint_voltage(pm)\n\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt(pm, bus)\n\n    # PV Bus Constraints\n    if length(pm.ref[:bus_gens][i]) > 0 && i != pm.ref[:ref_bus]\n        # this assumes inactive generators are filtered out of bus_gens\n        @assert bus[\"bus_type\"] == 2\n\n        constraint_voltage_magnitude_setpoint(pm, bus)\n        for j in pm.ref[:bus_gens][i]\n            constraint_active_gen_setpoint(pm, pm.ref[:gen][j])\n        end\n    end\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_flow_losses(pm, branch)\n    constraint_voltage_magnitude_difference(pm, branch)\n    constraint_branch_current(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_active_dcline_setpoint(pm, dcline)\nend"
+    "text": "for (i,bus) in ref(pm, :ref_buses)\n    @assert bus[\"bus_type\"] == 3\n    constraint_theta_ref(pm, i)\n    constraint_voltage_magnitude_setpoint(pm, i)\nend\nfor (i,bus) in ref(pm, :bus)\n    constraint_kcl_shunt(pm, i)\n    if length(ref(pm, :bus_gens, i)) > 0 && !(i in ids(pm,:ref_buses))\n        # this assumes inactive generators are filtered out of bus_gens\n        @assert bus[\"bus_type\"] == 2\n        constraint_voltage_magnitude_setpoint(pm, i)\n        for j in ref(pm, :bus_gens, i)\n            constraint_active_gen_setpoint(pm, j)\n        end\n    end\nend\nfor i in ids(pm, :branch)\n    constraint_flow_losses(pm, i)\n    constraint_voltage_magnitude_difference(pm, i)\n    constraint_branch_current(pm, i)\nend\nfor (i,dcline) in ref(pm, :dcline)\n    constraint_active_dcline_setpoint(pm, i)\n\n    f_bus = ref(pm, :bus)[dcline[\"f_bus\"]]\n    if f_bus[\"bus_type\"] == 1\n        constraint_voltage_magnitude_setpoint(pm, f_bus[\"index\"])\n    end\n\n    t_bus = ref(pm, :bus)[dcline[\"t_bus\"]]\n    if t_bus[\"bus_type\"] == 1\n        constraint_voltage_magnitude_setpoint(pm, t_bus[\"index\"])\n    end\nend"
 },
 
 {
@@ -589,7 +629,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Problem Specifications",
     "title": "Constraints",
     "category": "section",
-    "text": "constraint_theta_ref(pm)\nconstraint_voltage(pm)\nconstraint_voltage_ne(pm)\n\nfor (i,bus) in pm.ref[:bus]\n    constraint_kcl_shunt_ne(pm, bus)\nend\n\nfor (i,branch) in pm.ref[:branch]\n    constraint_ohms_yt_from(pm, branch)\n    constraint_ohms_yt_to(pm, branch)\n\n    constraint_voltage_angle_difference(pm, branch)\n\n    constraint_thermal_limit_from(pm, branch)\n    constraint_thermal_limit_to(pm, branch)\nend\n\nfor (i,branch) in pm.ref[:ne_branch]\n    constraint_ohms_yt_from_ne(pm, branch)\n    constraint_ohms_yt_to_ne(pm, branch)\n\n    constraint_voltage_angle_difference_ne(pm, branch)\n\n    constraint_thermal_limit_from_ne(pm, branch)\n    constraint_thermal_limit_to_ne(pm, branch)\nend\nfor (i,dcline) in pm.ref[:dcline]\n    constraint_dcline(pm, dcline)\nend"
+    "text": "constraint_voltage(pm)\nconstraint_voltage_ne(pm)\nfor i in ids(pm, :ref_buses)\n    constraint_theta_ref(pm, i)\nend\nfor i in ids(pm, :bus)\n    constraint_kcl_shunt_ne(pm, i)\nend\nfor i in ids(pm, :branch)\n    constraint_ohms_yt_from(pm, i)\n    constraint_ohms_yt_to(pm, i)\n\n    constraint_voltage_angle_difference(pm, i)\n\n    constraint_thermal_limit_from(pm, i)\n    constraint_thermal_limit_to(pm, i)\nend\nfor i in ids(pm, :ne_branch)\n    constraint_ohms_yt_from_ne(pm, i)\n    constraint_ohms_yt_to_ne(pm, i)\n\n    constraint_voltage_angle_difference_ne(pm, i)\n\n    constraint_thermal_limit_from_ne(pm, i)\n    constraint_thermal_limit_to_ne(pm, i)\nend\nfor i in ids(pm, :dcline)\n    constraint_dcline(pm, i)\nend"
 },
 
 {
@@ -605,7 +645,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PowerModel",
     "title": "PowerModels.GenericPowerModel",
     "category": "type",
-    "text": "type GenericPowerModel{T<:AbstractPowerFormulation}\n    model::JuMP.Model\n    data::Dict{String,Any}\n    setting::Dict{String,Any}\n    solution::Dict{String,Any}\n    var::Dict{Symbol,Any} # model variable lookup\n    ref::Dict{Symbol,Any} # reference data\n    ext::Dict{Symbol,Any} # user extentions\nend\n\nwhere\n\ndata is the original data, usually from reading in a .json or .m (patpower) file,\nsetting usually looks something like Dict(\"output\" => Dict(\"branch_flows\" => true)), and\nref is a place to store commonly used pre-computed data from of the data dictionary,   primarily for converting data-types, filtering out deactivated components, and storing   system-wide values that need to be computed globally. See build_ref(data) for further details.\n\nMethods on GenericPowerModel for defining variables and adding constraints should\n\nwork with the ref dict, rather than the original data dict,\nadd them to model::JuMP.Model, and\nfollow the conventions for variable and constraint names.\n\n\n\n\n\n"
+    "text": "type GenericPowerModel{T<:AbstractPowerFormulation}\n    model::JuMP.Model\n    data::Dict{String,Any}\n    setting::Dict{String,Any}\n    solution::Dict{String,Any}\n    ref::Dict{Symbol,Any} # reference data\n    var::Dict{Symbol,Any} # JuMP variables\n    con::Dict{Symbol,Any} # JuMP constraint references\n    cnw::Int              # current network index value\n    ccnd::Int             # current conductor index value\n    ext::Dict{Symbol,Any} # user extentions\nend\n\nwhere\n\ndata is the original data, usually from reading in a .json or .m (patpower) file,\nsetting usually looks something like Dict(\"output\" => Dict(\"branch_flows\" => true)), and\nref is a place to store commonly used pre-computed data from of the data dictionary,   primarily for converting data-types, filtering out deactivated components, and storing   system-wide values that need to be computed globally. See build_ref(data) for further details.\n\nMethods on GenericPowerModel for defining variables and adding constraints should\n\nwork with the ref dict, rather than the original data dict,\nadd them to model::JuMP.Model, and\nfollow the conventions for variable and constraint names.\n\n\n\n\n\n"
 },
 
 {
@@ -1061,7 +1101,39 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "Constraint Templates",
     "category": "section",
-    "text": "Constraint templates help simplify data wrangling across multiple Power Flow formulations by providing an abstraction layer between the network data and network constraint definitions. The constraint template\'s job is to extract the required parameters from a given network data structure and pass the data as named arguments to the Power Flow formulations.These templates should be defined over GenericPowerModel and should not refer to model variables. For more details, see the files: core/constraint_template.jl and core/constraint.jl."
+    "text": "Constraint templates help simplify data wrangling across multiple Power Flow formulations by providing an abstraction layer between the network data and network constraint definitions. The constraint template\'s job is to extract the required parameters from a given network data structure and pass the data as named arguments to the Power Flow formulations.These templates should be defined over GenericPowerModel and should not refer to model variables. For more details, see the files: core/constraint_template.jl and core/constraint.jl (core/constraint_template.jl provides higher level APIs, and pulls out index information from the data dictionaries, before calling out to methods defined in core/constraint.jl)."
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_voltage",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_voltage",
+    "category": "function",
+    "text": "\n\n\n\ndo nothing, this model does not have complex voltage constraints\n\n\n\n\n\ndo nothing, this model does not have complex voltage constraints\n\n\n\n\n\nadd constraints for voltage magnitude\n\n\n\n\n\ndo nothing, this model does not have complex voltage variables\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_voltage_on_off",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_voltage_on_off",
+    "category": "function",
+    "text": "\n\n\n\ndo nothing, this model does not have complex voltage constraints\n\n\n\n\n\ndo nothing, this model does not have complex voltage variables\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_voltage_ne",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_voltage_ne",
+    "category": "function",
+    "text": "\n\n\n\ndo nothing, this model does not have complex voltage constraints\n\n\n\n\n\ndo nothing, this model does not have complex voltage variables\n\n\n\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#Voltage-Constraints-1",
+    "page": "Constraints",
+    "title": "Voltage Constraints",
+    "category": "section",
+    "text": "constraint_voltage\nconstraint_voltage_on_off\nconstraint_voltage_ne"
 },
 
 {
@@ -1121,11 +1193,35 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "constraints/#PowerModels.constraint_power_balance",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_power_balance",
+    "category": "function",
+    "text": "ensures that power generation and demand are balanced\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#Power-Balance-Constraints-1",
+    "page": "Constraints",
+    "title": "Power Balance Constraints",
+    "category": "section",
+    "text": "constraint_power_balance"
+},
+
+{
     "location": "constraints/#PowerModels.constraint_kcl_shunt",
     "page": "Constraints",
     "title": "PowerModels.constraint_kcl_shunt",
     "category": "function",
     "text": "\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - sum(pd[d] for d in bus_loads) - sum(gs[s] for s in bus_shunts)*v^2\nsum(q[a] for a in bus_arcs) + sum(q_dc[a_dc] for a_dc in bus_arcs_dc) == sum(qg[g] for g in bus_gens) - sum(qd[d] for d in bus_loads) + sum(bs[s] for s in bus_shunts)*v^2\n\n\n\n\n\n\n\n\n\n\n\n\n\nsum(p[a] for a in bus_arcs) + sum(p_dc[a_dc] for a_dc in bus_arcs_dc) == sum(pg[g] for g in bus_gens) - sum(pd[d] for d in bus_loads) - sum(gs[s] for d in bus_shunts)*w[i]\nsum(q[a] for a in bus_arcs) + sum(q_dc[a_dc] for a_dc in bus_arcs_dc) == sum(qg[g] for g in bus_gens) - sum(qd[d] for d in bus_loads) + sum(bs[s] for d in bus_shunts)*w[i]\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_kcl_shunt_storage",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_kcl_shunt_storage",
+    "category": "function",
+    "text": "\n\n\n\n\n\n\n\n\n\n\n\n"
 },
 
 {
@@ -1141,7 +1237,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "KCL Constraints",
     "category": "section",
-    "text": "constraint_kcl_shunt\nconstraint_kcl_shunt_ne"
+    "text": "constraint_kcl_shunt\nconstraint_kcl_shunt_storage\nconstraint_kcl_shunt_ne"
 },
 
 {
@@ -1241,9 +1337,25 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "constraints/#PowerModels.constraint_power_magnitude_sqr_on_off",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_power_magnitude_sqr_on_off",
+    "category": "function",
+    "text": "\n\n\n\np[arc_from]^2 + q[arc_from]^2 <= w[f_bus]/tm*cm[i]\n\n\n\n\n\n"
+},
+
+{
     "location": "constraints/#PowerModels.constraint_power_magnitude_link",
     "page": "Constraints",
     "title": "PowerModels.constraint_power_magnitude_link",
+    "category": "function",
+    "text": "\n\n\n\ncm[f_bus,t_bus] == (g^2 + b^2)*(w[f_bus]/tm + w[t_bus] - 2*(tr*wr[f_bus,t_bus] + ti*wi[f_bus,t_bus])/tm) - c*q[f_idx] - ((c/2)/tm)^2*w[f_bus]\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_power_magnitude_link_on_off",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_power_magnitude_link_on_off",
     "category": "function",
     "text": "\n\n\n\ncm[f_bus,t_bus] == (g^2 + b^2)*(w[f_bus]/tm + w[t_bus] - 2*(tr*wr[f_bus,t_bus] + ti*wi[f_bus,t_bus])/tm) - c*q[f_idx] - ((c/2)/tm)^2*w[f_bus]\n\n\n\n\n\n"
 },
@@ -1253,7 +1365,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Constraints",
     "title": "Current",
     "category": "section",
-    "text": "constraint_power_magnitude_sqr\nconstraint_power_magnitude_link"
+    "text": "constraint_power_magnitude_sqr\nconstraint_power_magnitude_sqr_on_off\nconstraint_power_magnitude_link\nconstraint_power_magnitude_link_on_off"
 },
 
 {
@@ -1313,6 +1425,22 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "constraints/#PowerModels.constraint_current_limit",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_current_limit",
+    "category": "function",
+    "text": "Adds a current magnitude limit constraint for the desired branch to the PowerModel.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#Current-Limit-Constraints-1",
+    "page": "Constraints",
+    "title": "Current Limit Constraints",
+    "category": "section",
+    "text": "constraint_current_limit"
+},
+
+{
     "location": "constraints/#PowerModels.constraint_voltage_angle_difference",
     "page": "Constraints",
     "title": "PowerModels.constraint_voltage_angle_difference",
@@ -1353,19 +1481,91 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "constraints/#PowerModels.constraint_flow_losses",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_flow_losses",
+    "category": "function",
+    "text": "\n\n\n\nDefines branch flow model power flow equations\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_voltage_magnitude_difference",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_voltage_magnitude_difference",
+    "category": "function",
+    "text": "\n\n\n\nDefines voltage drop over a branch, linking from and to side voltage magnitude\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_branch_current",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_branch_current",
+    "category": "function",
+    "text": "\n\n\n\nDefines relationship between branch (series) power flow, branch (series) current and node voltage magnitude\n\n\n\n\n\nDefines relationship between branch (series) power flow, branch (series) current and node voltage magnitude\n\n\n\n\n\n"
+},
+
+{
     "location": "constraints/#Loss-Constraints-1",
     "page": "Constraints",
     "title": "Loss Constraints",
     "category": "section",
-    "text": "constraint_loss_lb"
+    "text": "constraint_loss_lb\nconstraint_flow_losses\nconstraint_voltage_magnitude_difference\nconstraint_branch_current"
 },
 
 {
-    "location": "constraints/#DC-Line-Constraints-1",
+    "location": "constraints/#PowerModels.constraint_storage_thermal_limit",
     "page": "Constraints",
-    "title": "DC Line Constraints",
+    "title": "PowerModels.constraint_storage_thermal_limit",
+    "category": "function",
+    "text": "\n\n\n\n\n\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_storage_current_limit",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_storage_current_limit",
+    "category": "function",
+    "text": "\n\n\n\n\n\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_storage_complementarity",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_storage_complementarity",
+    "category": "function",
+    "text": "\n\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_storage_loss",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_storage_loss",
+    "category": "function",
+    "text": "\n\n\n\n\n\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_storage_state_initial",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_storage_state_initial",
+    "category": "function",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "constraints/#PowerModels.constraint_storage_state",
+    "page": "Constraints",
+    "title": "PowerModels.constraint_storage_state",
+    "category": "function",
+    "text": "\n\n\n\n\n\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "constraints/#Storage-Constraints-1",
+    "page": "Constraints",
+    "title": "Storage Constraints",
     "category": "section",
-    "text": ""
+    "text": "constraint_storage_thermal_limit\nconstraint_storage_current_limit\nconstraint_storage_complementarity\nconstraint_storage_loss\nconstraint_storage_state_initial\nconstraint_storage_state"
 },
 
 {
@@ -1377,35 +1577,19 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "constraints/#Network-Flow-Constraints-1",
+    "location": "constraints/#PowerModels.constraint_active_dcline_setpoint",
     "page": "Constraints",
-    "title": "Network Flow Constraints",
-    "category": "section",
-    "text": "constraint_dcline"
+    "title": "PowerModels.constraint_active_dcline_setpoint",
+    "category": "function",
+    "text": "\n\n\n\npf[i] == pf, pt[i] == pt\n\n\n\n\n\n"
 },
 
 {
-    "location": "constraints/#Commonly-Used-Constraints-1",
+    "location": "constraints/#DC-Line-Constraints-1",
     "page": "Constraints",
-    "title": "Commonly Used Constraints",
+    "title": "DC Line Constraints",
     "category": "section",
-    "text": "The following methods generally assume that the model contains p and q values for branches line flows and bus flow conservation."
-},
-
-{
-    "location": "constraints/#Generic-thermal-limit-constraint-1",
-    "page": "Constraints",
-    "title": "Generic thermal limit constraint",
-    "category": "section",
-    "text": "constraint_thermal_limit_from(pm::GenericPowerModel, f_idx, rate_a)\nconstraint_thermal_limit_to(pm::GenericPowerModel, t_idx, rate_a)"
-},
-
-{
-    "location": "constraints/#Generic-on/off-thermal-limit-constraint-1",
-    "page": "Constraints",
-    "title": "Generic on/off thermal limit constraint",
-    "category": "section",
-    "text": "constraint_thermal_limit_from_on_off(pm::GenericPowerModel, i, f_idx, rate_a)\nconstraint_thermal_limit_to_on_off(pm::GenericPowerModel, i, t_idx, rate_a)\nconstraint_thermal_limit_from_ne(pm::GenericPowerModel, i, f_idx, rate_a)\nconstraint_thermal_limit_to_ne(pm::GenericPowerModel, i, t_idx, rate_a)\nconstraint_active_gen_setpoint(pm::GenericPowerModel, i, pg)\nconstraint_reactive_gen_setpoint(pm::GenericPowerModel, i, qg)"
+    "text": "constraint_dcline\nconstraint_active_dcline_setpoint"
 },
 
 {
@@ -1513,99 +1697,147 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "parser/#PowerModels.parse_matpower_file",
+    "location": "parser/#PowerModels.add_dcline_costs-Tuple{Dict{String,Any}}",
     "page": "File IO",
-    "title": "PowerModels.parse_matpower_file",
-    "category": "function",
-    "text": "\n\n\n\n\n\n\n\n"
+    "title": "PowerModels.add_dcline_costs",
+    "category": "method",
+    "text": "adds dcline costs, if gen costs exist\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.parse_matpower_string",
+    "location": "parser/#PowerModels.export_cost_data-Tuple{IO,Dict{Int64,Dict},String}",
     "page": "File IO",
-    "title": "PowerModels.parse_matpower_string",
-    "category": "function",
-    "text": "\n\n\n\n"
+    "title": "PowerModels.export_cost_data",
+    "category": "method",
+    "text": "Export cost data\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.matpower_to_powermodels",
+    "location": "parser/#PowerModels.export_extra_data",
+    "page": "File IO",
+    "title": "PowerModels.export_extra_data",
+    "category": "function",
+    "text": "Export fields of a component type\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.export_matpower-Tuple{Dict{String,Any}}",
+    "page": "File IO",
+    "title": "PowerModels.export_matpower",
+    "category": "method",
+    "text": "Export power network data in the matpower format\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.export_matpower-Tuple{IO,Dict{String,Any}}",
+    "page": "File IO",
+    "title": "PowerModels.export_matpower",
+    "category": "method",
+    "text": "Export power network data in the matpower format\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.get_default",
+    "page": "File IO",
+    "title": "PowerModels.get_default",
+    "category": "function",
+    "text": "Get a default value for dict entry \n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.matpower_to_powermodels-Tuple{Dict{String,Any}}",
     "page": "File IO",
     "title": "PowerModels.matpower_to_powermodels",
-    "category": "function",
+    "category": "method",
     "text": "Converts a Matpower dict into a PowerModels dict\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.mp_cost_data",
-    "page": "File IO",
-    "title": "PowerModels.mp_cost_data",
-    "category": "function",
-    "text": "\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.split_loads_shunts",
-    "page": "File IO",
-    "title": "PowerModels.split_loads_shunts",
-    "category": "function",
-    "text": "split_loads_shunts(data)\n\nSeperates Loads and Shunts in data under separate \"load\" and \"shunt\" keys in the PowerModels data format. Includes references to originating bus via \"loadbus\" and \"shuntbus\" keys, respectively.\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.standardize_cost_terms",
-    "page": "File IO",
-    "title": "PowerModels.standardize_cost_terms",
-    "category": "function",
-    "text": "ensures all polynomial costs functions have the same number of terms\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.merge_generator_cost_data",
-    "page": "File IO",
-    "title": "PowerModels.merge_generator_cost_data",
-    "category": "function",
-    "text": "merges generator cost functions into generator data, if costs exist\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.merge_bus_name_data",
+    "location": "parser/#PowerModels.merge_bus_name_data-Tuple{Dict{String,Any}}",
     "page": "File IO",
     "title": "PowerModels.merge_bus_name_data",
-    "category": "function",
+    "category": "method",
     "text": "merges bus name data into buses, if names exist\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.merge_generic_data",
+    "location": "parser/#PowerModels.merge_generator_cost_data-Tuple{Dict{String,Any}}",
+    "page": "File IO",
+    "title": "PowerModels.merge_generator_cost_data",
+    "category": "method",
+    "text": "merges generator cost functions into generator data, if costs exist\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.merge_generic_data-Tuple{Dict{String,Any}}",
     "page": "File IO",
     "title": "PowerModels.merge_generic_data",
-    "category": "function",
+    "category": "method",
     "text": "merges Matpower tables based on the table extension syntax\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.mp2pm_branch",
+    "location": "parser/#PowerModels.mp2pm_branch-Tuple{Dict{String,Any}}",
     "page": "File IO",
     "title": "PowerModels.mp2pm_branch",
-    "category": "function",
+    "category": "method",
     "text": "sets all branch transformer taps to 1.0, to simplify branch models\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.mp2pm_dcline",
+    "location": "parser/#PowerModels.mp2pm_dcline-Tuple{Dict{String,Any}}",
     "page": "File IO",
     "title": "PowerModels.mp2pm_dcline",
-    "category": "function",
+    "category": "method",
     "text": "adds pmin and pmax values at to and from buses\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.add_dcline_costs",
+    "location": "parser/#PowerModels.mp_cost_data-Tuple{Any}",
     "page": "File IO",
-    "title": "PowerModels.add_dcline_costs",
-    "category": "function",
-    "text": "adds dcline costs, if gen costs exist\n\n\n\n\n\n"
+    "title": "PowerModels.mp_cost_data",
+    "category": "method",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_matpower-Tuple{Union{IO, String}}",
+    "page": "File IO",
+    "title": "PowerModels.parse_matpower",
+    "category": "method",
+    "text": "Parses the matpwer data from either a filename or an IO object\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_matpower_file-Tuple{IO}",
+    "page": "File IO",
+    "title": "PowerModels.parse_matpower_file",
+    "category": "method",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_matpower_file-Tuple{String}",
+    "page": "File IO",
+    "title": "PowerModels.parse_matpower_file",
+    "category": "method",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_matpower_string-Tuple{String}",
+    "page": "File IO",
+    "title": "PowerModels.parse_matpower_string",
+    "category": "method",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.split_loads_shunts-Tuple{Dict{String,Any}}",
+    "page": "File IO",
+    "title": "PowerModels.split_loads_shunts",
+    "category": "method",
+    "text": "split_loads_shunts(data)\n\nSeperates Loads and Shunts in data under separate \"load\" and \"shunt\" keys in the PowerModels data format. Includes references to originating bus via \"loadbus\" and \"shuntbus\" keys, respectively.\n\n\n\n\n\n"
 },
 
 {
@@ -1613,15 +1845,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "Matpower Data Files",
     "category": "section",
-    "text": "The following method is the main exported methods for parsing Matpower data files:parse_matpowerWe also provide the following (internal) helper methods:parse_matpower_file\nparse_matpower_string\nmatpower_to_powermodels\nmp_cost_data\nsplit_loads_shunts\nstandardize_cost_terms\nmerge_generator_cost_data\nmerge_bus_name_data\nmerge_generic_data\nmp2pm_branch\nmp2pm_dcline\nadd_dcline_costs"
-},
-
-{
-    "location": "parser/#PowerModels.parse_psse",
-    "page": "File IO",
-    "title": "PowerModels.parse_psse",
-    "category": "function",
-    "text": "parse_psse(pti_data)\n\nConverts PSS(R)E-style data parsed from a PTI raw file, passed by pti_data into a format suitable for use internally in PowerModels. Imports all remaining data from the PTI file if import_all is true (Default: false).\n\n\n\n\n\nParses directly from file\n\n\n\n\n\nParses directly from iostream\n\n\n\n\n\n"
+    "text": "The following method is the main exported methods for parsing Matpower data files:parse_matpowerWe also provide the following (internal) helper methods:Modules = [PowerModels]\nPages   = [\"io/matpower.jl\"]\nOrder   = [:function]\nPrivate  = true"
 },
 
 {
@@ -1633,139 +1857,195 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "parser/#PowerModels.parse_pti_data",
+    "location": "parser/#PowerModels.parse_psse",
     "page": "File IO",
-    "title": "PowerModels.parse_pti_data",
+    "title": "PowerModels.parse_psse",
     "category": "function",
-    "text": "parse_pti_data(data_string, sections)\n\nParse a PTI raw file into a Dict, given the data_string of the file and a list of the sections in the PTI file (typically given by default by get_pti_sections().\n\n\n\n\n\n"
+    "text": "parse_psse(pti_data)\n\nConverts PSS(R)E-style data parsed from a PTI raw file, passed by pti_data into a format suitable for use internally in PowerModels. Imports all remaining data from the PTI file if import_all is true (Default: false).\n\n\n\n\n\nParses directly from file\n\n\n\n\n\nParses directly from iostream\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.get_line_elements",
-    "page": "File IO",
-    "title": "PowerModels.get_line_elements",
-    "category": "function",
-    "text": "get_line_elements(line)\n\nUses regular expressions to extract all separate data elements from a line of a PTI file and populate them into an Array{String}. Comments, typically indicated at the end of a line with a \'/\' character, are also extracted separately, and Array{Array{String}, String} is returned.\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.add_section_data!",
-    "page": "File IO",
-    "title": "PowerModels.add_section_data!",
-    "category": "function",
-    "text": "add_section_data!(pti_data, section_data, section)\n\nAdds section_data::Dict, which contains all parsed elements of a PTI file section given by section, into the parent pti_data::Dict\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.parse_line_element!",
-    "page": "File IO",
-    "title": "PowerModels.parse_line_element!",
-    "category": "function",
-    "text": "parse_line_element!(data, elements, section)\n\nParses a single \"line\" of data elements from a PTI file, as given by elements which is an array of the line, typically split at ,. Elements are parsed into data types given by section and saved into data::Dict\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.get_pti_dtypes",
-    "page": "File IO",
-    "title": "PowerModels.get_pti_dtypes",
-    "category": "function",
-    "text": "get_pti_dtypes(field_name)\n\nReturns OrderedDict of data types for PTI file section given by field_name, as enumerated by PSS/E Program Operation Manual\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.get_pti_sections",
-    "page": "File IO",
-    "title": "PowerModels.get_pti_sections",
-    "category": "function",
-    "text": "get_pti_sections()\n\nReturns Array of the names of the sections, in the order that they appear in a PTI file, v33+\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.psse2pm_dcline!",
-    "page": "File IO",
-    "title": "PowerModels.psse2pm_dcline!",
-    "category": "function",
-    "text": "psse2pm_dcline!(pm_data, pti_data)\n\nParses PSS(R)E-style Two-Terminal and VSC DC Lines data into a PowerModels compatible Dict structure by first converting them to a simple DC Line Model. For Two-Terminal DC lines, \"sourceid\" is given by [\"IPR\", \"IPI\", \"NAME\"] in the PSS(R)E Two-Terminal DC specification. For Voltage Source Converters, \"sourceid\" is given by [\"IBUS1\", \"IBUS2\", \"NAME\"], where \"IBUS1\" is \"IBUS\" of the first converter bus, and \"IBUS2\" is the \"IBUS\" of the second converter bus, in the PSS(R)E Voltage Source Converter specification.\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.psse2pm_transformer!",
-    "page": "File IO",
-    "title": "PowerModels.psse2pm_transformer!",
-    "category": "function",
-    "text": "psse2pm_transformer!(pm_data, pti_data)\n\nParses PSS(R)E-style Transformer data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"J\", \"K\", \"CKT\", \"winding\"], where \"winding\" is 0 if transformer is two-winding, and 1, 2, or 3 for three-winding, and the remaining keys are defined in the PSS(R)E Transformer specification.\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.psse2pm_shunt!",
-    "page": "File IO",
-    "title": "PowerModels.psse2pm_shunt!",
-    "category": "function",
-    "text": "psse2pm_shunt!(pm_data, pti_data)\n\nParses PSS(R)E-style Fixed and Switched Shunt data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"ID\"] for Fixed Shunts, and [\"I\", \"SWREM\"] for Switched Shunts, as given by the PSS(R)E Fixed and Switched Shunts specifications.\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.psse2pm_load!",
-    "page": "File IO",
-    "title": "PowerModels.psse2pm_load!",
-    "category": "function",
-    "text": "psse2pm_load!(pm_data, pti_data)\n\nParses PSS(R)E-style Load data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"ID\"] in the PSS(R)E Load specification.\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.psse2pm_bus!",
-    "page": "File IO",
-    "title": "PowerModels.psse2pm_bus!",
-    "category": "function",
-    "text": "psse2pm_bus!(pm_data, pti_data)\n\nParses PSS(R)E-style Bus data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"NAME\"] in PSS(R)E Bus specification.\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.psse2pm_generator!",
-    "page": "File IO",
-    "title": "PowerModels.psse2pm_generator!",
-    "category": "function",
-    "text": "psse2pm_generator!(pm_data, pti_data)\n\nParses PSS(R)E-style Generator data in a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"ID\"] in PSS(R)E Generator specification.\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.psse2pm_branch!",
-    "page": "File IO",
-    "title": "PowerModels.psse2pm_branch!",
-    "category": "function",
-    "text": "psse2pm_branch!(pm_data, pti_data)\n\nParses PSS(R)E-style Branch data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"J\", \"CKT\"] in PSS(R)E Branch specification.\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.import_remaining!",
-    "page": "File IO",
-    "title": "PowerModels.import_remaining!",
-    "category": "function",
-    "text": "Imports remaining keys from data_in into data_out, excluding keys in exclude\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.create_starbus_from_transformer",
+    "location": "parser/#PowerModels.create_starbus_from_transformer-Tuple{Dict,Dict}",
     "page": "File IO",
     "title": "PowerModels.create_starbus_from_transformer",
-    "category": "function",
+    "category": "method",
     "text": "create_starbus(pm_data, transformer)\n\nCreates a starbus from a given three-winding transformer. \"sourceid\" is given by `[\"busi\", \"name\", \"I\", \"J\", \"K\", \"CKT\"]` where \"bus_i\" and \"name\" are the modified names for the starbus, and \"I\", \"J\", \"K\" and \"CKT\" come from the originating transformer, in the PSS(R)E transformer specification.\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.find_max_bus_id",
+    "location": "parser/#PowerModels.find_max_bus_id-Tuple{Dict}",
     "page": "File IO",
     "title": "PowerModels.find_max_bus_id",
-    "category": "function",
+    "category": "method",
     "text": "find_max_bus_id(pm_data)\n\nReturns the maximum bus id in pm_data\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.init_bus!",
+    "location": "parser/#PowerModels.get_bus_value-Tuple{Any,Any,Any}",
+    "page": "File IO",
+    "title": "PowerModels.get_bus_value",
+    "category": "method",
+    "text": "get_bus_value(bus_i, field, pm_data)\n\nReturns the value of field of bus_i from the PowerModels data. Requires \"bus\" Dict to already be populated.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.import_remaining!-Tuple{Dict,Dict,Bool}",
+    "page": "File IO",
+    "title": "PowerModels.import_remaining!",
+    "category": "method",
+    "text": "Imports remaining keys from data_in into data_out, excluding keys in exclude\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.init_bus!-Tuple{Dict{String,Any},Int64}",
     "page": "File IO",
     "title": "PowerModels.init_bus!",
-    "category": "function",
+    "category": "method",
     "text": "init_bus!(bus, id)\n\nInitializes a bus of id id with default values given in the PSS(R)E specification.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_psse-Tuple{Dict}",
+    "page": "File IO",
+    "title": "PowerModels.parse_psse",
+    "category": "method",
+    "text": "parse_psse(pti_data)\n\nConverts PSS(R)E-style data parsed from a PTI raw file, passed by pti_data into a format suitable for use internally in PowerModels. Imports all remaining data from the PTI file if import_all is true (Default: false).\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_psse-Tuple{IO}",
+    "page": "File IO",
+    "title": "PowerModels.parse_psse",
+    "category": "method",
+    "text": "Parses directly from iostream\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_psse-Tuple{String}",
+    "page": "File IO",
+    "title": "PowerModels.parse_psse",
+    "category": "method",
+    "text": "Parses directly from file\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.psse2pm_branch!-Tuple{Dict,Dict,Bool}",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_branch!",
+    "category": "method",
+    "text": "psse2pm_branch!(pm_data, pti_data)\n\nParses PSS(R)E-style Branch data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"J\", \"CKT\"] in PSS(R)E Branch specification.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.psse2pm_bus!-Tuple{Dict,Dict,Bool}",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_bus!",
+    "category": "method",
+    "text": "psse2pm_bus!(pm_data, pti_data)\n\nParses PSS(R)E-style Bus data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"NAME\"] in PSS(R)E Bus specification.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.psse2pm_dcline!-Tuple{Dict,Dict,Bool}",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_dcline!",
+    "category": "method",
+    "text": "psse2pm_dcline!(pm_data, pti_data)\n\nParses PSS(R)E-style Two-Terminal and VSC DC Lines data into a PowerModels compatible Dict structure by first converting them to a simple DC Line Model. For Two-Terminal DC lines, \"sourceid\" is given by [\"IPR\", \"IPI\", \"NAME\"] in the PSS(R)E Two-Terminal DC specification. For Voltage Source Converters, \"sourceid\" is given by [\"IBUS1\", \"IBUS2\", \"NAME\"], where \"IBUS1\" is \"IBUS\" of the first converter bus, and \"IBUS2\" is the \"IBUS\" of the second converter bus, in the PSS(R)E Voltage Source Converter specification.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.psse2pm_generator!-Tuple{Dict,Dict,Bool}",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_generator!",
+    "category": "method",
+    "text": "psse2pm_generator!(pm_data, pti_data)\n\nParses PSS(R)E-style Generator data in a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"ID\"] in PSS(R)E Generator specification.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.psse2pm_load!-Tuple{Dict,Dict,Bool}",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_load!",
+    "category": "method",
+    "text": "psse2pm_load!(pm_data, pti_data)\n\nParses PSS(R)E-style Load data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"ID\"] in the PSS(R)E Load specification.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.psse2pm_shunt!-Tuple{Dict,Dict,Bool}",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_shunt!",
+    "category": "method",
+    "text": "psse2pm_shunt!(pm_data, pti_data)\n\nParses PSS(R)E-style Fixed and Switched Shunt data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"ID\"] for Fixed Shunts, and [\"I\", \"SWREM\"] for Switched Shunts, as given by the PSS(R)E Fixed and Switched Shunts specifications.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.psse2pm_transformer!-Tuple{Dict,Dict,Bool}",
+    "page": "File IO",
+    "title": "PowerModels.psse2pm_transformer!",
+    "category": "method",
+    "text": "psse2pm_transformer!(pm_data, pti_data)\n\nParses PSS(R)E-style Transformer data into a PowerModels-style Dict. \"source_id\" is given by [\"I\", \"J\", \"K\", \"CKT\", \"winding\"], where \"winding\" is 0 if transformer is two-winding, and 1, 2, or 3 for three-winding, and the remaining keys are defined in the PSS(R)E Transformer specification.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.add_section_data!-Tuple{Dict,Dict,AbstractString}",
+    "page": "File IO",
+    "title": "PowerModels.add_section_data!",
+    "category": "method",
+    "text": "add_section_data!(pti_data, section_data, section)\n\nAdds section_data::Dict, which contains all parsed elements of a PTI file section given by section, into the parent pti_data::Dict\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.get_line_elements-Tuple{AbstractString}",
+    "page": "File IO",
+    "title": "PowerModels.get_line_elements",
+    "category": "method",
+    "text": "get_line_elements(line)\n\nUses regular expressions to extract all separate data elements from a line of a PTI file and populate them into an Array{String}. Comments, typically indicated at the end of a line with a \'/\' character, are also extracted separately, and Array{Array{String}, String} is returned.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.get_pti_dtypes-Tuple{AbstractString}",
+    "page": "File IO",
+    "title": "PowerModels.get_pti_dtypes",
+    "category": "method",
+    "text": "get_pti_dtypes(field_name)\n\nReturns OrderedDict of data types for PTI file section given by field_name, as enumerated by PSS/E Program Operation Manual\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.get_pti_sections-Tuple{}",
+    "page": "File IO",
+    "title": "PowerModels.get_pti_sections",
+    "category": "method",
+    "text": "get_pti_sections()\n\nReturns Array of the names of the sections, in the order that they appear in a PTI file, v33+\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_line_element!-Tuple{Dict,Array,AbstractString}",
+    "page": "File IO",
+    "title": "PowerModels.parse_line_element!",
+    "category": "method",
+    "text": "parse_line_element!(data, elements, section)\n\nParses a single \"line\" of data elements from a PTI file, as given by elements which is an array of the line, typically split at ,. Elements are parsed into data types given by section and saved into data::Dict\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_pti-Tuple{IO}",
+    "page": "File IO",
+    "title": "PowerModels.parse_pti",
+    "category": "method",
+    "text": "parse_pti(io::IO)\n\nReads PTI data in io::IO, returning a Dict of the data parsed into the proper types.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_pti-Tuple{String}",
+    "page": "File IO",
+    "title": "PowerModels.parse_pti",
+    "category": "method",
+    "text": "parse_pti(filename::String)\n\nOpen PTI raw file given by filename, returning a Dict of the data parsed into the proper types.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels.parse_pti_data-Tuple{IO,Array}",
+    "page": "File IO",
+    "title": "PowerModels.parse_pti_data",
+    "category": "method",
+    "text": "parse_pti_data(data_string, sections)\n\nParse a PTI raw file into a Dict, given the data_string of the file and a list of the sections in the PTI file (typically given by default by get_pti_sections().\n\n\n\n\n\n"
 },
 
 {
@@ -1773,7 +2053,7 @@ var documenterSearchIndex = {"docs": [
     "page": "File IO",
     "title": "PTI Data Files (PSS/E)",
     "category": "section",
-    "text": "Note: This feature supports the parsing and conversion of PTI files into a PowerModels format for the following power network components: buses, loads, shunts (fixed and approximation of switched), branches, two-winding and three-winding transformers (incl. magnetizing admittance), generators, two-terminal dc lines, and voltage source converter HVDC lines.The following method is the main exported method for parsing PSS(R)E v33 specified PTI data files:parse_psseThe following internal helper methods are also provided:parse_pti\nparse_pti_data\nget_line_elements\nadd_section_data!\nparse_line_element!\nget_pti_dtypes\nget_pti_sections\npsse2pm_dcline!\npsse2pm_transformer!\npsse2pm_shunt!\npsse2pm_load!\npsse2pm_bus!\npsse2pm_generator!\npsse2pm_branch!\nimport_remaining!\ncreate_starbus_from_transformer\nfind_max_bus_id\ninit_bus!"
+    "text": "Note: This feature supports the parsing and conversion of PTI files into a PowerModels format for the following power network components: buses, loads, shunts (fixed and approximation of switched), branches, two-winding and three-winding transformers (incl. magnetizing admittance), generators, two-terminal dc lines, and voltage source converter HVDC lines.The following method is the main exported method for parsing PSS(R)E v33 specified PTI data files:parse_pti\nparse_psseThe following internal helper methods are also provided:Modules = [PowerModels]\nPages   = [\"io/psse.jl\"]\nOrder   = [:function]\nPrivate  = trueModules = [PowerModels]\nPages   = [\"io/pti.jl\"]\nOrder   = [:function]\nPrivate  = true"
 },
 
 {
@@ -1961,27 +2241,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "formulation-details/#ACPPowerModel-1",
-    "page": "Formulation Details",
-    "title": "ACPPowerModel",
-    "category": "section",
-    "text": "ACPPowerModel"
-},
-
-{
     "location": "formulation-details/#PowerModels.ACRPowerModel",
     "page": "Formulation Details",
     "title": "PowerModels.ACRPowerModel",
     "category": "type",
     "text": "AC power flow formulation with rectangular bus voltage variables.\n\n@techreport{Cain2012,\n  author = {Cain, Mary B and {O\' Neill}, Richard P and Castillo, Anya},\n  pages = {1--36},\n  title = {{History of optimal power flow and formulations}},\n  url = {https://www.ferc.gov/industries/electric/indus-act/market-planning/opf-papers/acopf-1-history-formulation-testing.pdf}\n  year = {2012}\n}\n\n\n\n\n\n"
-},
-
-{
-    "location": "formulation-details/#ACRPowerModel-1",
-    "page": "Formulation Details",
-    "title": "ACRPowerModel",
-    "category": "section",
-    "text": "ACRPowerModel"
 },
 
 {
@@ -1993,11 +2257,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "formulation-details/#ACTPowerModel-1",
+    "location": "formulation-details/#Exact-Non-Convex-Models-1",
     "page": "Formulation Details",
-    "title": "ACTPowerModel",
+    "title": "Exact Non-Convex Models",
     "category": "section",
-    "text": "ACTPowerModel"
+    "text": "ACPPowerModel\nACRPowerModel\nACTPowerModel"
 },
 
 {
@@ -2009,11 +2273,27 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "formulation-details/#DCPPowerModel-1",
+    "location": "formulation-details/#PowerModels.NFAPowerModel",
     "page": "Formulation Details",
-    "title": "DCPPowerModel",
+    "title": "PowerModels.NFAPowerModel",
+    "category": "type",
+    "text": "The an active power only network flow approximation, also known as the transportation model.\n\n\n\n\n\n"
+},
+
+{
+    "location": "formulation-details/#Linear-Approximations-1",
+    "page": "Formulation Details",
+    "title": "Linear Approximations",
     "category": "section",
-    "text": "DCPPowerModel"
+    "text": "DCPPowerModel\nNFAPowerModel"
+},
+
+{
+    "location": "formulation-details/#PowerModels.DCPLLPowerModel",
+    "page": "Formulation Details",
+    "title": "PowerModels.DCPLLPowerModel",
+    "category": "type",
+    "text": "\n\n\n\n"
 },
 
 {
@@ -2025,43 +2305,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "formulation-details/#LPACCPowerModel-1",
+    "location": "formulation-details/#Quadratic-Approximation-1",
     "page": "Formulation Details",
-    "title": "LPACCPowerModel",
+    "title": "Quadratic Approximation",
     "category": "section",
-    "text": "LPACCPowerModel"
-},
-
-{
-    "location": "formulation-details/#PowerModels.SDPWRMPowerModel",
-    "page": "Formulation Details",
-    "title": "PowerModels.SDPWRMPowerModel",
-    "category": "type",
-    "text": "Semi-definite relaxation of AC OPF\n\nOriginally proposed by:\n\n@article{BAI2008383,\n  author = \"Xiaoqing Bai and Hua Wei and Katsuki Fujisawa and Yong Wang\",\n  title = \"Semidefinite programming for optimal power flow problems\",\n  journal = \"International Journal of Electrical Power & Energy Systems\",\n  volume = \"30\",\n  number = \"6\",\n  pages = \"383 - 392\",\n  year = \"2008\",\n  issn = \"0142-0615\",\n  doi = \"https://doi.org/10.1016/j.ijepes.2007.12.003\",\n  url = \"http://www.sciencedirect.com/science/article/pii/S0142061507001378\",\n}\n\nFirst paper to use \"W\" variables in the BIM of AC OPF:\n\n@INPROCEEDINGS{6345272,\n  author={S. Sojoudi and J. Lavaei},\n  title={Physics of power networks makes hard optimization problems easy to solve},\n  booktitle={2012 IEEE Power and Energy Society General Meeting},\n  year={2012},\n  month={July},\n  pages={1-8},\n  doi={10.1109/PESGM.2012.6345272},\n  ISSN={1932-5517}\n}\n\n\n\n\n\n"
-},
-
-{
-    "location": "formulation-details/#SDPWRMPowerModel-1",
-    "page": "Formulation Details",
-    "title": "SDPWRMPowerModel",
-    "category": "section",
-    "text": "SDPWRMPowerModel"
-},
-
-{
-    "location": "formulation-details/#PowerModels.SparseSDPWRMPowerModel",
-    "page": "Formulation Details",
-    "title": "PowerModels.SparseSDPWRMPowerModel",
-    "category": "type",
-    "text": "Sparsity-exploiting semidefinite relaxation of AC OPF\n\nProposed in:\n\n@article{doi:10.1137/S1052623400366218,\n  author = {Fukuda, M. and Kojima, M. and Murota, K. and Nakata, K.},\n  title = {Exploiting Sparsity in Semidefinite Programming via Matrix Completion I: General Framework},\n  journal = {SIAM Journal on Optimization},\n  volume = {11},\n  number = {3},\n  pages = {647-674},\n  year = {2001},\n  doi = {10.1137/S1052623400366218},\n  URL = {https://doi.org/10.1137/S1052623400366218},\n  eprint = {https://doi.org/10.1137/S1052623400366218}\n}\n\nOriginal application to OPF by:\n\n@ARTICLE{6064917,\n  author={R. A. Jabr},\n  title={Exploiting Sparsity in SDP Relaxations of the OPF Problem},\n  journal={IEEE Transactions on Power Systems},\n  volume={27},\n  number={2},\n  pages={1138-1139},\n  year={2012},\n  month={May},\n  doi={10.1109/TPWRS.2011.2170772},\n  ISSN={0885-8950}\n}\n\n\n\n\n\n"
-},
-
-{
-    "location": "formulation-details/#SparseSDPWRMPowerModel-1",
-    "page": "Formulation Details",
-    "title": "SparseSDPWRMPowerModel",
-    "category": "section",
-    "text": "SparseSDPWRMPowerModel"
+    "text": "DCPLLPowerModel\nLPACCPowerModel"
 },
 
 {
@@ -2073,11 +2321,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "formulation-details/#SOCWRPowerModel-1",
+    "location": "formulation-details/#PowerModels.SOCWRConicPowerModel",
     "page": "Formulation Details",
-    "title": "SOCWRPowerModel",
-    "category": "section",
-    "text": "SOCWRPowerModel"
+    "title": "PowerModels.SOCWRConicPowerModel",
+    "category": "type",
+    "text": "Second-order cone relaxation of bus injection model of AC OPF.\n\nThis implementation casts the problem as a convex conic problem.\n\n\n\n\n\n"
 },
 
 {
@@ -2089,27 +2337,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "formulation-details/#QCWRPowerModel-1",
-    "page": "Formulation Details",
-    "title": "QCWRPowerModel",
-    "category": "section",
-    "text": "QCWRPowerModel"
-},
-
-{
     "location": "formulation-details/#PowerModels.QCWRTriPowerModel",
     "page": "Formulation Details",
     "title": "PowerModels.QCWRTriPowerModel",
     "category": "type",
     "text": "\"Quadratic-Convex\" relaxation of AC OPF with convex hull of triple product\n\n@Article{Hijazi2017,\n  author=\"Hijazi, Hassan and Coffrin, Carleton and Hentenryck, Pascal Van\",\n  title=\"Convex quadratic relaxations for mixed-integer nonlinear programs in power systems\",\n  journal=\"Mathematical Programming Computation\",\n  year=\"2017\",\n  month=\"Sep\",\n  volume=\"9\",\n  number=\"3\",\n  pages=\"321--367\",\n  issn=\"1867-2957\",\n  doi=\"10.1007/s12532-016-0112-z\",\n  url=\"https://doi.org/10.1007/s12532-016-0112-z\"\n}\n\n\n\n\n\n"
-},
-
-{
-    "location": "formulation-details/#QCWRTriPowerModel-1",
-    "page": "Formulation Details",
-    "title": "QCWRTriPowerModel",
-    "category": "section",
-    "text": "QCWRTriPowerModel"
 },
 
 {
@@ -2121,11 +2353,43 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "formulation-details/#SOCBFPowerModel-1",
+    "location": "formulation-details/#PowerModels.SOCBFConicPowerModel",
     "page": "Formulation Details",
-    "title": "SOCBFPowerModel",
+    "title": "PowerModels.SOCBFConicPowerModel",
+    "category": "type",
+    "text": "\n\n\n\n"
+},
+
+{
+    "location": "formulation-details/#Quadratic-Relaxations-1",
+    "page": "Formulation Details",
+    "title": "Quadratic Relaxations",
     "category": "section",
-    "text": "SOCBFPowerModel"
+    "text": "SOCWRPowerModel\nSOCWRConicPowerModel\nQCWRPowerModel\nQCWRTriPowerModel\nSOCBFPowerModel\nSOCBFConicPowerModel"
+},
+
+{
+    "location": "formulation-details/#PowerModels.SDPWRMPowerModel",
+    "page": "Formulation Details",
+    "title": "PowerModels.SDPWRMPowerModel",
+    "category": "type",
+    "text": "Semi-definite relaxation of AC OPF\n\nOriginally proposed by:\n\n@article{BAI2008383,\n  author = \"Xiaoqing Bai and Hua Wei and Katsuki Fujisawa and Yong Wang\",\n  title = \"Semidefinite programming for optimal power flow problems\",\n  journal = \"International Journal of Electrical Power & Energy Systems\",\n  volume = \"30\",\n  number = \"6\",\n  pages = \"383 - 392\",\n  year = \"2008\",\n  issn = \"0142-0615\",\n  doi = \"https://doi.org/10.1016/j.ijepes.2007.12.003\",\n  url = \"http://www.sciencedirect.com/science/article/pii/S0142061507001378\",\n}\n\nFirst paper to use \"W\" variables in the BIM of AC OPF:\n\n@INPROCEEDINGS{6345272,\n  author={S. Sojoudi and J. Lavaei},\n  title={Physics of power networks makes hard optimization problems easy to solve},\n  booktitle={2012 IEEE Power and Energy Society General Meeting},\n  year={2012},\n  month={July},\n  pages={1-8},\n  doi={10.1109/PESGM.2012.6345272},\n  ISSN={1932-5517}\n}\n\n\n\n\n\n"
+},
+
+{
+    "location": "formulation-details/#PowerModels.SparseSDPWRMPowerModel",
+    "page": "Formulation Details",
+    "title": "PowerModels.SparseSDPWRMPowerModel",
+    "category": "type",
+    "text": "Sparsity-exploiting semidefinite relaxation of AC OPF\n\nProposed in:\n\n@article{doi:10.1137/S1052623400366218,\n  author = {Fukuda, M. and Kojima, M. and Murota, K. and Nakata, K.},\n  title = {Exploiting Sparsity in Semidefinite Programming via Matrix Completion I: General Framework},\n  journal = {SIAM Journal on Optimization},\n  volume = {11},\n  number = {3},\n  pages = {647-674},\n  year = {2001},\n  doi = {10.1137/S1052623400366218},\n  URL = {https://doi.org/10.1137/S1052623400366218},\n  eprint = {https://doi.org/10.1137/S1052623400366218}\n}\n\nOriginal application to OPF by:\n\n@ARTICLE{6064917,\n  author={R. A. Jabr},\n  title={Exploiting Sparsity in SDP Relaxations of the OPF Problem},\n  journal={IEEE Transactions on Power Systems},\n  volume={27},\n  number={2},\n  pages={1138-1139},\n  year={2012},\n  month={May},\n  doi={10.1109/TPWRS.2011.2170772},\n  ISSN={0885-8950}\n}\n\n\n\n\n\n"
+},
+
+{
+    "location": "formulation-details/#SDP-Relaxation-1",
+    "page": "Formulation Details",
+    "title": "SDP Relaxation",
+    "category": "section",
+    "text": "SDPWRMPowerModel\nSparseSDPWRMPowerModel"
 },
 
 {
@@ -2141,7 +2405,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Experiment Results",
     "title": "PowerModels Experiment Results",
     "category": "section",
-    "text": "This section presents results of running PowerModel.jl on  collections of established power network test cases from  NESTA. This provides validation of the  PowerModel.jl as well as a results baseline for these test cases. All models were solved using IPOPT."
+    "text": "This section presents results of running PowerModel.jl on collections of established power network test cases from NESTA. This provides validation of the PowerModel.jl as well as a results baseline for these test cases. All models were solved using IPOPT."
 },
 
 {
@@ -2149,7 +2413,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Experiment Results",
     "title": "Experiment Design",
     "category": "section",
-    "text": "This experiment consists of running the following PowerModels commands,result_ac  = run_opf(case, ACPPowerModel, IpoptSolver(tol=1e-6))\nresult_soc = run_opf(case, SOCWRPowerModel, IpoptSolver(tol=1e-6))\nresult_qc  = run_opf(case, QCWRPowerModel, IpoptSolver(tol=1e-6))for each case in the NESTA archive. If the value of result[\"status\"] is :LocalOptimal then the values of result[\"objective\"] and result[\"solve_time\"] are reported, otherwise an err. or -- is displayed.  A value of n.d. indicates that no data was available.   The optimality gap is defined as,soc_gap = 100*(result_ac[\"objective\"] - result_soc[\"objective\"])/result_ac[\"objective\"]It is important to note that the result[\"solve_time\"] value in this experiment does not include Julia\'s JIT time, about 2-5 seconds. The results were computed using the HSL ma57 solver in IPOPT. The default linear solver provided with Ipopt.jl will increase the runtime by 2-6x."
+    "text": "This experiment consists of running the following PowerModels commands,result_ac  = run_opf(case, ACPPowerModel, IpoptSolver(tol=1e-6))\nresult_soc = run_opf(case, SOCWRPowerModel, IpoptSolver(tol=1e-6))\nresult_qc  = run_opf(case, QCWRPowerModel, IpoptSolver(tol=1e-6))for each case in the NESTA archive. If the value of result[\"status\"] is :LocalOptimal then the values of result[\"objective\"] and result[\"solve_time\"] are reported, otherwise an err. or -- is displayed. A value of n.d. indicates that no data was available. The optimality gap is defined as,soc_gap = 100*(result_ac[\"objective\"] - result_soc[\"objective\"])/result_ac[\"objective\"]It is important to note that the result[\"solve_time\"] value in this experiment does not include Julia\'s JIT time, about 2-5 seconds. The results were computed using the HSL ma57 solver in IPOPT. The default linear solver provided with Ipopt.jl will increase the runtime by 2-6x."
 },
 
 {
