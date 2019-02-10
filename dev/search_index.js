@@ -1985,43 +1985,75 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "parser/#PowerModels.add_section_data!-Tuple{Dict,Dict,AbstractString}",
+    "location": "parser/#PowerModels._add_section_data!-Tuple{Dict,Dict,AbstractString}",
     "page": "File IO",
-    "title": "PowerModels.add_section_data!",
+    "title": "PowerModels._add_section_data!",
     "category": "method",
-    "text": "add_section_data!(pti_data, section_data, section)\n\nAdds section_data::Dict, which contains all parsed elements of a PTI file section given by section, into the parent pti_data::Dict\n\n\n\n\n\n"
+    "text": "add_section_data!(pti_data, section_data, section)\n\nInternal function. Adds section_data::Dict, which contains all parsed elements of a PTI file section given by section, into the parent pti_data::Dict\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.get_line_elements-Tuple{AbstractString}",
+    "location": "parser/#PowerModels._get_component_property-NTuple{4,Any}",
     "page": "File IO",
-    "title": "PowerModels.get_line_elements",
+    "title": "PowerModels._get_component_property",
     "category": "method",
-    "text": "get_line_elements(line)\n\nUses regular expressions to extract all separate data elements from a line of a PTI file and populate them into an Array{String}. Comments, typically indicated at the end of a line with a \'/\' character, are also extracted separately, and Array{Array{String}, String} is returned.\n\n\n\n\n\n"
+    "text": "_get_component_property(section, ret, search_field, search_value)\n\nInternal function. Finds a component in section where search_field == search_value and returns ret from that component.\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.get_pti_dtypes-Tuple{AbstractString}",
+    "location": "parser/#PowerModels._get_line_elements-Tuple{AbstractString}",
     "page": "File IO",
-    "title": "PowerModels.get_pti_dtypes",
+    "title": "PowerModels._get_line_elements",
     "category": "method",
-    "text": "get_pti_dtypes(field_name)\n\nReturns OrderedDict of data types for PTI file section given by field_name, as enumerated by PSS/E Program Operation Manual\n\n\n\n\n\n"
+    "text": "_get_line_elements(line)\n\nInternal function. Uses regular expressions to extract all separate data elements from a line of a PTI file and populate them into an Array{String}. Comments, typically indicated at the end of a line with a \'/\' character, are also extracted separately, and Array{Array{String}, String} is returned.\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.get_pti_sections-Tuple{}",
+    "location": "parser/#PowerModels._get_pti_default-Tuple{AbstractString,AbstractString,Dict,Dict}",
     "page": "File IO",
-    "title": "PowerModels.get_pti_sections",
+    "title": "PowerModels._get_pti_default",
     "category": "method",
-    "text": "get_pti_sections()\n\nReturns Array of the names of the sections, in the order that they appear in a PTI file, v33+\n\n\n\n\n\n"
+    "text": "_get_pti_default(section, field, data, component)\n\nInternal function. Returns a default value in section for field in component from data.\n\n\n\n\n\n"
 },
 
 {
-    "location": "parser/#PowerModels.parse_line_element!-Tuple{Dict,Array,AbstractString}",
+    "location": "parser/#PowerModels._get_pti_dtypes-Tuple{AbstractString}",
     "page": "File IO",
-    "title": "PowerModels.parse_line_element!",
+    "title": "PowerModels._get_pti_dtypes",
     "category": "method",
-    "text": "parse_line_element!(data, elements, section)\n\nParses a single \"line\" of data elements from a PTI file, as given by elements which is an array of the line, typically split at ,. Elements are parsed into data types given by section and saved into data::Dict\n\n\n\n\n\n"
+    "text": "_get_pti_dtypes(field_name)\n\nInternal function. Returns array of data types for PTI file section given by field_name, as enumerated by PSS/E Program Operation Manual.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels._get_pti_sections-Tuple{}",
+    "page": "File IO",
+    "title": "PowerModels._get_pti_sections",
+    "category": "method",
+    "text": "_get_pti_sections()\n\nInternal function. Returns Array of the names of the sections, in the order that they appear in a PTI file, v33\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels._parse_line_element!-Tuple{Dict,Array,AbstractString}",
+    "page": "File IO",
+    "title": "PowerModels._parse_line_element!",
+    "category": "method",
+    "text": "_parse_line_element!(data, elements, section)\n\nInternal function. Parses a single \"line\" of data elements from a PTI file, as given by elements which is an array of the line, typically split at ,. Elements are parsed into data types given by section and saved into data::Dict.\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels._parse_pti_data-Tuple{IO,Array}",
+    "page": "File IO",
+    "title": "PowerModels._parse_pti_data",
+    "category": "method",
+    "text": "_parse_pti_data(data_string, sections)\n\nInternal function. Parse a PTI raw file into a Dict, given the data_string of the file and a list of the sections in the PTI file (typically given by default by get_pti_sections().\n\n\n\n\n\n"
+},
+
+{
+    "location": "parser/#PowerModels._populate_defaults!-Tuple{Dict}",
+    "page": "File IO",
+    "title": "PowerModels._populate_defaults!",
+    "category": "method",
+    "text": "_populate_defaults!(pti_data)\n\nInternal function. Populates empty fields with PSS(R)E PTI v33 default values\n\n\n\n\n\n"
 },
 
 {
@@ -2038,14 +2070,6 @@ var documenterSearchIndex = {"docs": [
     "title": "PowerModels.parse_pti",
     "category": "method",
     "text": "parse_pti(filename::String)\n\nOpen PTI raw file given by filename, returning a Dict of the data parsed into the proper types.\n\n\n\n\n\n"
-},
-
-{
-    "location": "parser/#PowerModels.parse_pti_data-Tuple{IO,Array}",
-    "page": "File IO",
-    "title": "PowerModels.parse_pti_data",
-    "category": "method",
-    "text": "parse_pti_data(data_string, sections)\n\nParse a PTI raw file into a Dict, given the data_string of the file and a list of the sections in the PTI file (typically given by default by get_pti_sections().\n\n\n\n\n\n"
 },
 
 {
