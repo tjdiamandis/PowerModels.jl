@@ -77,6 +77,16 @@ function constraint_ohms_yt_from(pm::GenericPowerModel{T}, n::Int, c::Int, f_bus
     # omit reactive constraint
 end
 
+
+function constraint_ohms_y_from(pm::GenericPowerModel{T}, n::Int, c::Int, f_bus, t_bus, f_idx, t_idx, g, b, g_fr, b_fr, tm, ta) where T <: AbstractDCPForm
+    p_fr  = var(pm, n, c,  :p, f_idx)
+    va_fr = var(pm, n, c, :va, f_bus)
+    va_to = var(pm, n, c, :va, t_bus)
+
+    JuMP.@constraint(pm.model, p_fr == -b*(va_fr - va_to - ta))
+end
+
+
 function constraint_ohms_yt_from_ne(pm::GenericPowerModel{T}, n::Int, c::Int, i, f_bus, t_bus, f_idx, t_idx, g, b, g_fr, b_fr, tr, ti, tm, vad_min, vad_max) where T <: AbstractDCPForm
     p_fr  = var(pm, n, c, :p_ne, f_idx)
     va_fr = var(pm, n, c,   :va, f_bus)
@@ -225,6 +235,10 @@ end
 
 "nothing to do, this model is symetric"
 function constraint_ohms_yt_to(pm::GenericPowerModel{T}, n::Int, c::Int, f_bus, t_bus, f_idx, t_idx, g, b, g_to, b_to, tr, ti, tm) where T <: DCPlosslessForm
+end
+
+"nothing to do, this model is symetric"
+function constraint_ohms_y_to(pm::GenericPowerModel{T}, n::Int, c::Int, f_bus, t_bus, f_idx, t_idx, g, b, g_to, b_to, tm, ta) where T <: DCPlosslessForm
 end
 
 "nothing to do, this model is symetric"

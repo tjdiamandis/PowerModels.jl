@@ -396,7 +396,7 @@ end
 
 @testset "test user ext init" begin
     @testset "3-bus case" begin
-        pm = build_generic_model("../test/data/matpower/case3.m", ACPPowerModel, PowerModels.post_opf, ext = Dict(:some_data => "bloop"))
+        pm = build_generic_model("../test/data/matpower/case3.m", ACPPowerModel, PowerModels.post_opf_tr, ext = Dict(:some_data => "bloop"))
 
         #println(pm.ext)
 

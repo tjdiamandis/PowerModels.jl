@@ -16,7 +16,7 @@ PowerModels.ismultinetwork
 For example, we can do the following:
 ```@example powermodels
 network_data = PowerModels.parse_file(case3file)
-pm = build_generic_model(network_data, ACPPowerModel, PowerModels.post_opf)
+pm = build_generic_model(network_data, ACPPowerModel, PowerModels.post_opf_tr)
 
 PowerModels.ismultinetwork(pm)
 ```

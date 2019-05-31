@@ -25,7 +25,7 @@
     end
 
     @testset "README.md - JuMP Model Inspection" begin
-        pm = build_generic_model("../test/data/matpower/case3.m", ACPPowerModel, PowerModels.post_opf)
+        pm = build_generic_model("../test/data/matpower/case3.m", ACPPowerModel, PowerModels.post_opf_tr)
 
         #pretty print the model to the terminal
         #print(pm.model)

@@ -164,7 +164,7 @@ function run_obbt_opf(data::Dict{String,<:Any}, optimizer;
     Memento.info(LOGGER, "maximum OBBT iterations set to default value of $max_iter")
     Memento.info(LOGGER, "maximum time limit for OBBT set to default value of $time_limit seconds")
 
-    model_relaxation = build_generic_model(data, model_constructor, PowerModels.post_opf)
+    model_relaxation = build_generic_model(data, model_constructor, PowerModels.post_opf_tr)
     (ismultinetwork(model_relaxation)) && (Memento.error(LOGGER, "OBBT is not supported for multi-networks"))
     (ismulticonductor(model_relaxation)) && (Memento.error(LOGGER, "OBBT is not supported for multi-phase networks"))
 
@@ -199,7 +199,7 @@ function run_obbt_opf(data::Dict{String,<:Any}, optimizer;
     end
 
 
-    model_bt = build_generic_model(data, model_constructor, PowerModels.post_opf)
+    model_bt = build_generic_model(data, model_constructor, PowerModels.post_opf_tr)
     (upper_bound_constraint) && (constraint_obj_bound(model_bt, upper_bound))
 
     stats = Dict{String,Any}()
@@ -402,7 +402,7 @@ function run_obbt_opf(data::Dict{String,<:Any}, optimizer;
         # populate the modifications, update the data, and rebuild the bound-tightening model
         modifications = create_modifications(model_bt, vm_lb, vm_ub, td_lb, td_ub)
         PowerModels.update_data!(data, modifications)
-        model_bt = build_generic_model(data, model_constructor, PowerModels.post_opf)
+        model_bt = build_generic_model(data, model_constructor, PowerModels.post_opf_tr)
         (upper_bound_constraint) && (constraint_obj_bound(model_bt, upper_bound))
         vm = var(model_bt, :vm)
         td = var(model_bt, :td)

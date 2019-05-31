@@ -195,7 +195,7 @@ end
         result = run_dc_opf("../test/data/matpower/case5.m", cbc_solver)
 
         @test result["termination_status"] == MOI.OPTIMAL
-        @test isapprox(result["objective"], 17613; atol = 1e0)
+        @test isapprox(result["objective"], 18222; atol = 1e0)
     end
     @testset "5-bus asymmetric case" begin
         result = run_dc_opf("../test/data/matpower/case5_asym.m", ipopt_solver)
@@ -225,7 +225,7 @@ end
         result = run_dc_opf("../test/data/matpower/case5_uc.m", ipopt_solver)
 
         @test result["termination_status"] == MOI.LOCALLY_SOLVED
-        @test isapprox(result["objective"], 18064.5; atol = 1e0)
+        @test isapprox(result["objective"], 18673; atol = 1e0)
     end
     @testset "5-bus with dangling bus" begin
         result = run_dc_opf("../test/data/matpower/case5_db.m", ipopt_solver)
@@ -802,7 +802,7 @@ end
 
         pm.ext[:SDconstraintDecomposition] = PowerModels.SDconstraintDecomposition(groups, lookup_index, sigma)
 
-        PowerModels.post_opf(pm)
+        PowerModels.post_opf_tr(pm)
         result = solve_generic_model(pm, scs_solver; solution_builder=PowerModels.get_solution)
 
         @test result["termination_status"] == MOI.OPTIMAL
