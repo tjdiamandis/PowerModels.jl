@@ -23,16 +23,17 @@ ga('send', 'pageview');
   &quot;qmax&quot;:&lt;float, MVar&gt;,
   &quot;r&quot;:&lt;float, p.u.&gt;,
   &quot;x&quot;:&lt;float, p.u.&gt;,
-  &quot;standby_loss&quot;:&lt;float, MW&gt;,
+  &quot;p_loss&quot;:&lt;float, MW&gt;,
+  &quot;q_loss&quot;:&lt;float, MVar&gt;,
   &quot;status&quot;:&lt;int&gt;,
-}</code></pre><p>All of these quantities should be positive except for <code>qmin</code>, which can be negative.  The <code>efficiency</code> parameters are unit-less scalars in the range of 1.0 and 0.0.  By default, all of these quantities are used in per unit inside PowerModels.  The units indicated here are only used by PowerModels&#39; mixed-unit representation and the extended Matpower network format.</p><p>Note that the optional <code>thermal_rating</code> and <code>current_rating</code> parameters are applied at the point of coupling to the network while the other ratings are internal to the storage device.</p><p>In addition to these component parameters, PowerModels also requires a global parameter <code>time_elapsed</code> (in hours) to specify how active power is converted into units of energy as the storage device is charged or discharged.</p><p>PowerModels&#39; storage components can be added to Matpower data files as follows,</p><pre><code class="language-matlab">% hours
+}</code></pre><p>All of these quantities should be positive except for <code>qmin</code>,<code>p_loss</code> and <code>q_loss</code>, which can be negative.  The <code>efficiency</code> parameters are unit-less scalars in the range of 1.0 and 0.0.  By default, all of these quantities are used in per unit inside PowerModels.  The units indicated here are only used by PowerModels&#39; mixed-unit representation and the extended Matpower network format.</p><p>Note that the optional <code>thermal_rating</code> and <code>current_rating</code> parameters are applied at the point of coupling to the network while the other ratings are internal to the storage device.</p><p>In addition to these component parameters, PowerModels also requires a global parameter <code>time_elapsed</code> (in hours) to specify how active power is converted into units of energy as the storage device is charged or discharged.</p><p>PowerModels&#39; storage components can be added to Matpower data files as follows,</p><pre><code class="language-matlab">% hours
 mpc.time_elapsed = 1.0
 
 %% storage data
-%   storage_bus ps  qs  energy  energy_rating charge_rating  discharge_rating  charge_efficiency  discharge_efficiency  thermal_rating  qmin  qmax  r  x  standby_loss  status
+%   storage_bus ps  qs  energy  energy_rating charge_rating  discharge_rating  charge_efficiency  discharge_efficiency  thermal_rating  qmin  qmax  r  x  p_loss  p_loss  status
 mpc.storage = [
-   3   0.0  0.0  20.0  100.0   50.0  70.0  0.8   0.9   100.0   -50.0   70.0  0.1   0.0   0.0   1;
-   10  0.0  0.0  30.0  100.0   50.0  70.0  0.9   0.8   100.0   -50.0   70.0  0.1   0.0   0.0   1;
+   3   0.0  0.0  20.0  100.0   50.0  70.0  0.8   0.9   100.0   -50.0   70.0  0.1   0.0   0.0   0.0   1;
+   10  0.0  0.0  30.0  100.0   50.0  70.0  0.9   0.8   100.0   -50.0   70.0  0.1   0.0   0.0   0.0   1;
 ];</code></pre><p>Note that this Matpower-based format includes the optional <code>thermal_rating</code> parameter.</p><h2><a class="nav-anchor" id="Storage-Mathematical-Model-1" href="#Storage-Mathematical-Model-1">Storage Mathematical Model</a></h2><p>Given the storage data model and two sequential time points <span>$s$</span> and <span>$t$</span>, the storage component&#39;s mathematical model is given by,</p><div>\[\begin{align}
 %
 \mbox{data: } &amp; \nonumber \\
@@ -42,8 +43,8 @@ mpc.storage = [
 &amp; \eta^c \mbox{ - charge efficiency} \\
 &amp; \eta^d \mbox{ - discharge efficiency} \\
 &amp; te \mbox{ - time elapsed} \\
-&amp; sl \mbox{ - standing losses} \\
-&amp; r \mbox{ - injection resistance} \\
+&amp; S^l \mbox{ - power losses} \\
+&amp; Z \mbox{ - injection impedance} \\
 &amp; q^l, q^u  \mbox{ - reactive power injection limits} \\
 &amp; s^u \mbox{ - thermal injection limit} \\
 &amp; i^u \mbox{ - current injection limit} \\
@@ -58,7 +59,7 @@ mpc.storage = [
 \mbox{subject to: } &amp; \nonumber \\
 &amp; e_t - e_s = te \left(\eta^c sc_t - \frac{sd_t}{\eta^d} \right) \label{eq_strg_energy} \\
 &amp; sc_t \cdot sd_t = 0 \label{eq_strg_compl} \\
-&amp; \Re(S_t) + (sd_t - sc_t) = sl + r |I_t| \label{eq_strg_loss} \\
+&amp; S_t + (sd_t - sc_t) = S^l + Z |I_t| \label{eq_strg_loss} \\
 &amp; q^l \leq \Im(S_t) \leq q^u \label{eq_strg_q_limit} \\
 &amp; |S_t| \leq s^u \label{eq_strg_thermal_limit} \\
 &amp; |I_t| \leq i^u \label{eq_strg_current_limit}
