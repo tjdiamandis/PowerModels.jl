@@ -53,14 +53,15 @@ mpc.storage = [
 &amp; e_i \in (0, e^u) \mbox{ - storage energy at time $i$} \\
 &amp; sc_i \in (0, sc^u) \mbox{ - charge amount at time $i$} \\
 &amp; sd_i \in (0, sd^u) \mbox{ - discharge amount at time $i$} \\
+&amp; sqc_i \mbox{ - reactive power slack at time $i$} \\
 &amp; S_i \mbox{ - complex bus power injection at time $i$} \\
 &amp; I_i \mbox{ - complex bus current injection at time $i$} \\
 %
 \mbox{subject to: } &amp; \nonumber \\
 &amp; e_t - e_s = te \left(\eta^c sc_t - \frac{sd_t}{\eta^d} \right) \label{eq_strg_energy} \\
 &amp; sc_t \cdot sd_t = 0 \label{eq_strg_compl} \\
-&amp; S_t + (sd_t - sc_t) = S^l + Z |I_t| \label{eq_strg_loss} \\
+&amp; S_t + (sd_t - sc_t) = j \cdot sqc_t + S^l + Z |I_t| \label{eq_strg_loss} \\
 &amp; q^l \leq \Im(S_t) \leq q^u \label{eq_strg_q_limit} \\
 &amp; |S_t| \leq s^u \label{eq_strg_thermal_limit} \\
 &amp; |I_t| \leq i^u \label{eq_strg_current_limit}
-\end{align}\]</div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../power-flow/">« Power Flow</a><a class="docs-footer-nextpage" href="../switch/">Switch Model »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 16 April 2020 22:11">Thursday 16 April 2020</span>. Using Julia version 1.4.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+\end{align}\]</div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../power-flow/">« Power Flow</a><a class="docs-footer-nextpage" href="../switch/">Switch Model »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Sunday 19 April 2020 16:03">Sunday 19 April 2020</span>. Using Julia version 1.4.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
