@@ -1,6 +1,7 @@
 ### sdp relaxations in the rectangular W-space
 import LinearAlgebra: Hermitian, cholesky, Symmetric, diag, I
 import SparseArrays: SparseMatrixCSC, sparse, spdiagm, findnz, spzeros, nonzeros
+import Chordal: get_chordal_extension, get_cliques, merge_cliques!, generate_clique_graph
 
 ""
 function constraint_current_limit(pm::AbstractWRMModel, n::Int, f_idx, c_rating_a)
@@ -130,12 +131,18 @@ function ==(d1::_SDconstraintDecomposition, d2::_SDconstraintDecomposition)
 end
 
 function variable_bus_voltage(pm::AbstractSparseSDPWRMModel; nw::Int=nw_id_default, bounded::Bool=true, report::Bool=true)
+    chordal_new = false
 
     if haskey(pm.ext, :SDconstraintDecomposition)
         decomp = pm.ext[:SDconstraintDecomposition]
         groups = decomp.decomp
         lookup_index = decomp.lookup_index
         lookup_bus_index = Dict((reverse(p) for p = pairs(lookup_index)))
+    elseif chordal_new
+        groups, lookup_index, ordering, inv_ordering = _chordal_extension_new(pm, nw)
+        lookup_bus_index = Dict((reverse(p) for p = pairs(lookup_index)))
+        groups = [[lookup_bus_index[gi] for gi in g] for g in groups]
+        pm.ext[:SDconstraintDecomposition] = _SDconstraintDecomposition(groups, lookup_index, ordering)
     else
         cadj, lookup_index, ordering = _chordal_extension(pm, nw)
         groups = _maximal_cliques(cadj)
@@ -328,6 +335,24 @@ function _chordal_extension(pm::AbstractPowerModel, nw::Int)
     cadj = sparse([f_idx;t_idx], [t_idx;f_idx], ones(2*length(f_idx)), nb, nb)
     cadj = cadj[q, q] # revert to original bus ordering (invert cholfact permutation)
     return cadj, lookup_index, p
+end
+
+
+function _chordal_extension_new(pm::AbstractPowerModel, nw::Int)
+    adj, lookup_index = _adjacency_matrix(pm, nw)
+    nb = size(adj, 1)
+    diag_el = sum(adj, dims=1)[:]
+    # NOTE: Removed Hermitian() since it densifies sparse matrix
+    W = -adj + spdiagm(0 => diag_el .+ 1)
+    perm, iperm, L = get_chordal_extension(W; perm="amd", verbose=true)
+    cg = generate_clique_graph(get_cliques(L), nb)
+    merge_cliques!(cg; verbose=false)
+    groups = get_cliques(cg)
+
+    # TODO: figure out how to get ordering correct
+    groups = [sort([perm[g] for g in group]) for group in groups]
+
+    return groups, lookup_index, perm, iperm
 end
 
 
